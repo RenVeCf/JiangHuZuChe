@@ -71,6 +71,7 @@ public class RepairOrderActivity extends BaseActivity {
         }
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         vpRepairOrder.setAdapter(viewPagerAdapter);
+        vpRepairOrder.setOffscreenPageLimit(titles.length);
 
         //设置导航条
         nlRepairOrder.setViewPager(this, titles, vpRepairOrder, R.color.tx_bottom_navigation, R.color.tx_bottom_navigation_select, 16, 16, 0, 45, true);

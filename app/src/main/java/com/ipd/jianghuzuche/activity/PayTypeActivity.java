@@ -96,7 +96,8 @@ public class PayTypeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+        if (type != 2)
+            startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
@@ -104,7 +105,8 @@ public class PayTypeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
-                startActivity(new Intent(this, MainActivity.class));
+                if (type != 2)
+                    startActivity(new Intent(this, MainActivity.class));
                 finish();
                 break;
             case R.id.bt_pay_type:

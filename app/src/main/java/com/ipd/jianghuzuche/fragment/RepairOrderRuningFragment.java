@@ -116,10 +116,6 @@ public class RepairOrderRuningFragment extends BaseFragment<RepairOrderContract.
 
     @Override
     public void resultRepairOrder(RepairOrderBean data) {
-        repairOrderBean.clear();
-        repairOrderBean.addAll(data.getData().getOrderList());
-        repairOrderAdapter.setNewData(repairOrderBean);
-
         if (page == 0) {
             repairOrderBean.clear();
             repairOrderBean.addAll(data.getData().getOrderList());

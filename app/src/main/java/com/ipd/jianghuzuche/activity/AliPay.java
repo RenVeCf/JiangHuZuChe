@@ -2,9 +2,9 @@ package com.ipd.jianghuzuche.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -16,6 +16,7 @@ import com.alipay.sdk.app.PayTask;
 import com.ipd.jianghuzuche.R;
 import com.ipd.jianghuzuche.aliPay.AuthResult;
 import com.ipd.jianghuzuche.aliPay.PayResult;
+import com.ipd.jianghuzuche.utils.ApplicationUtil;
 
 import java.util.Map;
 
@@ -55,9 +56,12 @@ public class AliPay {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showAlert(activity, activity.getString(R.string.pay_success) + payResult);
+                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), PayTypeActivity.class).putExtra("pay_type", 0).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         showAlert(activity, activity.getString(R.string.pay_failed) + payResult);
+                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), PayTypeActivity.class).putExtra("pay_type", 1).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
                     break;
                 }

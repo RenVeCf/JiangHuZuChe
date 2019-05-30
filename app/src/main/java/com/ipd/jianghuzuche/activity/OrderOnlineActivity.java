@@ -159,7 +159,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 TreeMap<String, String> aliMap = new TreeMap<>();
                 aliMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliMap.put("orderId", repairConfirmBean.getOrderId() + "");
-                aliMap.put("money", tvUseCarMoneySum.getText().toString().trim());
+                aliMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
                 aliMap.put("coupon", coupon_money + "");
                 aliMap.put("couponTitle", coupon_name);
                 getPresenter().getRepairAli(aliMap, true, false);
@@ -168,7 +168,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 TreeMap<String, String> weCahatMap = new TreeMap<>();
                 weCahatMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weCahatMap.put("orderId", repairConfirmBean.getOrderId() + "");
-                weCahatMap.put("money", tvUseCarMoneySum.getText().toString().trim());
+                weCahatMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
                 weCahatMap.put("coupon", coupon_money + "");
                 weCahatMap.put("couponTitle", coupon_name);
                 getPresenter().getRepairWeChat(weCahatMap, true, false);

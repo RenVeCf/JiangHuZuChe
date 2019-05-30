@@ -26,7 +26,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     private P presenter;
     private V view;
     public Bundle savedInstanceState;
-//    PermissionUtils.PermissionGrant mPermissionGrant;
 
     public P getPresenter() {
         return presenter;
@@ -64,52 +63,15 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         init();
 
         /**
-         * 事件
-         */
-        initListener();
-
-        /**
          * 数据
          */
         initData();
+
+        /**
+         * 事件
+         */
+        initListener();
     }
-//
-//    //权限回调
-//    private OnPermissionListener OnPermissionListener;
-//
-//    public void setOnPermissionListener(OnPermissionListener OnPermissionListener) {
-//        this.OnPermissionListener = OnPermissionListener;
-//    }
-//
-//    public interface OnPermissionListener {
-//        void openIntent();
-//    }
-//
-//    //权限请求
-//    public void openPermission(int[] code_permission) {
-//        mPermissionGrant = new PermissionUtils.PermissionGrant() {
-//            @Override
-//            public void onPermissionGranted(int requestCode) {
-//                if (OnPermissionListener != null) {
-//                    OnPermissionListener.openIntent();
-//                }
-//            }
-//        };
-//        if (code_permission.length <= 0) {
-//            return;
-//        } else if (code_permission.length == 1) {
-//            PermissionUtils.requestPermission(BaseActivity.this, code_permission[0], mPermissionGrant);
-//        } else {
-//            PermissionUtils.requestMultiPermissions(BaseActivity.this, code_permission, mPermissionGrant);
-//        }
-//    }
-//
-//    //请求权限回调方法（必须实现OnRequestPermissionsResultCallback接口)
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        PermissionUtils.requestPermissionsResult(BaseActivity.this, requestCode, permissions, grantResults, mPermissionGrant);
-//    }
 
     //由子类指定具体类型
     public abstract int getLayoutId();
@@ -120,9 +82,9 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 
     public abstract void init();
 
-    public abstract void initListener();
-
     public abstract void initData();
+
+    public abstract void initListener();
 
     /**
      * 防止手机字体调整，统一return字体大小

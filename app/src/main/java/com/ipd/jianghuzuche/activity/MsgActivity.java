@@ -37,7 +37,7 @@ public class MsgActivity extends BaseActivity<MsgContract.View, MsgContract.Pres
 
     private MsgAdapter msgAdapter;
     private List<MsgBean.DataBean.MessageListBean> messageListBean;
-    private int page;
+    private int page = 0;
 
     @Override
     public int getLayoutId() {
@@ -96,10 +96,6 @@ public class MsgActivity extends BaseActivity<MsgContract.View, MsgContract.Pres
 
     @Override
     public void resultMsg(MsgBean data) {
-        messageListBean.clear();
-        messageListBean.addAll(data.getData().getMessageList());
-        msgAdapter.setNewData(messageListBean);
-
         if (page == 0) {
             messageListBean.clear();
             messageListBean.addAll(data.getData().getMessageList());

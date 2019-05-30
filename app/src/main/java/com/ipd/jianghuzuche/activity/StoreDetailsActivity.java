@@ -492,6 +492,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
 
         viewPagerAdapter = new ViewPagerAdapter(this.getSupportFragmentManager(), fragments);
         vpStoreInfor.setAdapter(viewPagerAdapter);
+        vpStoreInfor.setOffscreenPageLimit(titles.length);
     }
 
     @Override
