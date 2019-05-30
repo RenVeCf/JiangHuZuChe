@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:scaleType="fitXY">
+
+    <!--返回-->
+    <ImageView
+        android:id="@+id/iv_top_back"
+        android:layout_width="@dimen/x50"
+        android:layout_height="@dimen/y80"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/x60"
+        android:padding="5dp"
+        android:src="@drawable/ic_back" />
+
+    <!--侧边栏-->
+    <ImageView
+        android:id="@+id/iv_top_sidebar"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y80"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/x60"
+        android:padding="5dp"
+        app:srcCompat="@drawable/ic_sidebar" />
+
+    <!--标题-->
+    <TextView
+        android:id="@+id/tv_top_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:letterSpacing="0.13"
+        android:lineSpacingExtra="14sp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!--消息-->
+    <ImageView
+        android:id="@+id/iv_top_msg"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y80"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/x60"
+        android:padding="5dp"
+        app:srcCompat="@drawable/ic_msg" />
+
+    <!--银行卡-->
+    <TextView
+        android:id="@+id/tv_top_bank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/x60"
+        android:padding="5dp"
+        android:text="@string/bank_card"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <!--&lt;!&ndash;添加&ndash;&gt;-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_top_add"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginEnd="@dimen/x60"-->
+    <!--android:padding="5dp"-->
+    <!--android:text="@string/add"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textStyle="bold" />-->
+</RelativeLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.ipd.jianghuzuche.activity.ChoiceStoreActivity">
+
+    <com.ipd.jianghuzuche.common.view.TopView
+        android:id="@+id/tv_choice_store_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:title="@string/choice_store" />
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="@dimen/y30"-->
+    <!--android:layout_marginTop="@dimen/y30"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="@dimen/x40"-->
+    <!--android:layout_height="@dimen/y45"-->
+    <!--android:layout_marginEnd="@dimen/x30"-->
+    <!--android:layout_marginStart="@dimen/x30"-->
+    <!--app:srcCompat="@drawable/ic_location" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="当前定位城市:  " />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_location"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+    <!--</LinearLayout>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/y90"-->
+    <!--android:background="@color/whitesmoke"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingStart="@dimen/x30"-->
+    <!--android:text="附近门店"-->
+    <!--android:textColor="@color/tx_bottom_navigation" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="@dimen/x1000"
+            android:layout_height="@dimen/y100"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y20"
+            android:layout_marginTop="@dimen/y20"
+            android:background="@drawable/bg_search_bt"
+            android:gravity="center_vertical"
+            android:hint="请输入门店"
+            android:paddingStart="@dimen/x50"
+            android:textColor="@color/tx_bottom_navigation"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x100"
+            app:srcCompat="@drawable/ic_search" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_choice_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_choice_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

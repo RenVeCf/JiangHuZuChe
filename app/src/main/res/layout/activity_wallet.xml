@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.jianghuzuche.activity.WalletActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y600">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/bg_wallet" />
+
+        <com.ipd.jianghuzuche.common.view.TopView
+            android:id="@+id/tv_wallet_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y190"
+            android:background="#00000000"
+            android:gravity="bottom"
+            app:bank_color="@color/white"
+            app:is_back="true"
+            app:is_bank="true"
+            app:title="@string/wallet"
+            app:title_color="@color/white" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y100"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="账户余额"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_account_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y20"
+                android:textColor="@color/white"
+                android:textSize="26sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@color/whitesmoke"
+        android:paddingBottom="@dimen/y15"
+        android:paddingStart="@dimen/x50"
+        android:paddingTop="@dimen/y15"
+        android:text="余额明细"
+        android:textColor="@color/tx_bottom_navigation" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_wallet"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <Button
+        android:id="@+id/bt_cash_withdrawal"
+        android:layout_width="@dimen/x400"
+        android:layout_height="@dimen/y135"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/y20"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@drawable/bg_confirm_bt"
+        android:gravity="center"
+        android:text="提现"
+        android:textColor="@color/white" />
+</LinearLayout>

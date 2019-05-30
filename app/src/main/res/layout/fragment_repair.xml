@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.jianghuzuche.fragment.RepairFragment">
+
+    <com.ryane.banner.AdPlayBanner
+        android:id="@+id/ab_repair"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y500" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_repair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_repair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

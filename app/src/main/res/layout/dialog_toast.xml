@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_ellipse"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/y50"
+        android:layout_marginTop="@dimen/y50"
+        android:layout_weight="1"
+        android:text="温馨提示"
+        android:textColor="@color/order_type"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/y50"
+        android:layout_marginEnd="@dimen/x70"
+        android:layout_marginStart="@dimen/x70"
+        android:layout_weight="1"
+        android:text="请确保您选择的服务项目已经过维修师傅确认，支付后不可更改"
+        android:textColor="@color/tx_bottom_navigation"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_dialog_toast"
+            android:layout_width="@dimen/x300"
+            android:layout_height="@dimen/y100"
+            android:background="@drawable/bg_confirm_bt"
+            android:text="我知道了"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>

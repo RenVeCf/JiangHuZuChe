@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="25dp"
+        android:height="30dp"
+        android:viewportWidth="41.0"
+        android:viewportHeight="45.0">
+    <path
+        android:pathData="M32.94,0L3.01,0C1.33,0 0,1.34 0,3.05L0,37.95C0,39.6 1.33,41 3.01,41L16.14,41C12.82,35.16 13.69,27.82 18.28,22.96C22.88,18.1 30.08,16.85 36,19.96L36,3.05C36,2.22 35.69,1.5 35.13,0.93C34.57,0.36 33.75,0 32.94,0Z"
+        android:strokeColor="#00000000"
+        android:fillType="nonZero"
+        android:fillColor="#666666"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M17,33C17,39.63 22.37,45 29,45C35.63,45 41,39.63 41,33C41,26.37 35.63,21 29,21C22.37,21 17,26.37 17,33Z"
+        android:strokeColor="#00000000"
+        android:fillType="nonZero"
+        android:fillColor="#666666"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M12.13,6L24.87,6C25.49,6 26,6.45 26,7C26,7.55 25.49,8 24.87,8L12.13,8C11.51,8 11,7.55 11,7C11,6.45 11.51,6 12.13,6Z"
+        android:strokeColor="#00000000"
+        android:fillType="nonZero"
+        android:fillColor="#FFFFFF"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M32.93,33.19L30.04,33.19L30.04,31.82L32.88,31.82C33.47,31.82 33.95,31.38 33.95,30.84C33.95,30.31 33.47,29.87 32.88,29.87L31.33,29.87L32.5,28.6C32.88,28.21 32.82,27.57 32.4,27.23C31.97,26.89 31.27,26.94 30.9,27.33L28.97,29.33L27.05,27.33C26.67,26.94 25.98,26.89 25.55,27.23C25.12,27.57 25.07,28.21 25.44,28.6L26.62,29.82L25.07,29.82C24.48,29.82 24,30.26 24,30.79C24,31.33 24.48,31.77 25.07,31.77L27.9,31.77L27.9,33.14L25.07,33.14C24.48,33.14 24,33.58 24,34.12C24,34.65 24.48,35.09 25.07,35.09L27.9,35.09L27.9,38.02C27.9,38.56 28.39,39 28.97,39C29.56,39 30.04,38.56 30.04,38.02L30.04,35.09L32.93,35.09C33.52,35.09 34,34.65 34,34.12C34,33.58 33.52,33.19 32.93,33.19Z"
+        android:strokeColor="#00000000"
+        android:fillType="nonZero"
+        android:fillColor="#FFFFFF"
+        android:strokeWidth="1"/>
+</vector>

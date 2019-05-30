@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TopView">
+        <attr name="title" format="string" />
+        <attr name="title_color" format="color" />
+        <attr name="is_back" format="boolean" />
+        <attr name="is_sidebar" format="boolean" />
+        <attr name="is_msg" format="boolean" />
+        <attr name="is_bank" format="boolean" />
+        <attr name="bank_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandingCollection">
+        <attr name="cardWidth" format="dimension" />
+        <attr name="cardHeight" format="dimension" />
+        <attr name="cardHeaderHeightExpanded" format="dimension" />
+    </declare-styleable>
+</resources>

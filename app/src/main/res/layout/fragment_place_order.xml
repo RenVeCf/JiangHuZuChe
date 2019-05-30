@@ -1,0 +1,191 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.jianghuzuche.fragment.PlaceOrderFragment">
+
+    <com.ryane.banner.AdPlayBanner
+        android:id="@+id/ab_place_order"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y500" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y150"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            app:srcCompat="@drawable/ic_location" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location_now"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x70"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_reset_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x50"
+            android:text="@string/reset"
+            android:textColor="@color/tx_select_fragment" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y150"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            app:srcCompat="@drawable/ic_car_store" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/car_store"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_car_store"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x70"
+            android:gravity="center_vertical"
+            android:text="@string/input_select_car_store"
+            android:textColor="@color/tx_bottom_navigation"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y150"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            app:srcCompat="@drawable/ic_get_car_time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/get_car_time"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_get_car_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x70"
+            android:gravity="center_vertical"
+            android:text="@string/input_select_get_car_time"
+            android:textColor="@color/tx_bottom_navigation"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y150"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            app:srcCompat="@drawable/ic_use_car_time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/use_car_time"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_use_car_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x70"
+            android:gravity="center_vertical"
+            android:text="@string/input_select_use_car_time"
+            android:textColor="@color/tx_bottom_navigation"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/bg_crude_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/y20"
+        android:paddingTop="@dimen/y60">
+
+        <TextView
+            android:id="@+id/tv_charging_instruction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/y20"
+            android:drawableTop="@drawable/ic_charging_instruction"
+            android:gravity="center"
+            android:text="@string/charging_instruction"
+            android:textColor="@color/tx_failed" />
+
+        <TextView
+            android:id="@+id/tv_select_car_store"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/y20"
+            android:drawableTop="@drawable/ic_select_car_store"
+            android:gravity="center"
+            android:text="@string/select_car_store"
+            android:textColor="@color/tx_failed" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/whitesmoke">
+
+        <Button
+            android:id="@+id/bt_place_order"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y135"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y30"
+            android:layout_marginEnd="@dimen/x45"
+            android:layout_marginStart="@dimen/x45"
+            android:background="@drawable/bg_confirm_bt"
+            android:text="@string/select_car_now"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</LinearLayout>

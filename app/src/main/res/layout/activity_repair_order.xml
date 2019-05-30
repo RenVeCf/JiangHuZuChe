@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ipd.jianghuzuche.activity.RepairOrderActivity">
+
+    <com.ipd.jianghuzuche.common.view.TopView
+        android:id="@+id/tv_repair_order_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:title="维修订单" />
+
+    <com.ipd.jianghuzuche.common.view.NavitationLayout
+        android:id="@+id/nl_repair_order"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/y20" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_repair_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

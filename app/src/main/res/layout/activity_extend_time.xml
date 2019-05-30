@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.ipd.jianghuzuche.activity.ExtendTimeActivity">
+
+    <com.ipd.jianghuzuche.common.view.TopView
+        android:id="@+id/tv_extend_time_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:title="@string/extend_time" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@color/bg_crude_line" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_get_car_time" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x30"
+                    android:text="租车时长: "
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_extend_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/x50"
+                    android:text="@string/input_select_use_car_time"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_power_exchange"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_other_service" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x30"
+                    android:text="其他服务"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RadioGroup
+                    android:id="@+id/rg_charging"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x50"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_charging_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x30"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:textColor="@color/tx_bottom_navigation" />
+
+                    <RadioButton
+                        android:id="@+id/rb_charging_second"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x30"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:textColor="@color/tx_bottom_navigation" />
+
+                    <RadioButton
+                        android:id="@+id/rb_charging_three"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x30"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@color/bg_crude_line" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginStart="@dimen/x50"
+                android:layout_marginTop="@dimen/y50"
+                android:text="基本费用"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="车辆租赁及服务费"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_extend_time_service_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/x30"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_extend_time_service_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_extend_time_late"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="滞纳金"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_extend_time_late_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_extend_time_power_exchange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_extend_time_power_exchange"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_extend_time_power_exchange_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/coupon"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_use_car_coupon_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/x30"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_use_car_coupon_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0元"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:background="@color/bg_fine_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="租金合计"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_extend_time_money_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/tx_bottom_navigation_select"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@color/bg_crude_line" />
+
+            <LinearLayout
+                android:id="@+id/ll_extend_time_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/y50"
+                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x50"
+                android:paddingTop="@dimen/y50">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/coupon"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_extend_time_coupon_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/x30"
+                    android:text="无可用优惠券"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_right_arrow" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginStart="@dimen/x50"
+                android:layout_marginTop="@dimen/y50"
+                android:text="支付方式"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/ll_alipay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_alipay" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x30"
+                    android:layout_weight="1"
+                    android:text="支付宝支付"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_alipay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_check" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:background="@color/bg_fine_line" />
+
+            <LinearLayout
+                android:id="@+id/ll_weixin_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y50"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_weixin_pay" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x30"
+                    android:layout_weight="1"
+                    android:text="微信支付"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_weixin_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_check" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/y20"
+        android:paddingTop="@dimen/y20">
+
+        <Button
+            android:id="@+id/bt_extend_time"
+            android:layout_width="@dimen/x400"
+            android:layout_height="@dimen/y135"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/y30"
+            android:layout_marginTop="@dimen/y30"
+            android:background="@drawable/bg_confirm_bt"
+            android:text="@string/confirmation_pay"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>
