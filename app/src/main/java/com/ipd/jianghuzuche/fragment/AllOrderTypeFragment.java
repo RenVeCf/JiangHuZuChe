@@ -22,6 +22,7 @@ import com.ipd.jianghuzuche.activity.OrderDetailsActivity;
 import com.ipd.jianghuzuche.activity.ReturnCarActivity;
 import com.ipd.jianghuzuche.activity.SelectCarActivity;
 import com.ipd.jianghuzuche.activity.SelectPayTypeActivity;
+import com.ipd.jianghuzuche.activity.SelectReturnCarActivity;
 import com.ipd.jianghuzuche.adapter.OrderTypeAdapter;
 import com.ipd.jianghuzuche.base.BaseFragment;
 import com.ipd.jianghuzuche.bean.CancelOrderBean;
@@ -123,7 +124,7 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
                         break;
                     case 5:
                         //使用中
-                        startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 3).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()), REQUEST_CODE_92);
+                        startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 3).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("item_type", 1), REQUEST_CODE_92);
                         break;
                     case 7:
                         //已到期
@@ -172,7 +173,8 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
                                         setDocumentsReceivedDialog(2, selectOrderTypeBean.get(position).getOrderId(), position);
                                         break;
                                     case 2:
-                                        startActivity(new Intent(getActivity(), OrderDetailsActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3));
+//                                        startActivityForResult(new Intent(getActivity(), OrderDetailsActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3).putExtra("item_type", 2), REQUEST_CODE_92);
+                                        startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3), REQUEST_CODE_92);
                                 }
                                 break;
                             case 7:
