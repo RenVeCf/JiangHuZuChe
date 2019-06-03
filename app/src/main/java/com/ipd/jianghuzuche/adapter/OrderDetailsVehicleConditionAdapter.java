@@ -1,6 +1,8 @@
 package com.ipd.jianghuzuche.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -18,6 +20,7 @@ import java.util.List;
 public class OrderDetailsVehicleConditionAdapter extends BaseQuickAdapter<OrderDetailsBean.DataBean.VehicleOrstatusBean, BaseViewHolder> {
 
     private String vehicleConditionType;
+    private TextView tvVehicleConditionFee;
 
     public OrderDetailsVehicleConditionAdapter(@Nullable List<OrderDetailsBean.DataBean.VehicleOrstatusBean> data) {
         super(R.layout.adapter_vehicle_condition, data);
@@ -25,12 +28,16 @@ public class OrderDetailsVehicleConditionAdapter extends BaseQuickAdapter<OrderD
 
     @Override
     protected void convert(BaseViewHolder helper, OrderDetailsBean.DataBean.VehicleOrstatusBean item) {
+        tvVehicleConditionFee = helper.getView(R.id.tv_vehicle_condition_fee);
         switch (item.getStatus()) {
             case 1:
                 vehicleConditionType = "正常";
+                tvVehicleConditionFee.setVisibility(View.GONE);
                 break;
             case 2:
                 vehicleConditionType = "破损";
+                tvVehicleConditionFee.setVisibility(View.VISIBLE);
+                tvVehicleConditionFee.setText("- " + item.getDamagedCost() + "元");
                 break;
         }
         helper.setText(R.id.tv_vehicle_condition_name, item.getVestatusName())

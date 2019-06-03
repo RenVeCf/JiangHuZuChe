@@ -186,9 +186,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
         choiceStoreAdapter = new OrderDetailsVehicleConditionAdapter(vehicleOrstatusBean);
         rvVehicleCondition.setAdapter(choiceStoreAdapter);
 
-        carReturnVehicleConditionAdapter = new CarReturnVehicleConditionAdapter(carReturnDetailsBean);
-        if (takeStatus == 2)
-            rvVehicleCondition.setAdapter(carReturnVehicleConditionAdapter);
+//        carReturnVehicleConditionAdapter = new CarReturnVehicleConditionAdapter(carReturnDetailsBean);
+//        if (takeStatus == 2 && )
+//            rvVehicleCondition.setAdapter(carReturnVehicleConditionAdapter);
 
         // 延长租期
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
@@ -235,11 +235,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                         btGoPay.setText("提前还车");
                         break;
                     case 2:
-                        llCarReturnDetails.setVisibility(View.VISIBLE);
-                        llBasicFee.setVisibility(View.GONE);
-                        tvTopTitle.setText("查看退车单");
-                        btCancelPay.setText("取消订单");
-                        btGoPay.setText("确认退车");
+                        btCancelPay.setText("延长租期");
+                        btGoPay.setText("查看退车单");
+//                        llCarReturnDetails.setVisibility(View.VISIBLE);
+//                        llBasicFee.setVisibility(View.GONE);
+//                        tvTopTitle.setText("查看退车单");
+//                        btCancelPay.setText("取消订单");
+//                        btGoPay.setText("确认退车");
                         break;
                 }
                 break;
@@ -252,11 +254,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                         btGoPay.setText("申请退车");
                         break;
                     case 2:
-                        llCarReturnDetails.setVisibility(View.VISIBLE);
-                        llBasicFee.setVisibility(View.GONE);
-                        tvTopTitle.setText("查看退车单");
-                        btCancelPay.setText("取消订单");
-                        btGoPay.setText("确认退车");
+                        btCancelPay.setText("延长租期");
+                        btGoPay.setText("查看退车单");
+//                        llCarReturnDetails.setVisibility(View.VISIBLE);
+//                        llBasicFee.setVisibility(View.GONE);
+//                        tvTopTitle.setText("查看退车单");
+//                        btCancelPay.setText("取消订单");
+//                        btGoPay.setText("确认退车");
                         break;
                 }
                 break;
@@ -284,17 +288,17 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
 
     @Override
     public void initData() {
-        if (takeStatus == 2) {
-            TreeMap<String, String> orderDetailsMap = new TreeMap<>();
-            orderDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-            orderDetailsMap.put("orderId", orderId + "");
-            getPresenter().getCarReturnDetails(orderDetailsMap, false, false);
-        } else {
-            TreeMap<String, String> orderDetailsMap = new TreeMap<>();
-            orderDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-            orderDetailsMap.put("orderId", orderId + "");
-            getPresenter().getOrderDetails(orderDetailsMap, false, false);
-        }
+//        if (takeStatus == 2) {
+//            TreeMap<String, String> orderDetailsMap = new TreeMap<>();
+//            orderDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//            orderDetailsMap.put("orderId", orderId + "");
+//            getPresenter().getCarReturnDetails(orderDetailsMap, false, false);
+//        } else {
+        TreeMap<String, String> orderDetailsMap = new TreeMap<>();
+        orderDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        orderDetailsMap.put("orderId", orderId + "");
+        getPresenter().getOrderDetails(orderDetailsMap, false, false);
+//        }
     }
 
     private void setDocumentsReceivedDialog(final int type) {
@@ -411,24 +415,24 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                         setDocumentsReceivedDialog(1);
                         break;
                     case 3:
-                        switch (takeStatus) {
-                            case 1:
-                                startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
-                                break;
-                            case 2:
-                                setDocumentsReceivedDialog(2);
-                                break;
-                        }
+//                        switch (takeStatus) {
+//                            case 1:
+                        startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
+//                                break;
+//                            case 2:
+//                                setDocumentsReceivedDialog(2);
+//                                break;
+//                        }
                         break;
                     case 4:
-                        switch (takeStatus) {
-                            case 1:
-                                startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
-                                break;
-                            case 2:
-                                setDocumentsReceivedDialog(2);
-                                break;
-                        }
+//                        switch (takeStatus) {
+//                            case 1:
+                        startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
+//                                break;
+//                            case 2:
+//                                setDocumentsReceivedDialog(2);
+//                                break;
+//                        }
                         break;
                 }
                 break;
@@ -446,10 +450,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                                 setReturnCarDialog();
                                 break;
                             case 2:
-                                TreeMap<String, String> carReturnConfirmMap = new TreeMap<>();
-                                carReturnConfirmMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                                carReturnConfirmMap.put("orderId", orderId + "");
-                                getPresenter().getCarReturnConfirm(carReturnConfirmMap, false, false);
+                                startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 3));
+
+//                                TreeMap<String, String> carReturnConfirmMap = new TreeMap<>();
+//                                carReturnConfirmMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+//                                carReturnConfirmMap.put("orderId", orderId + "");
+//                                getPresenter().getCarReturnConfirm(carReturnConfirmMap, false, false);
                                 break;
                         }
                         break;
@@ -526,7 +532,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
         tvUseCarDeposit.setText(orderDetailsBean.getVehicleCost().get(0).getDeposit() + "元");
         tvUseCarMoneySum.setText(orderDetailsBean.getVehicleCost().get(0).getTotal() + "元");
 
-        if (takeStatus == 1 || type == 5) {
+        if (takeStatus == 1 || takeStatus == 2 || type == 5) {
             vehicleOrstatusBean.clear();
             vehicleOrstatusBean.addAll(data.getData().getVehicleOrstatus());
             choiceStoreAdapter.setNewData(vehicleOrstatusBean);
@@ -558,60 +564,60 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
 
     @Override
     public void resultCarReturnDetails(CarReturnDetailsBean data) {
-        if (data.getData().getStatus() == 2) {
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + data.getData().getOrder().getVehicleLogo()).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher)).into(ivOrderDetails);
-            tvOrderDetailsBrand.setText(data.getData().getOrder().getVehicleName());
-            tvOrderDetailsIntroduce.setText(data.getData().getOrder().getVehicleModel());
-            tvOrderDetailsStoreName.setText(data.getData().getOrder().getStoreName());
-            tvOrderDetailsStorePath.setText(data.getData().getOrder().getDescAddress());
-            tvOrderDetailsGetCarTime.setText(data.getData().getOrder().getTakevehicleTime() + "（" + data.getData().getOrder().getWeek() + "）");
-            tvOrderDetailsUseCarTime.setText(data.getData().getOrder().getRentDuration() + "个月");
-            tvEndTime.setText(data.getData().getOrder().getExpireTime());
-
-            tvVehicleDeposit.setText(data.getData().getVehicleCost().getDeposit() + "元");
-            if (type == 3) {
-                tvOverdueDeduction.setText("违约扣款");
-                tvOverdueDeductionFee.setText("-" + data.getData().getVehicleCost().getDefaultMoney() + "元");
-            } else if (type == 4) {
-                tvOverdueDeduction.setText("逾期扣款");
-                tvOverdueDeductionFee.setText("-" + data.getData().getVehicleCost().getOverdueMoney() + "元");
-            }
-
-            llRefund.setVisibility(View.VISIBLE);
-            tvRefundSum.setText(data.getData().getVehicleCost().getRefundMoney() + "元");
-
-            carReturnDetailsBean.clear();
-            carReturnDetailsBean.addAll(data.getData().getVehicleOrstatus());
-            carReturnVehicleConditionAdapter.setNewData(carReturnDetailsBean);
-
-            vehiclePicTwoBean = data.getData().getVehiclePic();
-            String[] strs = vehiclePicTwoBean.getPicPath().split(",");
-            for (int i = 0, len = strs.length; i < len; i++) {
-                imgList.add(strs[i].toString());
-            }
-            carPhotoAdapter.setNewData(imgList);
-
-            vehicleEndcostBean.clear();
-            if (data.getData().getVehicleEndcost().size() > 0) {
-                llExtendedFee.setVisibility(View.VISIBLE);
-                for (int i = 0; i < data.getData().getVehicleEndcost().size(); i++) {
-                    OrderDetailsBean.DataBean.VehicleEndcostBean aaa = new OrderDetailsBean.DataBean.VehicleEndcostBean();
-                    aaa.setTenancyService(data.getData().getVehicleEndcost().get(i).getTenancyService());
-                    aaa.setChargeMoney(data.getData().getVehicleEndcost().get(i).getChargeMoney());
-                    aaa.setCoupon(data.getData().getVehicleEndcost().get(i).getCoupon());
-                    aaa.setTotal(data.getData().getVehicleEndcost().get(i).getTotal());
-                    vehicleEndcostBean.add(aaa);
-                }
-                extendTimeAdapter.setNewData(vehicleEndcostBean);
-            }
-        } else if (data.getData().getStatus() == 1) {
-            //空数据时的页面
-            setContentView(R.layout.null_select_car);
-
-            TopView tvNullSelectCarTop = findViewById(R.id.tv_null_select_car_top);
-            //防止状态栏和标题重叠
-            ImmersionBar.setTitleBar(this, tvNullSelectCarTop);
-        }
+//        if (data.getData().getStatus() == 2) {
+//            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + data.getData().getOrder().getVehicleLogo()).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher)).into(ivOrderDetails);
+//            tvOrderDetailsBrand.setText(data.getData().getOrder().getVehicleName());
+//            tvOrderDetailsIntroduce.setText(data.getData().getOrder().getVehicleModel());
+//            tvOrderDetailsStoreName.setText(data.getData().getOrder().getStoreName());
+//            tvOrderDetailsStorePath.setText(data.getData().getOrder().getDescAddress());
+//            tvOrderDetailsGetCarTime.setText(data.getData().getOrder().getTakevehicleTime() + "（" + data.getData().getOrder().getWeek() + "）");
+//            tvOrderDetailsUseCarTime.setText(data.getData().getOrder().getRentDuration() + "个月");
+//            tvEndTime.setText(data.getData().getOrder().getExpireTime());
+//
+//            tvVehicleDeposit.setText(data.getData().getVehicleCost().getDeposit() + "元");
+//            if (type == 3) {
+//                tvOverdueDeduction.setText("违约扣款");
+//                tvOverdueDeductionFee.setText("-" + data.getData().getVehicleCost().getDefaultMoney() + "元");
+//            } else if (type == 4) {
+//                tvOverdueDeduction.setText("逾期扣款");
+//                tvOverdueDeductionFee.setText("-" + data.getData().getVehicleCost().getOverdueMoney() + "元");
+//            }
+//
+//            llRefund.setVisibility(View.VISIBLE);
+//            tvRefundSum.setText(data.getData().getVehicleCost().getRefundMoney() + "元");
+//
+//            carReturnDetailsBean.clear();
+//            carReturnDetailsBean.addAll(data.getData().getVehicleOrstatus());
+//            carReturnVehicleConditionAdapter.setNewData(carReturnDetailsBean);
+//
+//            vehiclePicTwoBean = data.getData().getVehiclePic();
+//            String[] strs = vehiclePicTwoBean.getPicPath().split(",");
+//            for (int i = 0, len = strs.length; i < len; i++) {
+//                imgList.add(strs[i].toString());
+//            }
+//            carPhotoAdapter.setNewData(imgList);
+//
+//            vehicleEndcostBean.clear();
+//            if (data.getData().getVehicleEndcost().size() > 0) {
+//                llExtendedFee.setVisibility(View.VISIBLE);
+//                for (int i = 0; i < data.getData().getVehicleEndcost().size(); i++) {
+//                    OrderDetailsBean.DataBean.VehicleEndcostBean aaa = new OrderDetailsBean.DataBean.VehicleEndcostBean();
+//                    aaa.setTenancyService(data.getData().getVehicleEndcost().get(i).getTenancyService());
+//                    aaa.setChargeMoney(data.getData().getVehicleEndcost().get(i).getChargeMoney());
+//                    aaa.setCoupon(data.getData().getVehicleEndcost().get(i).getCoupon());
+//                    aaa.setTotal(data.getData().getVehicleEndcost().get(i).getTotal());
+//                    vehicleEndcostBean.add(aaa);
+//                }
+//                extendTimeAdapter.setNewData(vehicleEndcostBean);
+//            }
+//        } else if (data.getData().getStatus() == 1) {
+//            //空数据时的页面
+//            setContentView(R.layout.null_select_car);
+//
+//            TopView tvNullSelectCarTop = findViewById(R.id.tv_null_select_car_top);
+//            //防止状态栏和标题重叠
+//            ImmersionBar.setTitleBar(this, tvNullSelectCarTop);
+//        }
     }
 
     @Override

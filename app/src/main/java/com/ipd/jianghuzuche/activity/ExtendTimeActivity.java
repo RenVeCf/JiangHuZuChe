@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -16,6 +15,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.ipd.jianghuzuche.R;
+import com.ipd.jianghuzuche.aliPay.AliPay;
 import com.ipd.jianghuzuche.base.BaseActivity;
 import com.ipd.jianghuzuche.bean.AliPayBean;
 import com.ipd.jianghuzuche.bean.ExtendTimeBean;
@@ -85,20 +85,26 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
     Button btExtendTime;
     @BindView(R.id.ll_power_exchange)
     LinearLayout llPowerExchange;
-    @BindView(R.id.rb_charging_one)
-    RadioButton rbChargingOne;
-    @BindView(R.id.rb_charging_second)
-    RadioButton rbChargingSecond;
-    @BindView(R.id.rb_charging_three)
-    RadioButton rbChargingThree;
+    //    @BindView(R.id.rb_charging_one)
+//    RadioButton rbChargingOne;
+//    @BindView(R.id.rb_charging_second)
+//    RadioButton rbChargingSecond;
+//    @BindView(R.id.rb_charging_three)
+//    RadioButton rbChargingThree;
     @BindView(R.id.tv_extend_time_power_exchange_fee)
     TextView tvExtendTimePowerExchangeFee;
-    @BindView(R.id.rg_charging)
-    RadioGroup rgCharging;
+    //    @BindView(R.id.rg_charging)
+//    RadioGroup rgCharging;
     @BindView(R.id.ll_extend_time_power_exchange)
     LinearLayout llExtendTimePowerExchange;
     @BindView(R.id.ll_extend_time_late)
     LinearLayout llExtendTimeLate;
+    @BindView(R.id.cb_charging_one)
+    CheckBox cbChargingOne;
+    @BindView(R.id.cb_charging_second)
+    CheckBox cbChargingSecond;
+    @BindView(R.id.cb_charging_three)
+    CheckBox cbChargingThree;
 
     private List<String> listData;
     private OptionsPickerView pvOptions;
@@ -140,37 +146,37 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
 
     @Override
     public void initListener() {
-        rgCharging.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_charging_one:
-                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
-                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(0).getServicesName());
-                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(0).getServicesCost() + "元");
-                        extendTimePowerExchangeFee = extendTimeListBean.get(0).getServicesCost();
-                        break;
-                    case R.id.rb_charging_second:
-                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
-                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(1).getServicesName());
-                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(1).getServicesCost() + "元");
-                        extendTimePowerExchangeFee = extendTimeListBean.get(1).getServicesCost();
-                        break;
-                    case R.id.rb_charging_three:
-                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
-                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(2).getServicesName());
-                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(2).getServicesCost() + "元");
-                        extendTimePowerExchangeFee = extendTimeListBean.get(2).getServicesCost();
-                        break;
-                }
-
-                double i = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
-                        + lateMoney
-                        + extendTimePowerExchangeFee
-                        - coupon_money;
-                tvExtendTimeMoneySum.setText(i + "元");
-            }
-        });
+//        rgCharging.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//                    case R.id.rb_charging_one:
+//                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
+//                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(0).getServicesName());
+//                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(0).getServicesCost() + "元");
+//                        extendTimePowerExchangeFee = extendTimeListBean.get(0).getServicesCost();
+//                        break;
+//                    case R.id.rb_charging_second:
+//                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
+//                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(1).getServicesName());
+//                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(1).getServicesCost() + "元");
+//                        extendTimePowerExchangeFee = extendTimeListBean.get(1).getServicesCost();
+//                        break;
+//                    case R.id.rb_charging_three:
+//                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
+//                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(2).getServicesName());
+//                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(2).getServicesCost() + "元");
+//                        extendTimePowerExchangeFee = extendTimeListBean.get(2).getServicesCost();
+//                        break;
+//                }
+//
+//                double i = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
+//                        + lateMoney
+//                        + extendTimePowerExchangeFee
+//                        - coupon_money;
+//                tvExtendTimeMoneySum.setText(i + "元");
+//            }
+//        });
     }
 
     @Override
@@ -279,7 +285,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
         }
     }
 
-    @OnClick({R.id.tv_extend_time, R.id.ll_extend_time_coupon, R.id.ll_alipay, R.id.ll_weixin_pay, R.id.bt_extend_time})
+    @OnClick({R.id.cb_charging_one, R.id.cb_charging_second, R.id.cb_charging_three, R.id.tv_extend_time, R.id.ll_extend_time_coupon, R.id.ll_alipay, R.id.ll_weixin_pay, R.id.bt_extend_time})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_extend_time:
@@ -303,6 +309,57 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                     payType(payType);
                 else
                     ToastUtil.showShortToast("请选择租赁时长");
+                break;
+            case R.id.cb_charging_one:
+                if (cbChargingOne.isChecked()) {
+                    llExtendTimePowerExchange.setVisibility(View.GONE);
+                    extendTimePowerExchangeFee = 0;
+                } else {
+                    llExtendTimePowerExchange.setVisibility(View.VISIBLE);
+                    tvExtendTimePowerExchange.setText(extendTimeListBean.get(0).getServicesName());
+                    tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(0).getServicesCost() + "元");
+                    extendTimePowerExchangeFee = extendTimeListBean.get(0).getServicesCost();
+                }
+
+                double i = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
+                        + lateMoney
+                        + extendTimePowerExchangeFee
+                        - coupon_money;
+                tvExtendTimeMoneySum.setText(i + "元");
+                break;
+            case R.id.cb_charging_second:
+                if (cbChargingSecond.isChecked()) {
+                    extendTimePowerExchangeFee = 0;
+                    llExtendTimePowerExchange.setVisibility(View.GONE);
+                } else {
+                    llExtendTimePowerExchange.setVisibility(View.VISIBLE);
+                    tvExtendTimePowerExchange.setText(extendTimeListBean.get(1).getServicesName());
+                    tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(1).getServicesCost() + "元");
+                    extendTimePowerExchangeFee = extendTimeListBean.get(1).getServicesCost();
+                }
+
+                double a = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
+                        + lateMoney
+                        + extendTimePowerExchangeFee
+                        - coupon_money;
+                tvExtendTimeMoneySum.setText(a + "元");
+                break;
+            case R.id.cb_charging_three:
+                if (cbChargingThree.isChecked()) {
+                    extendTimePowerExchangeFee = 0;
+                    llExtendTimePowerExchange.setVisibility(View.GONE);
+                } else {
+                    llExtendTimePowerExchange.setVisibility(View.VISIBLE);
+                    tvExtendTimePowerExchange.setText(extendTimeListBean.get(2).getServicesName());
+                    tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(2).getServicesCost() + "元");
+                    extendTimePowerExchangeFee = extendTimeListBean.get(2).getServicesCost();
+                }
+
+                double b = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
+                        + lateMoney
+                        + extendTimePowerExchangeFee
+                        - coupon_money;
+                tvExtendTimeMoneySum.setText(b + "元");
                 break;
         }
     }
@@ -328,24 +385,36 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
         else
             llExtendTimePowerExchange.setVisibility(View.GONE);
 
-        switch (data.getData().getVehicleServices().size()) {
+        switch (extendTimeListBean.size()) {
             case 0:
                 llPowerExchange.setVisibility(View.GONE);
                 break;
             case 1:
-                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
-                rbChargingSecond.setVisibility(View.GONE);
-                rbChargingThree.setVisibility(View.GONE);
+                cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+                cbChargingSecond.setVisibility(View.GONE);
+                cbChargingThree.setVisibility(View.GONE);
+
+//                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                rbChargingSecond.setVisibility(View.GONE);
+//                rbChargingThree.setVisibility(View.GONE);
                 break;
             case 2:
-                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
-                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
-                rbChargingThree.setVisibility(View.GONE);
+                cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+                cbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+                cbChargingThree.setVisibility(View.GONE);
+
+//                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+//                rbChargingThree.setVisibility(View.GONE);
                 break;
             case 3:
-                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
-                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
-                rbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
+                cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+                cbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+                cbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
+
+//                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+//                rbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
                 break;
         }
     }

@@ -139,11 +139,14 @@ public class CashWithdrawalActivity extends BaseActivity<CashWithdrawalFeeContra
                     if (Integer.parseInt(etHowMoney.getText().toString().trim()) > putConfBean.getMaxMoney() || Integer.parseInt(etHowMoney.getText().toString().trim()) < putConfBean.getMinMoney())
                         ToastUtil.showLongToast("单笔最高金额为: " + putConfBean.getMaxMoney() + ", 单笔最低金额为: " + putConfBean.getMinMoney());
                     else {
-                        TreeMap<String, String> cashWithdrawalMap = new TreeMap<>();
-                        cashWithdrawalMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                        cashWithdrawalMap.put("bankId", bankId + "");
-                        cashWithdrawalMap.put("putMoney", etHowMoney.getText().toString().trim());
-                        getPresenter().getCashWithdrawal(cashWithdrawalMap, false, false);
+                        if (bankId != 0) {
+                            TreeMap<String, String> cashWithdrawalMap = new TreeMap<>();
+                            cashWithdrawalMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                            cashWithdrawalMap.put("bankId", bankId + "");
+                            cashWithdrawalMap.put("putMoney", etHowMoney.getText().toString().trim());
+                            getPresenter().getCashWithdrawal(cashWithdrawalMap, false, false);
+                        } else
+                            ToastUtil.showShortToast("请选择银行卡");
                     }
                 else
                     ToastUtil.showLongToast("请填写金额");

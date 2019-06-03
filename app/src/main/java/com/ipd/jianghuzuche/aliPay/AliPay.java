@@ -1,4 +1,4 @@
-package com.ipd.jianghuzuche.activity;
+package com.ipd.jianghuzuche.aliPay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ipd.jianghuzuche.R;
+import com.ipd.jianghuzuche.activity.PayTypeActivity;
 import com.ipd.jianghuzuche.aliPay.AuthResult;
 import com.ipd.jianghuzuche.aliPay.PayResult;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;

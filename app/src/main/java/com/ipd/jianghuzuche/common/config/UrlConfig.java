@@ -59,7 +59,7 @@ public interface UrlConfig {
     String EXTEND_TIME_WECHAT = "appUser/ExtendPay/ExtendweChatPay"; //延长租车-微信支付
     String SELECT_CAR_CANCEL_ORDER = "appUser/order/orderPickCancel"; //订单-查看车辆-取消订单
     String SELECT_PAY_ALI = "appUser/stayOrde/Pay"; //待付款--支付包支付
-    String SELECT_PAY_WECHAT = "appUser/stayOrde/returnWeChat"; //待付款--微信支付
+    String SELECT_PAY_WECHAT = "appUser/stayOrde/weChatPay"; //待付款--微信支付
 
 
     /**

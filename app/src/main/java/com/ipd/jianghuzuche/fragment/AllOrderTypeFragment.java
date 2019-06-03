@@ -184,7 +184,8 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
                                         setDocumentsReceivedDialog(3, selectOrderTypeBean.get(position).getOrderId(), position);
                                         break;
                                     case 2:
-                                        startActivity(new Intent(getActivity(), OrderDetailsActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4));
+                                        startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4), REQUEST_CODE_92);
+//                                        startActivity(new Intent(getActivity(), OrderDetailsActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4));
                                 }
                                 break;
                         }

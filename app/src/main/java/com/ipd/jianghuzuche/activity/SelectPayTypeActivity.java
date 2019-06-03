@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.ipd.jianghuzuche.R;
+import com.ipd.jianghuzuche.aliPay.AliPay;
 import com.ipd.jianghuzuche.base.BaseActivity;
 import com.ipd.jianghuzuche.bean.AliPayBean;
 import com.ipd.jianghuzuche.bean.WeChatPayBean;
