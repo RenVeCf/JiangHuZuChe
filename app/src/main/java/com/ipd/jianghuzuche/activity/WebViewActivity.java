@@ -1,5 +1,7 @@
 package com.ipd.jianghuzuche.activity;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -54,6 +56,7 @@ public class WebViewActivity extends BaseActivity {
     private int downX, downY;
     // 需要保存图片的路径
     private String saveImgUrl = "";
+    private String url = "";
 
     @Override
     public int getLayoutId() {
@@ -104,14 +107,23 @@ public class WebViewActivity extends BaseActivity {
             case 7: //关于我们
                 h5Url = BASE_LOCAL_URL + "H5/document/aboutUs.html";
                 break;
+            case 8: //图文
+                url = getIntent().getStringExtra("url");
+                break;
         }
         WebSettings webSettings = wvContent.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
         //支持自动加载图片
         webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
+        // 排版适应屏幕
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        } else {
+            webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
@@ -164,6 +176,7 @@ public class WebViewActivity extends BaseActivity {
             }
         });
         wvContent.loadUrl(h5Url);
+        wvContent.loadData(getHtmlData(url), "text/html;charset=utf-8", "utf-8");
     }
 
     @Override
@@ -174,28 +187,29 @@ public class WebViewActivity extends BaseActivity {
     @Override
     public void initData() {
         //设置客户端，让点击跳转操作在当前应用内存进行操作
-        wvContent.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-
-//                if (dialogUtils != null) {
-//                    dialogUtils.dismissProgress();
-//                }
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
-
-            //当发生证书认证错误时，采用默认的处理方法handler.cancel()，停止加载问题页面
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                super.onReceivedSslError(view, handler, error);
-                handler.cancel();
-            }
-        });
+        wvContent.setWebViewClient(new CarDetailsActivity.MyWebViewClient(this));
+//        wvContent.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                super.onPageFinished(view, url);
+//
+////                if (dialogUtils != null) {
+////                    dialogUtils.dismissProgress();
+////                }
+//            }
+//
+//            @Override
+//            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                super.onPageStarted(view, url, favicon);
+//            }
+//
+//            //当发生证书认证错误时，采用默认的处理方法handler.cancel()，停止加载问题页面
+//            @Override
+//            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//                super.onReceivedSslError(view, handler, error);
+//                handler.cancel();
+//            }
+//        });
 
         wvContent.setWebChromeClient(new WebChromeClient() {
             //返回当前加载网页的进度
@@ -221,6 +235,48 @@ public class WebViewActivity extends BaseActivity {
             return false;
         }
     };
+
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>html{padding:15px;} body{word-wrap:break-word;font-size:13px;padding:0px;margin:0px} p{padding:0px;margin:0px;font-size:13px;color:#222222;line-height:1.3;} img{padding:0px,margin:0px;max-width:100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
+    }
+
+    static class MyWebViewClient extends WebViewClient {
+        private Dialog dialog;
+        private Activity activity;
+
+        public MyWebViewClient(Activity activity) {
+            dialog = new Dialog(activity);
+            this.activity = activity;
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            if (!activity.isFinishing()) dialog.show();
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            handler.proceed();
+            super.onReceivedSslError(view, handler, error);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            if (!activity.isFinishing()) dialog.dismiss();
+        }
+    }
 
     /***
      * 功能：用线程保存图片

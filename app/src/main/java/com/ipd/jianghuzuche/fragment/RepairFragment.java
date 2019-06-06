@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ipd.jianghuzuche.R;
 import com.ipd.jianghuzuche.activity.MainActivity;
 import com.ipd.jianghuzuche.activity.StoreDetailsActivity;
+import com.ipd.jianghuzuche.activity.WebViewActivity;
 import com.ipd.jianghuzuche.adapter.RepairAdapter;
 import com.ipd.jianghuzuche.base.BaseFragment;
 import com.ipd.jianghuzuche.bean.ChoiceStoreBean;
@@ -131,17 +132,28 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
     }
 
     @Override
-    public void resultRepairList(RepairListBean data) {
+    public void resultRepairList(final RepairListBean data) {
         repairListBean.clear();
         repairListBean.addAll(data.getData().getStoreList());
         repairAdapter.setNewData(repairListBean);
 
+        AdPageInfo info1;
         for (int i = 0; i < data.getData().getPictureList().size(); i++) {
-            AdPageInfo info1 = new AdPageInfo("", BASE_LOCAL_URL + data.getData().getPictureList().get(i).getPicPath(), "", i + 1);
+            if (data.getData().getPictureList().get(i).getType() == 2)
+                info1 = new AdPageInfo("", BASE_LOCAL_URL + data.getData().getPictureList().get(i).getPicPath(), data.getData().getPictureList().get(i).getContent(), i + 1);
+            else
+                info1 = new AdPageInfo("", BASE_LOCAL_URL + data.getData().getPictureList().get(i).getPicPath(), "", i + 1);
             images.add(info1);
         }
         abRepair.setInfoList(images)
                 .setImageLoadType(GLIDE)
+                .setOnPageClickListener(new AdPlayBanner.OnPageClickListener() {
+                    @Override
+                    public void onPageClick(AdPageInfo info, int postion) {
+                        if (data.getData().getPictureList().get(postion).getType() == 3)
+                            startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("h5Type", 8).putExtra("url", data.getData().getPictureList().get(postion).getContent()));
+                    }
+                })
                 .setUp();
     }
 

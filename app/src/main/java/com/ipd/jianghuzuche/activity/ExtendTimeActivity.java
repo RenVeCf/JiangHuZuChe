@@ -261,11 +261,10 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliPayMap.put("orderId", orderId + "");
                 aliPayMap.put("tenancyService", tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""));
-                aliPayMap.put("coupon", coupon_money + "");
+                aliPayMap.put("userCouponId", couponId + "");
                 aliPayMap.put("total", tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", ""));
                 aliPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 aliPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");
-                aliPayMap.put("couponTitle", coupon_name);
                 aliPayMap.put("lateMoney", lateMoney + "");
                 getPresenter().getExtendTimeAli(aliPayMap, true, false);
                 break;
@@ -274,8 +273,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weixinPayMap.put("orderId", orderId + "");
                 weixinPayMap.put("tenancyService", tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""));
-                weixinPayMap.put("coupon", coupon_money + "");
-                weixinPayMap.put("couponTitle", coupon_name);
+                weixinPayMap.put("userCouponId", couponId + "");
                 weixinPayMap.put("total", tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", ""));
                 weixinPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 weixinPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");

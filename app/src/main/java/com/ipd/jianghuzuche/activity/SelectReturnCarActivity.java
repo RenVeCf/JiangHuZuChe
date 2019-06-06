@@ -185,6 +185,18 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
         carReturnVehicleConditionAdapter = new CarReturnVehicleConditionAdapter(carReturnDetailsBean);
         rvVehicleCondition.setAdapter(carReturnVehicleConditionAdapter);
 
+
+        // 延长租期
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
+        layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+        rvExtendedFee.setLayoutManager(layoutManager1);
+        rvExtendedFee.setNestedScrollingEnabled(false);
+        rvExtendedFee.setHasFixedSize(true);
+        rvExtendedFee.setItemAnimator(new DefaultItemAnimator());
+
+        extendTimeAdapter = new ExtendTimeAdapter(vehicleEndcostBean);
+        rvExtendedFee.setAdapter(extendTimeAdapter);
+
         GridLayoutManager NotUseList = new GridLayoutManager(this, 4);
         rvCarPhoto.setLayoutManager(NotUseList);
         rvCarPhoto.addItemDecoration(new DividerItemDecoration(this));
@@ -344,43 +356,6 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
 
     @Override
     public void resultOrderDetails(OrderDetailsBean data) {
-        orderDetailsBean = data.getData();
-        Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + orderDetailsBean.getOrder().getVehicleLogo()).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher)).into(ivOrderDetails);
-        tvOrderDetailsBrand.setText(orderDetailsBean.getOrder().getVehicleName());
-        tvOrderDetailsIntroduce.setText(orderDetailsBean.getOrder().getVehicleModel());
-        tvOrderDetailsStoreName.setText(orderDetailsBean.getOrder().getStoreName());
-        tvOrderDetailsStorePath.setText(orderDetailsBean.getOrder().getDescAddress());
-        tvOrderDetailsGetCarTime.setText(orderDetailsBean.getOrder().getTakevehicleTime() + "（" + orderDetailsBean.getOrder().getWeek() + "）");
-        tvOrderDetailsUseCarTime.setText(orderDetailsBean.getOrder().getRentDuration() + "个月");
-        tvEndTime.setText(orderDetailsBean.getOrder().getExpireTime());
-
-        tvUseCarCouponName.setText(orderDetailsBean.getVehicleCost().get(0).getCouponTitle());
-        tvUseCarCouponMoney.setText(orderDetailsBean.getVehicleCost().get(0).getCoupon() + "元");
-        tvUseCarServiceTime.setText(orderDetailsBean.getOrder().getRentDuration() + "x" + orderDetailsBean.getVehicleCost().get(0).getVehicleRent());
-        tvUseCarServiceCharge.setText(orderDetailsBean.getVehicleCost().get(0).getTenancyService() + "元");
-        tvUseCarEquipmentCost.setText(orderDetailsBean.getVehicleCost().get(0).getEquipCost() + "元");
-        tvUseCarDeposit.setText(orderDetailsBean.getVehicleCost().get(0).getDeposit() + "元");
-        tvUseCarMoneySum.setText(orderDetailsBean.getVehicleCost().get(0).getTotal() + "元");
-
-        if (takeStatus == 1 || type == 5) {
-            vehicleOrstatusBean.clear();
-            vehicleOrstatusBean.addAll(data.getData().getVehicleOrstatus());
-            choiceStoreAdapter.setNewData(vehicleOrstatusBean);
-
-            vehiclePicBean = data.getData().getVehiclePic();
-            String[] strs = vehiclePicBean.getPicPath().split(",");
-            for (int i = 0, len = strs.length; i < len; i++) {
-                imgList.add(strs[i].toString());
-            }
-            carPhotoAdapter.setNewData(imgList);
-        }
-
-        vehicleEndcostBean.clear();
-        if (data.getData().getVehicleEndcost().size() > 0) {
-            llExtendedFee.setVisibility(View.VISIBLE);
-            vehicleEndcostBean.addAll(data.getData().getVehicleEndcost());
-            extendTimeAdapter.setNewData(vehicleEndcostBean);
-        }
     }
 
     @Override

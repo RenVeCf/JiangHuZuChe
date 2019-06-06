@@ -161,8 +161,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 aliMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliMap.put("orderId", repairConfirmBean.getOrderId() + "");
                 aliMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                aliMap.put("coupon", coupon_money + "");
-                aliMap.put("couponTitle", coupon_name);
+                aliMap.put("userCouponId", couponId + "");
                 getPresenter().getRepairAli(aliMap, true, false);
                 break;
             case 1:
@@ -170,8 +169,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 weCahatMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weCahatMap.put("orderId", repairConfirmBean.getOrderId() + "");
                 weCahatMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                weCahatMap.put("coupon", coupon_money + "");
-                weCahatMap.put("couponTitle", coupon_name);
+                weCahatMap.put("userCouponId", couponId + "");
                 getPresenter().getRepairWeChat(weCahatMap, true, false);
                 break;
         }

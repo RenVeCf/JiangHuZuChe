@@ -203,10 +203,9 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 aliPayMap.put("week", tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2));
                 aliPayMap.put("deposit", userSelectCarBean.getDeposit() + "");
                 aliPayMap.put("equipCost", userSelectCarBean.getEquipCost() + "");
-                aliPayMap.put("couponTitle", coupon_name);
+                aliPayMap.put("userCouponId", couponId + "");
                 aliPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 aliPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                aliPayMap.put("coupon", coupon_money + "");
                 getPresenter().getOrderAliPay(aliPayMap, true, false);
                 break;
             case 1:
@@ -218,10 +217,9 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 weixinPayMap.put("week", tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2));
                 weixinPayMap.put("deposit", userSelectCarBean.getDeposit() + "");
                 weixinPayMap.put("equipCost", userSelectCarBean.getEquipCost() + "");
-                weixinPayMap.put("couponTitle", coupon_name);
+                weixinPayMap.put("userCouponId", couponId + "");
                 weixinPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 weixinPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                weixinPayMap.put("coupon", coupon_money + "");
                 getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
                 break;
         }

@@ -307,13 +307,24 @@ public class PlaceOrderFragment extends BaseFragment<PlaceOrderContract.View, Pl
     }
 
     @Override
-    public void resultHome(HomeBean data) {
+    public void resultHome(final HomeBean data) {
+        AdPageInfo info1;
         for (int i = 0; i < data.getData().getPictureList().size(); i++) {
-            AdPageInfo info1 = new AdPageInfo("", BASE_LOCAL_URL + data.getData().getPictureList().get(i).getPicPath(), "", i + 1);
+            if (data.getData().getPictureList().get(i).getType() == 2)
+                info1 = new AdPageInfo("", BASE_LOCAL_URL + data.getData().getPictureList().get(i).getPicPath(), data.getData().getPictureList().get(i).getContent(), i + 1);
+            else
+                info1 = new AdPageInfo("", BASE_LOCAL_URL + data.getData().getPictureList().get(i).getPicPath(), "", i + 1);
             images.add(info1);
         }
         abPlaceOrder.setInfoList(images)
                 .setImageLoadType(GLIDE)
+                .setOnPageClickListener(new AdPlayBanner.OnPageClickListener() {
+                    @Override
+                    public void onPageClick(AdPageInfo info, int postion) {
+                        if (data.getData().getPictureList().get(postion).getType() == 3)
+                            startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("h5Type", 8).putExtra("url", data.getData().getPictureList().get(postion).getContent()));
+                    }
+                })
                 .setUp();
     }
 

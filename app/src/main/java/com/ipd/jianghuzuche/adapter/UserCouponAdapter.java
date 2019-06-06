@@ -31,7 +31,7 @@ public class UserCouponAdapter extends BaseQuickAdapter<CouponBean.DataBean.User
         helper.setText(R.id.tv_coupon_use_money, item.getMoney() + "")
                 .setText(R.id.tv_coupon_condition_money, item.getTitle())
                 .setText(R.id.tv_coupon_end_time, item.getValidityTime());
-        if (item.isShwo()) {
+        if (item.isShow()) {
             ivCouponSelect.setVisibility(View.VISIBLE);
         } else {
             ivCouponSelect.setVisibility(View.GONE);

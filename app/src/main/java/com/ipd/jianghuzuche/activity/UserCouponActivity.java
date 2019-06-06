@@ -104,9 +104,9 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
                 for (int i = 0; i < couponBean.size(); i++) {
-                    couponBean.get(i).setShwo(false);
+                    couponBean.get(i).setShow(false);
                 }
-                couponBean.get(position).setShwo(true);
+                couponBean.get(position).setShow(true);
                 userCouponAdapter.notifyDataSetChanged();
 
                 new Thread(new Runnable() {
@@ -149,9 +149,9 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
                 page += 1;
                 for (int i = 0; i < couponBean.size(); i++) {
                     if (couponBean.get(i).getCouponId() == couponId)
-                        couponBean.get(i).setShwo(true);
+                        couponBean.get(i).setShow(true);
                     else
-                        couponBean.get(i).setShwo(false);
+                        couponBean.get(i).setShow(false);
                 }
                 userCouponAdapter.setNewData(couponBean);
                 userCouponAdapter.setOnLoadMoreListener(this, rvUserCoupon);
@@ -164,9 +164,9 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
                 page += 1;
                 for (int i = 0; i < data.getData().getUserCouponList().size(); i++) {
                     if (data.getData().getUserCouponList().get(i).getCouponId() == couponId)
-                        data.getData().getUserCouponList().get(i).setShwo(true);
+                        data.getData().getUserCouponList().get(i).setShow(true);
                     else
-                        data.getData().getUserCouponList().get(i).setShwo(false);
+                        data.getData().getUserCouponList().get(i).setShow(false);
                 }
                 userCouponAdapter.addData(data.getData().getUserCouponList());
                 userCouponAdapter.loadMoreComplete();

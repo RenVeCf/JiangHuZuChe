@@ -12,7 +12,7 @@ public class CouponBean {
     /**
      * code : 200
      * msg : 操作成功
-     * data : {"userCouponList":[{"couponId":1,"title":"满200减50元","money":50,"validityTime":"2019-05-10 00:00:00","status":null,"achieveMoney":200,"createTime":"2019-05-08 15:47:30","params":{}},{"couponId":2,"title":"满100减20","money":20,"validityTime":"2019-05-03 00:00:00","status":null,"achieveMoney":100,"createTime":"2019-05-08 15:48:00","params":{}}]}
+     * data : {"userCouponList":[{"userCouponId":87,"userId":7,"status":1,"title":"满1000减500","money":500,"endTime":null,"couponId":1,"createTime":"2019-06-06 10:06:34","coupon":null,"telPhone":null,"params":{},"achieveMoney":null,"validityTime":null}]}
      */
 
     private int code;
@@ -56,40 +56,66 @@ public class CouponBean {
 
         public static class UserCouponListBean {
             /**
+             * userCouponId : 87
+             * userId : 7
+             * status : 1
+             * title : 满1000减500
+             * money : 500.0
+             * endTime : null
              * couponId : 1
-             * title : 满200减50元
-             * money : 50.0
-             * validityTime : 2019-05-10 00:00:00
-             * status : null
-             * achieveMoney : 200.0
-             * createTime : 2019-05-08 15:47:30
+             * createTime : 2019-06-06 10:06:34
+             * coupon : null
+             * telPhone : null
              * params : {}
+             * achieveMoney : null
+             * validityTime : null
              */
 
-            private int couponId;
+            private int userCouponId;
+            private int userId;
+            private int status;
             private String title;
             private double money;
-            private String validityTime;
-            private Object status;
-            private double achieveMoney;
+            private Object endTime;
+            private int couponId;
             private String createTime;
+            private Object coupon;
+            private Object telPhone;
             private ParamsBean params;
-            private boolean isShwo;
+            private Object achieveMoney;
+            private String validityTime;
+            private boolean isShow;
 
-            public boolean isShwo() {
-                return isShwo;
+            public boolean isShow() {
+                return isShow;
             }
 
-            public void setShwo(boolean shwo) {
-                isShwo = shwo;
+            public void setShow(boolean show) {
+                isShow = show;
             }
 
-            public int getCouponId() {
-                return couponId;
+            public int getUserCouponId() {
+                return userCouponId;
             }
 
-            public void setCouponId(int couponId) {
-                this.couponId = couponId;
+            public void setUserCouponId(int userCouponId) {
+                this.userCouponId = userCouponId;
+            }
+
+            public int getUserId() {
+                return userId;
+            }
+
+            public void setUserId(int userId) {
+                this.userId = userId;
+            }
+
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
             }
 
             public String getTitle() {
@@ -108,28 +134,20 @@ public class CouponBean {
                 this.money = money;
             }
 
-            public String getValidityTime() {
-                return validityTime;
+            public Object getEndTime() {
+                return endTime;
             }
 
-            public void setValidityTime(String validityTime) {
-                this.validityTime = validityTime;
+            public void setEndTime(Object endTime) {
+                this.endTime = endTime;
             }
 
-            public Object getStatus() {
-                return status;
+            public int getCouponId() {
+                return couponId;
             }
 
-            public void setStatus(Object status) {
-                this.status = status;
-            }
-
-            public double getAchieveMoney() {
-                return achieveMoney;
-            }
-
-            public void setAchieveMoney(double achieveMoney) {
-                this.achieveMoney = achieveMoney;
+            public void setCouponId(int couponId) {
+                this.couponId = couponId;
             }
 
             public String getCreateTime() {
@@ -140,12 +158,44 @@ public class CouponBean {
                 this.createTime = createTime;
             }
 
+            public Object getCoupon() {
+                return coupon;
+            }
+
+            public void setCoupon(Object coupon) {
+                this.coupon = coupon;
+            }
+
+            public Object getTelPhone() {
+                return telPhone;
+            }
+
+            public void setTelPhone(Object telPhone) {
+                this.telPhone = telPhone;
+            }
+
             public ParamsBean getParams() {
                 return params;
             }
 
             public void setParams(ParamsBean params) {
                 this.params = params;
+            }
+
+            public Object getAchieveMoney() {
+                return achieveMoney;
+            }
+
+            public void setAchieveMoney(Object achieveMoney) {
+                this.achieveMoney = achieveMoney;
+            }
+
+            public String getValidityTime() {
+                return validityTime;
+            }
+
+            public void setValidityTime(String validityTime) {
+                this.validityTime = validityTime;
             }
 
             public static class ParamsBean {
