@@ -367,7 +367,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
         ehicleListBean = data.getData().getVehicleList();
         tvExtendTimeServiceCharge.setText(ehicleListBean.getRentOften() * ehicleListBean.getVehicleRent() + "元");
         lateMoney = data.getData().getLateMoney();
-        if (data.getData().getLateMoney() != 0)
+        if (data.getData().getLateMoney() > 0)
             tvExtendTimeLateFee.setText(data.getData().getLateMoney() + "元");
         else
             llExtendTimeLate.setVisibility(View.GONE);

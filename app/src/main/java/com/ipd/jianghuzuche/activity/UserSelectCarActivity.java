@@ -17,7 +17,6 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.UserSelectCarContract;
 import com.ipd.jianghuzuche.presenter.UserSelectCarPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
-import com.ipd.jianghuzuche.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +40,7 @@ public class UserSelectCarActivity extends BaseActivity<UserSelectCarContract.Vi
     SwipeRefreshLayout srlUserSelectCar;
 
     private List<UserSelectCarBean.DataBean.VehicleListBean> userSelectCarBean;
+    private UserSelectCarBean.DataBean.StoreByIdBean storeByIdBean = new UserSelectCarBean.DataBean.StoreByIdBean();
     private UserSelectCarAdapter userSelectCarAdapter;
     private String storeId = "";
     private int page = 0;
@@ -96,7 +96,7 @@ public class UserSelectCarActivity extends BaseActivity<UserSelectCarContract.Vi
         userSelectCarAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(UserSelectCarActivity.this, CarDetailsActivity.class).putExtra("car_details", userSelectCarBean.get(position)));
+                startActivity(new Intent(UserSelectCarActivity.this, CarDetailsActivity.class).putExtra("car_details", userSelectCarBean.get(position)).putExtra("store_by_id", storeByIdBean));
             }
         });
     }
@@ -114,6 +114,7 @@ public class UserSelectCarActivity extends BaseActivity<UserSelectCarContract.Vi
     @Override
     public void resultUserSelectCar(UserSelectCarBean data) {
         if (page == 0) {
+            storeByIdBean = data.getData().getStoreById();
             userSelectCarBean.clear();
             userSelectCarBean.addAll(data.getData().getVehicleList());
             userSelectCarAdapter.setNewData(userSelectCarBean);

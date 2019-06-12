@@ -21,6 +21,7 @@ import com.ipd.jianghuzuche.bean.HomeBean;
 import com.ipd.jianghuzuche.bean.LastBankBean;
 import com.ipd.jianghuzuche.bean.LoginBean;
 import com.ipd.jianghuzuche.bean.ModifyUserDataBean;
+import com.ipd.jianghuzuche.bean.ModifyVersionBean;
 import com.ipd.jianghuzuche.bean.MsgBean;
 import com.ipd.jianghuzuche.bean.OrderDetailsBean;
 import com.ipd.jianghuzuche.bean.RegisterBean;
@@ -304,6 +305,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(UrlConfig.SELECT_PAY_WECHAT)
     Observable<WeChatPayBean> getSelectTypeWeChat(@FieldMap Map<String, String> map);
+
+    //版本更新
+    @FormUrlEncoded
+    @POST(UrlConfig.MODIFY_VERSION)
+    Observable<ModifyVersionBean> getModifyVersion(@FieldMap Map<String, String> map);
 
 //    //获取用户信息
 //    @GET(UrlConfig.GET_USER_INFO)

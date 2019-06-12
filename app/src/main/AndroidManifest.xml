@@ -67,7 +67,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:allowBackup, theme, label">
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,19 +79,23 @@
         <activity
             android:name=".activity.ChoiceStoreActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.UserSelectCarActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.UserConfirmationOrderActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.UserCouponActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -103,104 +109,133 @@
         <activity
             android:name=".activity.OrderDetailsActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.LoginActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.RegisterActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.ForgetPasswordActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.SupplementInfoActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.StoreDetailsActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.PayTypeActivity" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".activity.PayTypeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.SelectPayTypeActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.ExtendTimeActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.ReturnCarActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.SelectCarActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.CarDetailsActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.OrderOnlineActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.WalletActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.CashWithdrawalActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.RepairOrderActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.RepairOrderDetailsActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.PersonalDataActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.NameActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.FeedBackActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.SettingsActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.MsgActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.SelectBankActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.SelectBankTwoActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.AddBankAvtivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.BigImageActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
 
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -208,11 +243,16 @@
             android:process=":multiprocess"
             tools:node="replace" />
 
-        <activity android:name=".activity.WebViewActivity" />
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -221,7 +261,21 @@
                 <data android:scheme="wx1a65c563b86ec579" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SelectReturnCarActivity"></activity>
+        <activity
+            android:name=".activity.SelectReturnCarActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait" />
     </application>
 
 </manifest>

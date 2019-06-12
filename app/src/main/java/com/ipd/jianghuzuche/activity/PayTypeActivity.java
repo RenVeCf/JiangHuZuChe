@@ -96,7 +96,7 @@ public class PayTypeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (type != 2)
+        if (type != 2) {}
             startActivity(new Intent(this, MainActivity.class));
         finish();
     }

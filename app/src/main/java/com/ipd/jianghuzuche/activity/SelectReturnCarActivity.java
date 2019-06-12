@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
@@ -50,6 +51,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
 
 /**
  * Description ：查看退车单
@@ -143,10 +145,11 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
     private List<String> imgList;
     private List<OrderDetailsBean.DataBean.VehicleEndcostBean> vehicleEndcostBean = new ArrayList<>();
     private ExtendTimeAdapter extendTimeAdapter;
+    private CarReturnDetailsBean.DataBean.OrderBean onrderBean = new CarReturnDetailsBean.DataBean.OrderBean();
+    private CarReturnDetailsBean.DataBean.StoreBean storeBean = new CarReturnDetailsBean.DataBean.StoreBean();
     private int type;
     private int takeStatus;
     private int orderId;
-    private String path;
 
     @Override
     public int getLayoutId() {
@@ -296,7 +299,7 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
                 startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 2));
                 break;
             case R.id.tv_order_details_go_choice_store:
-                goToBaiduMap(path);
+                setMapDialog();
                 break;
             case R.id.bt_cancel_pay:
                 setDocumentsReceivedDialog(2);
@@ -308,6 +311,83 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
                 getPresenter().getCarReturnConfirm(carReturnConfirmMap, false, false);
                 break;
         }
+    }
+
+    // 选择地图
+    private void setMapDialog() {
+        final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
+        //Dialog布局
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_map, null);
+        root.findViewById(R.id.ll_baidu_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToBaiduMap(onrderBean.getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_gaode_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToGaodeMap(storeBean.getLatitude(), storeBean.getLongitude(), onrderBean.getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_tengxun_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToTengxunMap(storeBean.getLatitude(), storeBean.getLongitude(), onrderBean.getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        mCameraDialog.setContentView(root);
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM); //设置弹出方式
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = 500;
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+    }
+
+    /**
+     * 跳转高德地图
+     */
+    private void goToGaodeMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.autonavi.minimap")) {
+            ToastUtil.showShortToast("请先安装高德地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("amapuri://openFeature?featureName=").append("OnRideNavi");
+        stringBuffer.append("&rideType=").append("bike")
+                .append("&sourceApplication=").append("amap")
+                .append("&lat=").append(endPoint.latitude)
+                .append("&lon=").append(endPoint.longitude)
+                .append("&dev=").append(0);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setPackage("com.autonavi.minimap");
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转腾讯地图
+     */
+    private void goToTengxunMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.tencent.map")) {
+            ToastUtil.showShortToast("请先安装腾讯地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("qqmap://map/routeplan?type=bike")
+                .append("&tocoord=").append(endPoint.latitude).append(",").append(endPoint.longitude).append("&to=" + descAddress);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        startActivity(intent);
     }
 
     /**
@@ -325,14 +405,6 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
                 "&coord_type=bd09ll" + // 坐标系
                 "&src=" + getPackageName()));
         startActivity(intent); // 启动调用
-//        Intent intent = new Intent();
-//        intent.setData(Uri.parse("baidumap://map/direction?destination=latlng:"
-//                + latitude + ","
-//                + longitude + "|name:" + descAddress + // 终点
-//                "&mode=riding" + // 导航路线方式
-//                "&coord_type=bd09ll" + // 坐标系
-//                "&src=" + getPackageName()));
-//        startActivity(intent); // 启动调用
     }
 
     /**
@@ -370,7 +442,8 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
     @Override
     public void resultCarReturnDetails(CarReturnDetailsBean data) {
         if (data.getData().getStatus() == 2) {
-            path = data.getData().getOrder().getDescAddress();
+            onrderBean = data.getData().getOrder();
+            storeBean = data.getData().getStore();
             Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + data.getData().getOrder().getVehicleLogo()).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher)).into(ivOrderDetails);
             tvOrderDetailsBrand.setText(data.getData().getOrder().getVehicleName());
             tvOrderDetailsIntroduce.setText(data.getData().getOrder().getVehicleModel());

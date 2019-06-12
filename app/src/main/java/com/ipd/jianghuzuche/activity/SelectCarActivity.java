@@ -62,6 +62,8 @@ public class SelectCarActivity extends BaseActivity<SelectVehicleContract.View, 
     RecyclerView rvSelectCar;
     @BindView(R.id.rv_car_photo)
     RecyclerView rvCarPhoto;
+    @BindView(R.id.tv_car_code)
+    TextView tvCarCode;
 
     private VehicleConditionAdapter vehicleConditionAdapter;
     private CarPhotoAdapter carPhotoAdapter;
@@ -211,6 +213,7 @@ public class SelectCarActivity extends BaseActivity<SelectVehicleContract.View, 
             ImmersionBar.setTitleBar(this, tvNullSelectCarTop);
         } else {
             vehiclePicBean = data.getData().getVehiclePic();
+            tvCarCode.setText(vehiclePicBean.getPlateNumber());
             String[] strs = vehiclePicBean.getPicPath().split(",");
             for (int i = 0, len = strs.length; i < len; i++) {
                 imgList.add(strs[i].toString());

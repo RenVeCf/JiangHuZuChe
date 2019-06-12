@@ -109,7 +109,6 @@ public class RepairOrderRuningFragment extends BaseFragment<RepairOrderContract.
                 break;
         }
 
-
         RepairOrderMap.put("page", page + "");
         getPresenter().getRepairOrder(RepairOrderMap, true, false);
     }

@@ -50,6 +50,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
     private static Handler handler = new Handler();
     private int couponId;
     private int page = 0;
+    private int couponType = 2;
 
     @Override
     public int getLayoutId() {
@@ -74,6 +75,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
         ImmersionBar.setTitleBar(this, tvUserCouponTop);
 
         couponId = getIntent().getIntExtra("coupon_id", 0);
+        couponType = getIntent().getIntExtra("coupon_type", 2);
 
         // 设置管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -117,7 +119,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                setResult(RESULT_OK, new Intent().putExtra("coupon_name", couponBean.get(position).getTitle()).putExtra("coupon_money", couponBean.get(position).getMoney()).putExtra("coupon_id", couponBean.get(position).getCouponId()));
+                                setResult(RESULT_OK, new Intent().putExtra("coupon_name", couponBean.get(position).getTitle()).putExtra("coupon_money", couponBean.get(position).getMoney()).putExtra("coupon_id", couponBean.get(position).getUserCouponId()));
                                 finish();
                             }
                         }, 500);
@@ -132,6 +134,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
         TreeMap<String, String> couponMap = new TreeMap<>();
         couponMap.put("userId", (String) SPUtil.get(this, USER_ID, ""));
         couponMap.put("page", page + "");
+        couponMap.put("type", couponType + "");
         getPresenter().getCoupon(couponMap, true, false);
     }
 
@@ -148,7 +151,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
             if (data.getData().getUserCouponList().size() > 0) {
                 page += 1;
                 for (int i = 0; i < couponBean.size(); i++) {
-                    if (couponBean.get(i).getCouponId() == couponId)
+                    if (couponBean.get(i).getUserCouponId() == couponId)
                         couponBean.get(i).setShow(true);
                     else
                         couponBean.get(i).setShow(false);
@@ -163,7 +166,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
             if (data.getData().getUserCouponList().size() > 0) {
                 page += 1;
                 for (int i = 0; i < data.getData().getUserCouponList().size(); i++) {
-                    if (data.getData().getUserCouponList().get(i).getCouponId() == couponId)
+                    if (data.getData().getUserCouponList().get(i).getUserCouponId() == couponId)
                         data.getData().getUserCouponList().get(i).setShow(true);
                     else
                         data.getData().getUserCouponList().get(i).setShow(false);

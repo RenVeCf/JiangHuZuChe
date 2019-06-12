@@ -5,14 +5,22 @@
     android:scaleType="fitXY">
 
     <!--返回-->
-    <ImageView
-        android:id="@+id/iv_top_back"
-        android:layout_width="@dimen/x50"
-        android:layout_height="@dimen/y80"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/x60"
-        android:padding="5dp"
-        android:src="@drawable/ic_back" />
+    <LinearLayout
+        android:id="@+id/ll_top_back"
+        android:layout_width="@dimen/x400"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:gravity="start|center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/x60">
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/x50"
+            android:layout_height="@dimen/y80"
+            android:padding="3dp"
+            android:src="@drawable/ic_back" />
+    </LinearLayout>
 
     <!--侧边栏-->
     <ImageView

@@ -1,5 +1,6 @@
 package com.ipd.jianghuzuche.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,10 +9,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.baidu.mapapi.model.LatLng;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.ipd.jianghuzuche.R;
@@ -35,6 +42,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.STORE_NAME;
 import static com.ipd.jianghuzuche.common.config.IConstants.STORE_PATH;
+import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
 
 /**
  * Description ：选择门店
@@ -124,10 +132,10 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_go_store:
-                        goToBaiduMap(choiceStoreBeanList.get(position).getDescAddress());
+                        setMapDialog(position);
                         break;
                     case R.id.tv_store_distance:
-                        goToBaiduMap(choiceStoreBeanList.get(position).getDescAddress());
+                        setMapDialog(position);
                         break;
                     case R.id.ll_go_store_details:
                         startActivity(new Intent(ChoiceStoreActivity.this, StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList.get(position)).putExtra("store_type", 0));
@@ -143,6 +151,47 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
         choiceStoreMap.put("longitude", longtitude);
         choiceStoreMap.put("latitude", latitude);
         getPresenter().getChoiceStore(choiceStoreMap, true, false);
+    }
+
+    // 选择地图
+    private void setMapDialog(final int position) {
+        final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
+        //Dialog布局
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_map, null);
+        root.findViewById(R.id.ll_baidu_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToBaiduMap(choiceStoreBeanList.get(position).getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_gaode_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToGaodeMap(choiceStoreBeanList.get(position).getLatitude(), choiceStoreBeanList.get(position).getLongitude(), choiceStoreBeanList.get(position).getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_tengxun_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToTengxunMap(choiceStoreBeanList.get(position).getLatitude(), choiceStoreBeanList.get(position).getLongitude(), choiceStoreBeanList.get(position).getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        mCameraDialog.setContentView(root);
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM); //设置弹出方式
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = 500;
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
     }
 
     /**
@@ -165,6 +214,42 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
     }
 
     /**
+     * 跳转高德地图
+     */
+    private void goToGaodeMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.autonavi.minimap")) {
+            ToastUtil.showShortToast("请先安装高德地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("amapuri://openFeature?featureName=").append("OnRideNavi");
+        stringBuffer.append("&rideType=").append("bike")
+                .append("&sourceApplication=").append("amap")
+                .append("&lat=").append(endPoint.latitude)
+                .append("&lon=").append(endPoint.longitude)
+                .append("&dev=").append(0);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setPackage("com.autonavi.minimap");
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转腾讯地图
+     */
+    private void goToTengxunMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.tencent.map")) {
+            ToastUtil.showShortToast("请先安装腾讯地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("qqmap://map/routeplan?type=bike")
+                .append("&tocoord=").append(endPoint.latitude).append(",").append(endPoint.longitude).append("&to=" + descAddress);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        startActivity(intent);
+    }
+
+    /**
      * 跳转百度地图
      */
     private void goToBaiduMap(String descAddress) {
@@ -179,14 +264,6 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
                 "&coord_type=bd09ll" + // 坐标系
                 "&src=" + getPackageName()));
         startActivity(intent); // 启动调用
-//        Intent intent = new Intent();
-//        intent.setData(Uri.parse("baidumap://map/direction?destination=latlng:"
-//                + latitude + ","
-//                + longitude + "|name:" + descAddress + // 终点
-//                "&mode=riding" + // 导航路线方式
-//                "&coord_type=bd09ll" + // 坐标系
-//                "&src=" + getPackageName()));
-//        startActivity(intent); // 启动调用
     }
 
     @Override

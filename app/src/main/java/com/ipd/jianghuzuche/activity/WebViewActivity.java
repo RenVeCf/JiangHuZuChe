@@ -187,7 +187,7 @@ public class WebViewActivity extends BaseActivity {
     @Override
     public void initData() {
         //设置客户端，让点击跳转操作在当前应用内存进行操作
-        wvContent.setWebViewClient(new CarDetailsActivity.MyWebViewClient(this));
+        wvContent.setWebViewClient(new MyWebViewClient(this));
 //        wvContent.setWebViewClient(new WebViewClient() {
 //            @Override
 //            public void onPageFinished(WebView view, String url) {

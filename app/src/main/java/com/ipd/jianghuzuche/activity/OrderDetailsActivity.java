@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -51,6 +52,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
 
 /**
  * Description ：订单详情
@@ -132,6 +134,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
     TextView tvOverdueDeductionFee;
     @BindView(R.id.ll_car_return_details)
     LinearLayout llCarReturnDetails;
+    @BindView(R.id.tv_car_code)
+    TextView tvCarCode;
+    @BindView(R.id.ll_car_code)
+    LinearLayout llCarCode;
+    @BindView(R.id.view_car_code)
+    View viewCarCode;
 
     private int type;
     private int takeStatus;
@@ -216,12 +224,16 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
 
         switch (type) {
             case 1:
+                llCarCode.setVisibility(View.GONE);
+                viewCarCode.setVisibility(View.GONE);
                 tvUseCarMoneyType.setText("待付款");
                 btCancelPay.setText("取消订单");
                 btGoPay.setText("去付款");
                 llEndTime.setVisibility(View.GONE);
                 break;
             case 2:
+                llCarCode.setVisibility(View.GONE);
+                viewCarCode.setVisibility(View.GONE);
                 tvUseCarMoneyType.setText("已支付");
                 btCancelPay.setText("取消订单");
                 btGoPay.setText("查看车辆");
@@ -404,7 +416,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                 startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 2));
                 break;
             case R.id.tv_order_details_go_choice_store:
-                goToBaiduMap(orderDetailsBean.getOrder().getDescAddress());
+                setMapDialog();
                 break;
             case R.id.bt_cancel_pay:
                 switch (type) {
@@ -468,6 +480,83 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
         }
     }
 
+    // 选择地图
+    private void setMapDialog() {
+        final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
+        //Dialog布局
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_map, null);
+        root.findViewById(R.id.ll_baidu_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToBaiduMap(orderDetailsBean.getOrder().getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_gaode_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToGaodeMap(orderDetailsBean.getStore().getLatitude(), orderDetailsBean.getStore().getLongitude(), orderDetailsBean.getOrder().getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_tengxun_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToTengxunMap(orderDetailsBean.getStore().getLatitude(), orderDetailsBean.getStore().getLongitude(), orderDetailsBean.getOrder().getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        mCameraDialog.setContentView(root);
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM); //设置弹出方式
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = 500;
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+    }
+
+    /**
+     * 跳转高德地图
+     */
+    private void goToGaodeMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.autonavi.minimap")) {
+            ToastUtil.showShortToast("请先安装高德地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("amapuri://openFeature?featureName=").append("OnRideNavi");
+        stringBuffer.append("&rideType=").append("bike")
+                .append("&sourceApplication=").append("amap")
+                .append("&lat=").append(endPoint.latitude)
+                .append("&lon=").append(endPoint.longitude)
+                .append("&dev=").append(0);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setPackage("com.autonavi.minimap");
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转腾讯地图
+     */
+    private void goToTengxunMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.tencent.map")) {
+            ToastUtil.showShortToast("请先安装腾讯地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("qqmap://map/routeplan?type=bike")
+                .append("&tocoord=").append(endPoint.latitude).append(",").append(endPoint.longitude).append("&to=" + descAddress);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        startActivity(intent);
+    }
+
     /**
      * 跳转百度地图
      */
@@ -483,14 +572,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                 "&coord_type=bd09ll" + // 坐标系
                 "&src=" + getPackageName()));
         startActivity(intent); // 启动调用
-//        Intent intent = new Intent();
-//        intent.setData(Uri.parse("baidumap://map/direction?destination=latlng:"
-//                + latitude + ","
-//                + longitude + "|name:" + descAddress + // 终点
-//                "&mode=riding" + // 导航路线方式
-//                "&coord_type=bd09ll" + // 坐标系
-//                "&src=" + getPackageName()));
-//        startActivity(intent); // 启动调用
     }
 
     /**
@@ -515,6 +596,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
     @Override
     public void resultOrderDetails(OrderDetailsBean data) {
         orderDetailsBean = data.getData();
+
         Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + orderDetailsBean.getOrder().getVehicleLogo()).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher)).into(ivOrderDetails);
         tvOrderDetailsBrand.setText(orderDetailsBean.getOrder().getVehicleName());
         tvOrderDetailsIntroduce.setText(orderDetailsBean.getOrder().getVehicleModel());
@@ -525,7 +607,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
         tvEndTime.setText(orderDetailsBean.getOrder().getExpireTime());
 
         tvUseCarCouponName.setText(orderDetailsBean.getVehicleCost().get(0).getCouponTitle());
-        tvUseCarCouponMoney.setText(orderDetailsBean.getVehicleCost().get(0).getCoupon() + "元");
+        tvUseCarCouponMoney.setText("-" + orderDetailsBean.getVehicleCost().get(0).getCoupon() + "元");
         tvUseCarServiceTime.setText(orderDetailsBean.getOrder().getRentDuration() + "x" + orderDetailsBean.getVehicleCost().get(0).getVehicleRent());
         tvUseCarServiceCharge.setText(orderDetailsBean.getVehicleCost().get(0).getTenancyService() + "元");
         tvUseCarEquipmentCost.setText(orderDetailsBean.getVehicleCost().get(0).getEquipCost() + "元");
@@ -538,6 +620,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
             choiceStoreAdapter.setNewData(vehicleOrstatusBean);
 
             vehiclePicBean = data.getData().getVehiclePic();
+            tvCarCode.setText(vehiclePicBean.getPlateNumber());
             String[] strs = vehiclePicBean.getPicPath().split(",");
             for (int i = 0, len = strs.length; i < len; i++) {
                 imgList.add(strs[i].toString());

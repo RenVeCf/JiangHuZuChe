@@ -10,10 +10,10 @@ public interface UrlConfig {
     /**
      * 域名
      */
-    String BASE_URL = "http://47.98.36.104:8010/jhzc/";
-    String BASE_LOCAL_URL = "http://47.98.36.104:8010/";
-//    String BASE_URL = "http://192.168.43.71/";
-//    String BASE_LOCAL_URL = "http://192.168.43.71/";
+//    String BASE_URL = "http://47.98.36.104:8010/jhzc/";
+//    String BASE_LOCAL_URL = "http://47.98.36.104:8010/";
+    String BASE_URL = "http://47.93.126.235:8010/jhzc/";
+    String BASE_LOCAL_URL = "http://47.93.126.235:8010/";
 
     /**
      * 登陆
@@ -99,4 +99,8 @@ public interface UrlConfig {
     String MSG = "appUser/onlineOrder/message"; //用户端-消息列表
 
 
+    /**
+     * 版本更新
+     */
+    String MODIFY_VERSION = "app/version/versionInfo"; //版本更新
 }

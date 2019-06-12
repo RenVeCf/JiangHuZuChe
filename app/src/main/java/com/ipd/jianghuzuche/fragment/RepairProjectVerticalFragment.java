@@ -16,7 +16,6 @@ import com.ipd.jianghuzuche.base.BasePresenter;
 import com.ipd.jianghuzuche.base.BaseView;
 import com.ipd.jianghuzuche.bean.RepairProjectHorizontalBean;
 import com.ipd.jianghuzuche.common.view.DividerItemDecoration;
-import com.ipd.jianghuzuche.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +61,7 @@ public class RepairProjectVerticalFragment extends BaseFragment {
         GridLayoutManager NotUseList = new GridLayoutManager(getActivity(), 4);
         rvRepairProjectVertical.setLayoutManager(NotUseList);
         rvRepairProjectVertical.addItemDecoration(new DividerItemDecoration(getActivity()));
+        rvRepairProjectVertical.setNestedScrollingEnabled(false);
         rvRepairProjectVertical.setHasFixedSize(true); //item如果一样的大小，可以设置为true让RecyclerView避免重新计算大小
         rvRepairProjectVertical.setItemAnimator(new DefaultItemAnimator()); //默认动画
 

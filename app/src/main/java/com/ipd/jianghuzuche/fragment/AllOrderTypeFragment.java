@@ -1,8 +1,13 @@
 package com.ipd.jianghuzuche.fragment;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -173,7 +178,6 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
                                         setDocumentsReceivedDialog(2, selectOrderTypeBean.get(position).getOrderId(), position);
                                         break;
                                     case 2:
-//                                        startActivityForResult(new Intent(getActivity(), OrderDetailsActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3).putExtra("item_type", 2), REQUEST_CODE_92);
                                         startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3), REQUEST_CODE_92);
                                 }
                                 break;
@@ -185,7 +189,6 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
                                         break;
                                     case 2:
                                         startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4), REQUEST_CODE_92);
-//                                        startActivity(new Intent(getActivity(), OrderDetailsActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4));
                                 }
                                 break;
                         }
@@ -226,6 +229,10 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
         loginMap.put("status", status);
         loginMap.put("page", page + "");
         getPresenter().getSelectOrderType(loginMap, true, false);
+    }
+
+    public void Aaa() {
+        initData();
     }
 
     @Override

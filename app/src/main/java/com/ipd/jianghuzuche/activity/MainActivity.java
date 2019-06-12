@@ -47,6 +47,7 @@ import com.ipd.jianghuzuche.utils.ToastUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.ipd.jianghuzuche.common.config.IConstants.FIRST_APP;
 import static com.ipd.jianghuzuche.common.config.IConstants.LATIUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.LONGTITUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_98;
@@ -210,6 +211,8 @@ public class MainActivity extends BaseActivity {
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvMainTop);
+
+        SPUtil.put(this, FIRST_APP, false);
 
         requestPermission(); //权限
 
@@ -818,7 +821,7 @@ public class MainActivity extends BaseActivity {
                 tvSetting.setTextColor(this.getResources().getColor(R.color.black));
                 break;
             case R.id.rl_coupon:
-                startActivity(new Intent(this, UserCouponActivity.class));
+                startActivity(new Intent(this, UserCouponActivity.class).putExtra("coupon_type", 1));
 
                 ivWhiteWallet.setVisibility(View.GONE);
                 ivBlueWallet.setVisibility(View.INVISIBLE);

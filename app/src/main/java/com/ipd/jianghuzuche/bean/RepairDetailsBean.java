@@ -12,7 +12,7 @@ public class RepairDetailsBean {
     /**
      * code : 200
      * msg : 操作成功
-     * data : {"costList":[{"costId":47,"title":"充电包天","money":198,"createTime":"2019-05-22 11:33:43","chargeNum":2,"orderId":21,"type":2,"coupon":null},{"costId":48,"title":"前泥瓦","money":65,"createTime":"2019-05-22 11:33:43","chargeNum":0,"orderId":21,"type":1,"coupon":null},{"costId":49,"title":"优惠卷","money":0,"createTime":"2019-05-22 11:33:55","chargeNum":0,"orderId":21,"type":1,"coupon":null}],"order":{"orderId":21,"userId":7,"orderNo":"1902319581","successTime":null,"payWay":0,"payTime":"2019-05-22 11:33:55","payStatus":2,"storeId":1,"status":4,"telPhone":"18502994087","userName":"jhzc427601","totalMoney":null,"createTime":"2019-05-22 11:33:43","charges":null,"repairs":null,"storeName":"上海虹桥1店","descAddress":"上海市华徐公路888号","logo":"picture/profile/JYJY192833259320190521103803.png","payMoney":null,"params":{}}}
+     * data : {"costList":[{"costId":96,"title":"充电包月","money":99,"createTime":"2019-05-31 00:10:36","chargeNum":1,"orderId":44,"type":2,"coupon":null},{"costId":97,"title":"皮垫更换","money":20,"createTime":"2019-05-31 00:10:36","chargeNum":0,"orderId":44,"type":1,"coupon":null}],"store":{"storeId":6,"storeName":"上海徐泾2店","picPath":"picture/PcStore/JYJY199486744020190531021228.png,picture/PcStore/JYJY199361859320190531021216.png","contactsPhone":"13764190230","contactsName":null,"descAddress":"明珠路1018号","province":"上海","city":"上海市","area":"青浦区","createTime":"2019-05-31 02:12:31","repairId":null,"repairNames":"","chargeId":"1","distance":3.6,"status":null,"userName":null,"telPhone":null,"userId":null,"logo":"picture/profile/JYJY196446766020190527191404.jpg","stock":null,"longitude":"121.26778","latitude":"31.199726","totalNum":null,"availableNum":null,"params":{}},"order":{"orderId":44,"userId":7,"orderNo":"1963680894","successTime":null,"payWay":0,"payTime":null,"payStatus":2,"storeId":6,"status":4,"telPhone":"18502994087","userName":"jhzc427601","totalMoney":null,"createTime":"2019-05-31 00:10:36","charges":"","repairs":"","storeName":"上海徐泾2店","descAddress":"明珠路1018号","logo":"picture/profile/JYJY196446766020190527191404.jpg","payMoney":99,"city":null,"supId":null,"couponTitle":"满100减20","coupon":20,"userCouponId":null,"params":{}}}
      */
 
     private int code;
@@ -45,12 +45,22 @@ public class RepairDetailsBean {
 
     public static class DataBean {
         /**
-         * costList : [{"costId":47,"title":"充电包天","money":198,"createTime":"2019-05-22 11:33:43","chargeNum":2,"orderId":21,"type":2,"coupon":null},{"costId":48,"title":"前泥瓦","money":65,"createTime":"2019-05-22 11:33:43","chargeNum":0,"orderId":21,"type":1,"coupon":null},{"costId":49,"title":"优惠卷","money":0,"createTime":"2019-05-22 11:33:55","chargeNum":0,"orderId":21,"type":1,"coupon":null}]
-         * order : {"orderId":21,"userId":7,"orderNo":"1902319581","successTime":null,"payWay":0,"payTime":"2019-05-22 11:33:55","payStatus":2,"storeId":1,"status":4,"telPhone":"18502994087","userName":"jhzc427601","totalMoney":null,"createTime":"2019-05-22 11:33:43","charges":null,"repairs":null,"storeName":"上海虹桥1店","descAddress":"上海市华徐公路888号","logo":"picture/profile/JYJY192833259320190521103803.png","payMoney":null,"params":{}}
+         * costList : [{"costId":96,"title":"充电包月","money":99,"createTime":"2019-05-31 00:10:36","chargeNum":1,"orderId":44,"type":2,"coupon":null},{"costId":97,"title":"皮垫更换","money":20,"createTime":"2019-05-31 00:10:36","chargeNum":0,"orderId":44,"type":1,"coupon":null}]
+         * store : {"storeId":6,"storeName":"上海徐泾2店","picPath":"picture/PcStore/JYJY199486744020190531021228.png,picture/PcStore/JYJY199361859320190531021216.png","contactsPhone":"13764190230","contactsName":null,"descAddress":"明珠路1018号","province":"上海","city":"上海市","area":"青浦区","createTime":"2019-05-31 02:12:31","repairId":null,"repairNames":"","chargeId":"1","distance":3.6,"status":null,"userName":null,"telPhone":null,"userId":null,"logo":"picture/profile/JYJY196446766020190527191404.jpg","stock":null,"longitude":"121.26778","latitude":"31.199726","totalNum":null,"availableNum":null,"params":{}}
+         * order : {"orderId":44,"userId":7,"orderNo":"1963680894","successTime":null,"payWay":0,"payTime":null,"payStatus":2,"storeId":6,"status":4,"telPhone":"18502994087","userName":"jhzc427601","totalMoney":null,"createTime":"2019-05-31 00:10:36","charges":"","repairs":"","storeName":"上海徐泾2店","descAddress":"明珠路1018号","logo":"picture/profile/JYJY196446766020190527191404.jpg","payMoney":99,"city":null,"supId":null,"couponTitle":"满100减20","coupon":20,"userCouponId":null,"params":{}}
          */
 
+        private StoreBean store;
         private OrderBean order;
         private List<CostListBean> costList;
+
+        public StoreBean getStore() {
+            return store;
+        }
+
+        public void setStore(StoreBean store) {
+            this.store = store;
+        }
 
         public OrderBean getOrder() {
             return order;
@@ -68,27 +78,291 @@ public class RepairDetailsBean {
             this.costList = costList;
         }
 
+        public static class StoreBean {
+            /**
+             * storeId : 6
+             * storeName : 上海徐泾2店
+             * picPath : picture/PcStore/JYJY199486744020190531021228.png,picture/PcStore/JYJY199361859320190531021216.png
+             * contactsPhone : 13764190230
+             * contactsName : null
+             * descAddress : 明珠路1018号
+             * province : 上海
+             * city : 上海市
+             * area : 青浦区
+             * createTime : 2019-05-31 02:12:31
+             * repairId : null
+             * repairNames :
+             * chargeId : 1
+             * distance : 3.6
+             * status : null
+             * userName : null
+             * telPhone : null
+             * userId : null
+             * logo : picture/profile/JYJY196446766020190527191404.jpg
+             * stock : null
+             * longitude : 121.26778
+             * latitude : 31.199726
+             * totalNum : null
+             * availableNum : null
+             * params : {}
+             */
+
+            private int storeId;
+            private String storeName;
+            private String picPath;
+            private String contactsPhone;
+            private Object contactsName;
+            private String descAddress;
+            private String province;
+            private String city;
+            private String area;
+            private String createTime;
+            private Object repairId;
+            private String repairNames;
+            private String chargeId;
+            private double distance;
+            private Object status;
+            private Object userName;
+            private Object telPhone;
+            private Object userId;
+            private String logo;
+            private Object stock;
+            private String longitude;
+            private String latitude;
+            private Object totalNum;
+            private Object availableNum;
+            private ParamsBean params;
+
+            public int getStoreId() {
+                return storeId;
+            }
+
+            public void setStoreId(int storeId) {
+                this.storeId = storeId;
+            }
+
+            public String getStoreName() {
+                return storeName;
+            }
+
+            public void setStoreName(String storeName) {
+                this.storeName = storeName;
+            }
+
+            public String getPicPath() {
+                return picPath;
+            }
+
+            public void setPicPath(String picPath) {
+                this.picPath = picPath;
+            }
+
+            public String getContactsPhone() {
+                return contactsPhone;
+            }
+
+            public void setContactsPhone(String contactsPhone) {
+                this.contactsPhone = contactsPhone;
+            }
+
+            public Object getContactsName() {
+                return contactsName;
+            }
+
+            public void setContactsName(Object contactsName) {
+                this.contactsName = contactsName;
+            }
+
+            public String getDescAddress() {
+                return descAddress;
+            }
+
+            public void setDescAddress(String descAddress) {
+                this.descAddress = descAddress;
+            }
+
+            public String getProvince() {
+                return province;
+            }
+
+            public void setProvince(String province) {
+                this.province = province;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getArea() {
+                return area;
+            }
+
+            public void setArea(String area) {
+                this.area = area;
+            }
+
+            public String getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
+            }
+
+            public Object getRepairId() {
+                return repairId;
+            }
+
+            public void setRepairId(Object repairId) {
+                this.repairId = repairId;
+            }
+
+            public String getRepairNames() {
+                return repairNames;
+            }
+
+            public void setRepairNames(String repairNames) {
+                this.repairNames = repairNames;
+            }
+
+            public String getChargeId() {
+                return chargeId;
+            }
+
+            public void setChargeId(String chargeId) {
+                this.chargeId = chargeId;
+            }
+
+            public double getDistance() {
+                return distance;
+            }
+
+            public void setDistance(double distance) {
+                this.distance = distance;
+            }
+
+            public Object getStatus() {
+                return status;
+            }
+
+            public void setStatus(Object status) {
+                this.status = status;
+            }
+
+            public Object getUserName() {
+                return userName;
+            }
+
+            public void setUserName(Object userName) {
+                this.userName = userName;
+            }
+
+            public Object getTelPhone() {
+                return telPhone;
+            }
+
+            public void setTelPhone(Object telPhone) {
+                this.telPhone = telPhone;
+            }
+
+            public Object getUserId() {
+                return userId;
+            }
+
+            public void setUserId(Object userId) {
+                this.userId = userId;
+            }
+
+            public String getLogo() {
+                return logo;
+            }
+
+            public void setLogo(String logo) {
+                this.logo = logo;
+            }
+
+            public Object getStock() {
+                return stock;
+            }
+
+            public void setStock(Object stock) {
+                this.stock = stock;
+            }
+
+            public String getLongitude() {
+                return longitude;
+            }
+
+            public void setLongitude(String longitude) {
+                this.longitude = longitude;
+            }
+
+            public String getLatitude() {
+                return latitude;
+            }
+
+            public void setLatitude(String latitude) {
+                this.latitude = latitude;
+            }
+
+            public Object getTotalNum() {
+                return totalNum;
+            }
+
+            public void setTotalNum(Object totalNum) {
+                this.totalNum = totalNum;
+            }
+
+            public Object getAvailableNum() {
+                return availableNum;
+            }
+
+            public void setAvailableNum(Object availableNum) {
+                this.availableNum = availableNum;
+            }
+
+            public ParamsBean getParams() {
+                return params;
+            }
+
+            public void setParams(ParamsBean params) {
+                this.params = params;
+            }
+
+            public static class ParamsBean {
+            }
+        }
+
         public static class OrderBean {
             /**
-             * orderId : 21
+             * orderId : 44
              * userId : 7
-             * orderNo : 1902319581
+             * orderNo : 1963680894
              * successTime : null
              * payWay : 0
-             * payTime : 2019-05-22 11:33:55
+             * payTime : null
              * payStatus : 2
-             * storeId : 1
+             * storeId : 6
              * status : 4
              * telPhone : 18502994087
              * userName : jhzc427601
              * totalMoney : null
-             * createTime : 2019-05-22 11:33:43
-             * charges : null
-             * repairs : null
-             * storeName : 上海虹桥1店
-             * descAddress : 上海市华徐公路888号
-             * logo : picture/profile/JYJY192833259320190521103803.png
-             * payMoney : null
+             * createTime : 2019-05-31 00:10:36
+             * charges :
+             * repairs :
+             * storeName : 上海徐泾2店
+             * descAddress : 明珠路1018号
+             * logo : picture/profile/JYJY196446766020190527191404.jpg
+             * payMoney : 99
+             * city : null
+             * supId : null
+             * couponTitle : 满100减20
+             * coupon : 20
+             * userCouponId : null
              * params : {}
              */
 
@@ -97,7 +371,7 @@ public class RepairDetailsBean {
             private String orderNo;
             private Object successTime;
             private int payWay;
-            private String payTime;
+            private Object payTime;
             private int payStatus;
             private int storeId;
             private int status;
@@ -105,13 +379,18 @@ public class RepairDetailsBean {
             private String userName;
             private Object totalMoney;
             private String createTime;
-            private Object charges;
-            private Object repairs;
+            private String charges;
+            private String repairs;
             private String storeName;
             private String descAddress;
             private String logo;
-            private Object payMoney;
-            private ParamsBean params;
+            private int payMoney;
+            private Object city;
+            private Object supId;
+            private String couponTitle;
+            private int coupon;
+            private Object userCouponId;
+            private ParamsBeanX params;
 
             public int getOrderId() {
                 return orderId;
@@ -153,11 +432,11 @@ public class RepairDetailsBean {
                 this.payWay = payWay;
             }
 
-            public String getPayTime() {
+            public Object getPayTime() {
                 return payTime;
             }
 
-            public void setPayTime(String payTime) {
+            public void setPayTime(Object payTime) {
                 this.payTime = payTime;
             }
 
@@ -217,19 +496,19 @@ public class RepairDetailsBean {
                 this.createTime = createTime;
             }
 
-            public Object getCharges() {
+            public String getCharges() {
                 return charges;
             }
 
-            public void setCharges(Object charges) {
+            public void setCharges(String charges) {
                 this.charges = charges;
             }
 
-            public Object getRepairs() {
+            public String getRepairs() {
                 return repairs;
             }
 
-            public void setRepairs(Object repairs) {
+            public void setRepairs(String repairs) {
                 this.repairs = repairs;
             }
 
@@ -257,41 +536,81 @@ public class RepairDetailsBean {
                 this.logo = logo;
             }
 
-            public Object getPayMoney() {
+            public int getPayMoney() {
                 return payMoney;
             }
 
-            public void setPayMoney(Object payMoney) {
+            public void setPayMoney(int payMoney) {
                 this.payMoney = payMoney;
             }
 
-            public ParamsBean getParams() {
+            public Object getCity() {
+                return city;
+            }
+
+            public void setCity(Object city) {
+                this.city = city;
+            }
+
+            public Object getSupId() {
+                return supId;
+            }
+
+            public void setSupId(Object supId) {
+                this.supId = supId;
+            }
+
+            public String getCouponTitle() {
+                return couponTitle;
+            }
+
+            public void setCouponTitle(String couponTitle) {
+                this.couponTitle = couponTitle;
+            }
+
+            public int getCoupon() {
+                return coupon;
+            }
+
+            public void setCoupon(int coupon) {
+                this.coupon = coupon;
+            }
+
+            public Object getUserCouponId() {
+                return userCouponId;
+            }
+
+            public void setUserCouponId(Object userCouponId) {
+                this.userCouponId = userCouponId;
+            }
+
+            public ParamsBeanX getParams() {
                 return params;
             }
 
-            public void setParams(ParamsBean params) {
+            public void setParams(ParamsBeanX params) {
                 this.params = params;
             }
 
-            public static class ParamsBean {
+            public static class ParamsBeanX {
             }
         }
 
         public static class CostListBean {
             /**
-             * costId : 47
-             * title : 充电包天
-             * money : 198.0
-             * createTime : 2019-05-22 11:33:43
-             * chargeNum : 2
-             * orderId : 21
+             * costId : 96
+             * title : 充电包月
+             * money : 99
+             * createTime : 2019-05-31 00:10:36
+             * chargeNum : 1
+             * orderId : 44
              * type : 2
              * coupon : null
              */
 
             private int costId;
             private String title;
-            private double money;
+            private int money;
             private String createTime;
             private int chargeNum;
             private int orderId;
@@ -314,11 +633,11 @@ public class RepairDetailsBean {
                 this.title = title;
             }
 
-            public double getMoney() {
+            public int getMoney() {
                 return money;
             }
 
-            public void setMoney(double money) {
+            public void setMoney(int money) {
                 this.money = money;
             }
 

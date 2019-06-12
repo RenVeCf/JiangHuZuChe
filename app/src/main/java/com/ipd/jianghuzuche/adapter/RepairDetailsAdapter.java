@@ -24,7 +24,5 @@ public class RepairDetailsAdapter extends BaseQuickAdapter<RepairDetailsBean.Dat
     protected void convert(BaseViewHolder helper, RepairDetailsBean.DataBean.CostListBean item) {
         helper.setText(R.id.tv_repair_name, item.getTitle())
                 .setText(R.id.tv_repair_money, item.getMoney() + "元");
-        if (item.getTitle().equals("优惠券"))//FIXME 后台没返回优惠券名称
-            helper.setText(R.id.tv_repair_money, "-" + item.getMoney() + "元");
     }
 }

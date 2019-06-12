@@ -34,6 +34,7 @@ public class SelectOrderFragment extends BaseFragment {
     private String[] titles = new String[]{"全部", "待付款", "待取车", "使用中", "已到期", "已完成", "已取消"};
     private ViewPagerAdapter viewPagerAdapter;
     private List<Fragment> fragments;
+    private AllOrderTypeFragment fm;
 
     @Override
     public int getLayoutId() {
@@ -67,7 +68,7 @@ public class SelectOrderFragment extends BaseFragment {
 
         //向集合添加Fragment
         for (int i = 0; i < titles.length; i++) {
-            final AllOrderTypeFragment fm = new AllOrderTypeFragment();
+            fm = new AllOrderTypeFragment();
             Bundle args = new Bundle();
             args.putInt("fm_type", i);
             fm.setArguments(args);
@@ -79,10 +80,6 @@ public class SelectOrderFragment extends BaseFragment {
         vpSelectOrder.setOffscreenPageLimit(titles.length);
 
         //设置导航条
-//        nlSelectOrder.setViewPager(getActivity(), titles, vpSelectOrder, R.color.tx_bottom_navigation, R.color.tx_bottom_navigation_select, 16, 16, 0, 45, true);
-//        nlSelectOrder.setBgLine(getActivity(), 1, R.color.whitesmoke);
-//        nlSelectOrder.setNavLine(getActivity(), 3, R.color.tx_bottom_navigation_select, 0);
-
         nlSelectOrder.setViewPager(getActivity(), titles, vpSelectOrder, R.color.tx_bottom_navigation, R.color.tx_bottom_navigation_select, 14, 14, 24, true, R.color.black, 0, 0, 0, 80);
         nlSelectOrder.setBgLine(getActivity(), 1, R.color.whitesmoke);
         nlSelectOrder.setNavLine(getActivity(), 3, R.color.tx_bottom_navigation_select);
@@ -90,6 +87,24 @@ public class SelectOrderFragment extends BaseFragment {
 
     @Override
     public void initListener() {
+        nlSelectOrder.setOnNaPageChangeListener(new NavitationFollowScrollLayoutText.OnNaPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                Intent intent = new Intent("android.ipd.yonghu");
+//                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                fm.Aaa();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

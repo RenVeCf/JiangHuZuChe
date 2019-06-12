@@ -56,6 +56,7 @@ public class CarDetailsActivity extends BaseActivity {
     WebView wvCarDetails;
 
     private UserSelectCarBean.DataBean.VehicleListBean userSelectCarBean = new UserSelectCarBean.DataBean.VehicleListBean();
+    private UserSelectCarBean.DataBean.StoreByIdBean storeByIdBean = new UserSelectCarBean.DataBean.StoreByIdBean();
 
     @Override
     public int getLayoutId() {
@@ -80,6 +81,7 @@ public class CarDetailsActivity extends BaseActivity {
         ImmersionBar.setTitleBar(this, tvCarDetailsTop);
 
         userSelectCarBean = getIntent().getParcelableExtra("car_details");
+        storeByIdBean = getIntent().getParcelableExtra("store_by_id");
 
         WebSettings settings = wvCarDetails.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -153,6 +155,6 @@ public class CarDetailsActivity extends BaseActivity {
 
     @OnClick(R.id.bt_car_details)
     public void onViewClicked() {
-        startActivity(new Intent(this, UserConfirmationOrderActivity.class).putExtra("car_details", userSelectCarBean));
+        startActivity(new Intent(this, UserConfirmationOrderActivity.class).putExtra("car_details", userSelectCarBean).putExtra("store_by_id", storeByIdBean));
     }
 }

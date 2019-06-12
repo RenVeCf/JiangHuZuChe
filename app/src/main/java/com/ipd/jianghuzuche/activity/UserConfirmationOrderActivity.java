@@ -1,17 +1,23 @@
 package com.ipd.jianghuzuche.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
@@ -46,6 +52,7 @@ import static com.ipd.jianghuzuche.common.config.IConstants.STORE_PATH;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.IConstants.USE_CAR_TIME;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
 
 /**
  * Description ：确认订单
@@ -107,6 +114,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
     TextView tvGetCarTime;
 
     private UserSelectCarBean.DataBean.VehicleListBean userSelectCarBean = new UserSelectCarBean.DataBean.VehicleListBean();
+    private UserSelectCarBean.DataBean.StoreByIdBean storeByIdBean = new UserSelectCarBean.DataBean.StoreByIdBean();
     private String coupon_name = "";
     private double coupon_money = 0;
     private int payType;
@@ -135,6 +143,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
         ImmersionBar.setTitleBar(this, tvUserConfirmationOrderTop);
 
         userSelectCarBean = getIntent().getParcelableExtra("car_details");
+        storeByIdBean = getIntent().getParcelableExtra("store_by_id");
     }
 
     @Override
@@ -232,7 +241,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 5));
                 break;
             case R.id.tv_user_confirmation_order_go_choice_store:
-                goToBaiduMap(SPUtil.get(this, STORE_PATH, "") + "");
+                setMapDialog();
                 break;
             case R.id.ll_user_confirmation_order_coupon:
                 startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_90);
@@ -256,6 +265,83 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
         }
     }
 
+    // 选择地图
+    private void setMapDialog() {
+        final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
+        //Dialog布局
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_map, null);
+        root.findViewById(R.id.ll_baidu_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToBaiduMap(storeByIdBean.getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_gaode_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToGaodeMap(storeByIdBean.getLatitude(), storeByIdBean.getLongitude(), storeByIdBean.getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.ll_tengxun_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToTengxunMap(storeByIdBean.getLatitude(), storeByIdBean.getLongitude(), storeByIdBean.getDescAddress());
+                mCameraDialog.dismiss();
+            }
+        });
+        mCameraDialog.setContentView(root);
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM); //设置弹出方式
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = 500;
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+    }
+
+    /**
+     * 跳转高德地图
+     */
+    private void goToGaodeMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.autonavi.minimap")) {
+            ToastUtil.showShortToast("请先安装高德地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("amapuri://openFeature?featureName=").append("OnRideNavi");
+        stringBuffer.append("&rideType=").append("bike")
+                .append("&sourceApplication=").append("amap")
+                .append("&lat=").append(endPoint.latitude)
+                .append("&lon=").append(endPoint.longitude)
+                .append("&dev=").append(0);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setPackage("com.autonavi.minimap");
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转腾讯地图
+     */
+    private void goToTengxunMap(String lat, String lon, String descAddress) {
+        if (!isInstalled("com.tencent.map")) {
+            ToastUtil.showShortToast("请先安装腾讯地图客户端");
+            return;
+        }
+        LatLng endPoint = BD2GCJ(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));//坐标转换
+        StringBuffer stringBuffer = new StringBuffer("qqmap://map/routeplan?type=bike")
+                .append("&tocoord=").append(endPoint.latitude).append(",").append(endPoint.longitude).append("&to=" + descAddress);
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+        startActivity(intent);
+    }
+
     /**
      * 跳转百度地图
      */
@@ -271,14 +357,6 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 "&coord_type=bd09ll" + // 坐标系
                 "&src=" + getPackageName()));
         startActivity(intent); // 启动调用
-//        Intent intent = new Intent();
-//        intent.setData(Uri.parse("baidumap://map/direction?destination=latlng:"
-//                + latitude + ","
-//                + longitude + "|name:" + descAddress + // 终点
-//                "&mode=riding" + // 导航路线方式
-//                "&coord_type=bd09ll" + // 坐标系
-//                "&src=" + getPackageName()));
-//        startActivity(intent); // 启动调用
     }
 
     /**
@@ -303,7 +381,6 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
     @Override
     public void resultOrderAliPay(AliPayBean data) {
         new AliPay(UserConfirmationOrderActivity.this, data.getData().getData());
-//        startActivity(new Intent(this, PayTypeActivity.class).putExtra("pay_type", 0));
     }
 
     @Override

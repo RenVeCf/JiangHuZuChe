@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ import com.ipd.jianghuzuche.utils.isClickUtil;
 public class TopView extends RelativeLayout implements View.OnClickListener {
 
     private TextView tvTopTitle;
-    private ImageView ivTopBack;
+    private LinearLayout llTopBack;
     private ImageView ivTopSidebar;
     private ImageView ivTopMsg;
     private TextView tvTopBank;
@@ -58,7 +59,7 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         tvTopBank.setTextColor(typedArray.getColor(R.styleable.TopView_bank_color, getResources().getColor(R.color.black)));
         typedArray.recycle();
 
-        ivTopBack.setVisibility(isBack ? View.VISIBLE : View.GONE);
+        llTopBack.setVisibility(isBack ? View.VISIBLE : View.GONE);
         ivTopSidebar.setVisibility(isSidebar ? View.VISIBLE : View.GONE);
         ivTopMsg.setVisibility(isMsg ? View.VISIBLE : View.GONE);
         tvTopBank.setVisibility(isBank ? View.VISIBLE : View.GONE);
@@ -73,12 +74,12 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         mContext = context;
         View.inflate(context, R.layout.top_view, this);
         tvTopTitle = (TextView) this.findViewById(R.id.tv_top_title);
-        ivTopBack = (ImageView) this.findViewById(R.id.iv_top_back);
+        llTopBack = (LinearLayout) this.findViewById(R.id.ll_top_back);
         ivTopSidebar = (ImageView) this.findViewById(R.id.iv_top_sidebar);
         ivTopMsg = (ImageView) this.findViewById(R.id.iv_top_msg);
         tvTopBank = (TextView) this.findViewById(R.id.tv_top_bank);
 
-        ivTopBack.setOnClickListener(this);
+        llTopBack.setOnClickListener(this);
         ivTopSidebar.setOnClickListener(this);
         ivTopMsg.setOnClickListener(this);
         tvTopBank.setOnClickListener(this);
@@ -87,7 +88,7 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_top_back:
+            case R.id.ll_top_back:
                 if (mContext instanceof Activity && isClickUtil.isFastClick()) {
                     ((Activity) mContext).finish();
                     if (((Activity) mContext).getCurrentFocus() != null) {

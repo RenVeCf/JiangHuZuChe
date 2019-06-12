@@ -203,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/x30"
-                    android:text="无可用优惠券"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 

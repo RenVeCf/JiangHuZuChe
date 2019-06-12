@@ -124,6 +124,10 @@ public class UserSelectCarBean implements Parcelable {
         }
 
         public static class StoreByIdBean implements Parcelable {
+            public StoreByIdBean() {
+                super();
+            }
+
             /**
              * storeId : 1
              * storeName : 上海虹桥1店
@@ -152,6 +156,7 @@ public class UserSelectCarBean implements Parcelable {
              * params : {}
              */
 
+
             private int storeId;
             private String storeName;
             private String picPath;
@@ -178,7 +183,7 @@ public class UserSelectCarBean implements Parcelable {
             private Object availableNum;
             private ParamsBean params;
 
-            protected StoreByIdBean(Parcel in) {
+            public StoreByIdBean(Parcel in) {
                 storeId = in.readInt();
                 storeName = in.readString();
                 picPath = in.readString();

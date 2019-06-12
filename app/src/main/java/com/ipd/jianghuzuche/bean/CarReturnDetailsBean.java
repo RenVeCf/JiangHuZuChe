@@ -51,14 +51,24 @@ public class CarReturnDetailsBean {
          * vehiclePic : {"vehicleInfoId":5,"picPath":"picture/vehicle/JYJY196515704420190528101411.jpeg,picture/vehicle/JYJY196557242020190528101415.jpeg,picture/vehicle/JYJY196594634820190528101419.jpeg","plateNumber":"8888","orderId":7,"createTime":null,"type":null}
          * status : 2
          * order : {"orderId":7,"userId":7,"orderNo":"1930844822","successTime":"2019-05-28 10:08:28","payWay":2,"payTime":"2019-05-28 10:08:28","payStatus":2,"vehicleId":11,"storeId":7,"takevehicleTime":"2019-05-28","rentDuration":6,"status":5,"createTime":"2019-05-28","telPhone":"18502994087","week":"周二","takeStatus":2,"descStatus":null,"vehicleName":"小刀电动车","vehicleModel":"xs25445","vehicleLogo":"picture/profile/JYJY192842740420190522151444.jpg","storeName":"阳阳车行","descAddress":"诚爱路58号","payMoney":1230,"revehicleTime":null,"expireTime":"2019-08-26","storeStatus":2,"city":"上海市","supId":8,"refundMoney":null,"params":{}}
+         * store : {"storeId":7,"storeName":"阳阳车行","picPath":"picture/vehicle/JYJY197809371720190522221940.jpeg,picture/vehicle/JYJY197875619520190522221947.jpeg,picture/vehicle/JYJY197909872020190522221950.jpeg","contactsPhone":"18502994087","contactsName":null,"descAddress":"诚爱路58号","province":"上海","city":"上海市","area":"青浦区","createTime":"2019-05-27 21:02:31","repairId":null,"repairNames":"","chargeId":"1,2","distance":3.6,"status":null,"userName":null,"telPhone":null,"userId":null,"logo":"picture/profile/JYJY196446766020190527191404.jpg","stock":null,"longitude":"121.28255","latitude":"31.181091","totalNum":null,"availableNum":null,"params":{}}
          */
 
         private VehicleCostBean vehicleCost;
         private VehiclePicBean vehiclePic;
         private int status;
+        private StoreBean store;
         private OrderBean order;
         private List<VehicleEndcostBean> vehicleEndcost;
         private List<VehicleOrstatusBean> vehicleOrstatus;
+
+        public StoreBean getStore() {
+            return store;
+        }
+
+        public void setStore(StoreBean store) {
+            this.store = store;
+        }
 
         public VehicleCostBean getVehicleCost() {
             return vehicleCost;
@@ -106,6 +116,265 @@ public class CarReturnDetailsBean {
 
         public void setVehicleOrstatus(List<VehicleOrstatusBean> vehicleOrstatus) {
             this.vehicleOrstatus = vehicleOrstatus;
+        }
+
+        public static class StoreBean {
+            /**
+             * storeId : 7
+             * storeName : 阳阳车行
+             * picPath : picture/vehicle/JYJY197809371720190522221940.jpeg,picture/vehicle/JYJY197875619520190522221947.jpeg,picture/vehicle/JYJY197909872020190522221950.jpeg
+             * contactsPhone : 18502994087
+             * contactsName : null
+             * descAddress : 诚爱路58号
+             * province : 上海
+             * city : 上海市
+             * area : 青浦区
+             * createTime : 2019-05-27 21:02:31
+             * repairId : null
+             * repairNames :
+             * chargeId : 1,2
+             * distance : 3.6
+             * status : null
+             * userName : null
+             * telPhone : null
+             * userId : null
+             * logo : picture/profile/JYJY196446766020190527191404.jpg
+             * stock : null
+             * longitude : 121.28255
+             * latitude : 31.181091
+             * totalNum : null
+             * availableNum : null
+             * params : {}
+             */
+
+            private int storeId;
+            private String storeName;
+            private String picPath;
+            private String contactsPhone;
+            private Object contactsName;
+            private String descAddress;
+            private String province;
+            private String city;
+            private String area;
+            private String createTime;
+            private Object repairId;
+            private String repairNames;
+            private String chargeId;
+            private double distance;
+            private Object status;
+            private Object userName;
+            private Object telPhone;
+            private Object userId;
+            private String logo;
+            private Object stock;
+            private String longitude;
+            private String latitude;
+            private Object totalNum;
+            private Object availableNum;
+            private ParamsBean params;
+
+            public int getStoreId() {
+                return storeId;
+            }
+
+            public void setStoreId(int storeId) {
+                this.storeId = storeId;
+            }
+
+            public String getStoreName() {
+                return storeName;
+            }
+
+            public void setStoreName(String storeName) {
+                this.storeName = storeName;
+            }
+
+            public String getPicPath() {
+                return picPath;
+            }
+
+            public void setPicPath(String picPath) {
+                this.picPath = picPath;
+            }
+
+            public String getContactsPhone() {
+                return contactsPhone;
+            }
+
+            public void setContactsPhone(String contactsPhone) {
+                this.contactsPhone = contactsPhone;
+            }
+
+            public Object getContactsName() {
+                return contactsName;
+            }
+
+            public void setContactsName(Object contactsName) {
+                this.contactsName = contactsName;
+            }
+
+            public String getDescAddress() {
+                return descAddress;
+            }
+
+            public void setDescAddress(String descAddress) {
+                this.descAddress = descAddress;
+            }
+
+            public String getProvince() {
+                return province;
+            }
+
+            public void setProvince(String province) {
+                this.province = province;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getArea() {
+                return area;
+            }
+
+            public void setArea(String area) {
+                this.area = area;
+            }
+
+            public String getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
+            }
+
+            public Object getRepairId() {
+                return repairId;
+            }
+
+            public void setRepairId(Object repairId) {
+                this.repairId = repairId;
+            }
+
+            public String getRepairNames() {
+                return repairNames;
+            }
+
+            public void setRepairNames(String repairNames) {
+                this.repairNames = repairNames;
+            }
+
+            public String getChargeId() {
+                return chargeId;
+            }
+
+            public void setChargeId(String chargeId) {
+                this.chargeId = chargeId;
+            }
+
+            public double getDistance() {
+                return distance;
+            }
+
+            public void setDistance(double distance) {
+                this.distance = distance;
+            }
+
+            public Object getStatus() {
+                return status;
+            }
+
+            public void setStatus(Object status) {
+                this.status = status;
+            }
+
+            public Object getUserName() {
+                return userName;
+            }
+
+            public void setUserName(Object userName) {
+                this.userName = userName;
+            }
+
+            public Object getTelPhone() {
+                return telPhone;
+            }
+
+            public void setTelPhone(Object telPhone) {
+                this.telPhone = telPhone;
+            }
+
+            public Object getUserId() {
+                return userId;
+            }
+
+            public void setUserId(Object userId) {
+                this.userId = userId;
+            }
+
+            public String getLogo() {
+                return logo;
+            }
+
+            public void setLogo(String logo) {
+                this.logo = logo;
+            }
+
+            public Object getStock() {
+                return stock;
+            }
+
+            public void setStock(Object stock) {
+                this.stock = stock;
+            }
+
+            public String getLongitude() {
+                return longitude;
+            }
+
+            public void setLongitude(String longitude) {
+                this.longitude = longitude;
+            }
+
+            public String getLatitude() {
+                return latitude;
+            }
+
+            public void setLatitude(String latitude) {
+                this.latitude = latitude;
+            }
+
+            public Object getTotalNum() {
+                return totalNum;
+            }
+
+            public void setTotalNum(Object totalNum) {
+                this.totalNum = totalNum;
+            }
+
+            public Object getAvailableNum() {
+                return availableNum;
+            }
+
+            public void setAvailableNum(Object availableNum) {
+                this.availableNum = availableNum;
+            }
+
+            public ParamsBean getParams() {
+                return params;
+            }
+
+            public void setParams(ParamsBean params) {
+                this.params = params;
+            }
+
+            public static class ParamsBean {
+            }
         }
 
         public static class VehicleCostBean {

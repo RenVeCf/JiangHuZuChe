@@ -39,6 +39,10 @@ public class OrderDetailsVehicleConditionAdapter extends BaseQuickAdapter<OrderD
                 tvVehicleConditionFee.setVisibility(View.VISIBLE);
                 tvVehicleConditionFee.setText("- " + item.getDamagedCost() + "元");
                 break;
+            case 3:
+                vehicleConditionType = "破损";
+                tvVehicleConditionFee.setVisibility(View.VISIBLE);
+                break;
         }
         helper.setText(R.id.tv_vehicle_condition_name, item.getVestatusName())
                 .setText(R.id.tv_vehicle_condition_type, vehicleConditionType);
