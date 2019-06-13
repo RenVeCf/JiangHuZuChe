@@ -17,6 +17,7 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.WalletDetailsContract;
 import com.ipd.jianghuzuche.presenter.WalletDetailsPresenter;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +104,10 @@ public class WalletActivity extends BaseActivity<WalletDetailsContract.View, Wal
 
     @OnClick(R.id.bt_cash_withdrawal)
     public void onViewClicked() {
-        startActivity(new Intent(this, CashWithdrawalActivity.class));
+        if (isClickUtil.isFastClick()) {
+
+            startActivity(new Intent(this, CashWithdrawalActivity.class));
+        }
     }
 
     @Override

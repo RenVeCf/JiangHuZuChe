@@ -19,6 +19,7 @@ import com.ipd.jianghuzuche.contract.SelectBankContract;
 import com.ipd.jianghuzuche.presenter.SelectBankPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +117,9 @@ public class SelectBankTwoActivity extends BaseActivity<SelectBankContract.View,
 
     @OnClick(R.id.bt_select_bank_two)
     public void onViewClicked() {
-        startActivityForResult(new Intent(this, AddBankAvtivity.class), REQUEST_CODE_96);
+        if (isClickUtil.isFastClick()) {
+            startActivityForResult(new Intent(this, AddBankAvtivity.class), REQUEST_CODE_96);
+        }
     }
 
     @Override

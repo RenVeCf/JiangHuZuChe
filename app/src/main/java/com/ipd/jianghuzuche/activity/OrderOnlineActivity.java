@@ -37,6 +37,7 @@ import com.ipd.jianghuzuche.presenter.OrderOnlinePresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -213,7 +214,9 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 setMapDialog();
                 break;
             case R.id.ll_user_confirmation_order_coupon:
-                startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_93);
+                if (isClickUtil.isFastClick()) {
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_93);
+                }
                 break;
             case R.id.ll_alipay:
                 payType = 0;
@@ -226,10 +229,12 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 ivWeixinPay.setVisibility(View.VISIBLE);
                 break;
             case R.id.bt_order_online:
-                if (cbIsRepairOrder.isChecked())
-                    payType(payType);
-                else
-                    ToastUtil.showShortToast("请勾选维修订单规则");
+                if (isClickUtil.isFastClick()) {
+                    if (cbIsRepairOrder.isChecked())
+                        payType(payType);
+                    else
+                        ToastUtil.showShortToast("请勾选维修订单规则");
+                }
                 break;
         }
     }
@@ -357,7 +362,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
 
     @Override
     public void resultRepairAli(AliPayBean data) {
-        new AliPay(OrderOnlineActivity.this, data.getData().getData());
+        new AliPay(OrderOnlineActivity.this, data.getData().getData(), false);
     }
 
     @Override

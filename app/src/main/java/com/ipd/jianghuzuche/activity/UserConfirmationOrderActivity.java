@@ -34,6 +34,7 @@ import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.DateUtils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -244,7 +245,9 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 setMapDialog();
                 break;
             case R.id.ll_user_confirmation_order_coupon:
-                startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_90);
+                if (isClickUtil.isFastClick()) {
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_90);
+                }
                 break;
             case R.id.ll_alipay:
                 payType = 0;
@@ -257,10 +260,12 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 ivWeixinPay.setVisibility(View.VISIBLE);
                 break;
             case R.id.bt_user_confirmation_order:
-                if (cbIsUserConfirmationOrder.isChecked()) {
-                    payType(payType);
-                } else
-                    ToastUtil.showLongToast(R.string.error_check_box);
+                if (isClickUtil.isFastClick()) {
+                    if (cbIsUserConfirmationOrder.isChecked()) {
+                        payType(payType);
+                    } else
+                        ToastUtil.showLongToast(R.string.error_check_box);
+                }
                 break;
         }
     }
@@ -380,7 +385,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
 
     @Override
     public void resultOrderAliPay(AliPayBean data) {
-        new AliPay(UserConfirmationOrderActivity.this, data.getData().getData());
+        new AliPay(UserConfirmationOrderActivity.this, data.getData().getData(), true);
     }
 
     @Override

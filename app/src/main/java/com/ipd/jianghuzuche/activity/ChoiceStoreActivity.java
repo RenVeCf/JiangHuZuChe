@@ -31,6 +31,7 @@ import com.ipd.jianghuzuche.presenter.ChoiceStorePresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,29 +118,33 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
         choiceStoreAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                SPUtil.put(ChoiceStoreActivity.this, STORE_NAME, choiceStoreBeanList.get(position).getStoreName() + "");
-                SPUtil.put(ChoiceStoreActivity.this, STORE_PATH, choiceStoreBeanList.get(position).getDescAddress() + "");
+                if (isClickUtil.isFastClick()) {
+                    SPUtil.put(ChoiceStoreActivity.this, STORE_NAME, choiceStoreBeanList.get(position).getStoreName() + "");
+                    SPUtil.put(ChoiceStoreActivity.this, STORE_PATH, choiceStoreBeanList.get(position).getDescAddress() + "");
 
-                setResult(RESULT_OK, new Intent()
-                        .putExtra("store_id", choiceStoreBeanList.get(position).getStoreId() + "")
-                        .putExtra("store_name", choiceStoreBeanList.get(position).getStoreName()));
-                finish();
+                    setResult(RESULT_OK, new Intent()
+                            .putExtra("store_id", choiceStoreBeanList.get(position).getStoreId() + "")
+                            .putExtra("store_name", choiceStoreBeanList.get(position).getStoreName()));
+                    finish();
+                }
             }
         });
 
         choiceStoreAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.tv_go_store:
-                        setMapDialog(position);
-                        break;
-                    case R.id.tv_store_distance:
-                        setMapDialog(position);
-                        break;
-                    case R.id.ll_go_store_details:
-                        startActivity(new Intent(ChoiceStoreActivity.this, StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList.get(position)).putExtra("store_type", 0));
-                        break;
+                if (isClickUtil.isFastClick()) {
+                    switch (view.getId()) {
+                        case R.id.tv_go_store:
+                            setMapDialog(position);
+                            break;
+                        case R.id.tv_store_distance:
+                            setMapDialog(position);
+                            break;
+                        case R.id.ll_go_store_details:
+                            startActivity(new Intent(ChoiceStoreActivity.this, StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList.get(position)).putExtra("store_type", 0));
+                            break;
+                    }
                 }
             }
         });
@@ -283,10 +288,12 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
 
     @OnClick(R.id.iv_search)
     public void onViewClicked() {
-        TreeMap<String, String> choiceStoreMap = new TreeMap<>();
-        choiceStoreMap.put("longitude", longtitude);
-        choiceStoreMap.put("latitude", latitude);
-        choiceStoreMap.put("storeName", etSearch.getText().toString().trim());
-        getPresenter().getChoiceStore(choiceStoreMap, true, false);
+        if (isClickUtil.isFastClick()) {
+            TreeMap<String, String> choiceStoreMap = new TreeMap<>();
+            choiceStoreMap.put("longitude", longtitude);
+            choiceStoreMap.put("latitude", latitude);
+            choiceStoreMap.put("storeName", etSearch.getText().toString().trim());
+            getPresenter().getChoiceStore(choiceStoreMap, true, false);
+        }
     }
 }

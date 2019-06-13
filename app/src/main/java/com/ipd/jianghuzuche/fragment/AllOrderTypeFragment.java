@@ -1,13 +1,8 @@
 package com.ipd.jianghuzuche.fragment;
 
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +31,7 @@ import com.ipd.jianghuzuche.contract.SelectOrderTypeContract;
 import com.ipd.jianghuzuche.presenter.SelectOrderTypePresenter;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
@@ -114,31 +110,33 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
         orderTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (selectOrderTypeBean.get(position).getStatus()) {
-                    case 2:
-                        //已取消
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 6).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
-                        break;
-                    case 3:
-                        //待付款
-                        startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 1).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
-                        break;
-                    case 4:
-                        //待取车
-                        startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 2).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
-                        break;
-                    case 5:
-                        //使用中
-                        startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 3).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("item_type", 1), REQUEST_CODE_92);
-                        break;
-                    case 7:
-                        //已到期
-                        startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 4).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()), REQUEST_CODE_92);
-                        break;
-                    case 8:
-                        //已完成
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 5).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
-                        break;
+                if (isClickUtil.isFastClick()) {
+                    switch (selectOrderTypeBean.get(position).getStatus()) {
+                        case 2:
+                            //已取消
+                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 6).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
+                            break;
+                        case 3:
+                            //待付款
+                            startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 1).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
+                            break;
+                        case 4:
+                            //待取车
+                            startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 2).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
+                            break;
+                        case 5:
+                            //使用中
+                            startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 3).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("item_type", 1), REQUEST_CODE_92);
+                            break;
+                        case 7:
+                            //已到期
+                            startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 4).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()), REQUEST_CODE_92);
+                            break;
+                        case 8:
+                            //已完成
+                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("type", 5).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
+                            break;
+                    }
                 }
             }
         });
@@ -146,53 +144,55 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
         orderTypeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.bt_order_type_start:
-                        switch (selectOrderTypeBean.get(position).getStatus()) {
-                            case 3:
-                                setDocumentsReceivedDialog(0, selectOrderTypeBean.get(position).getOrderId(), position);
-                                break;
-                            case 4:
-                                setDocumentsReceivedDialog(1, selectOrderTypeBean.get(position).getOrderId(), position);
-                                break;
-                            case 5:
-                                startActivity(new Intent(getActivity(), ExtendTimeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
-                                break;
-                            case 7:
-                                startActivity(new Intent(getActivity(), ExtendTimeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
-                                break;
-                        }
-                        break;
-                    case R.id.bt_order_type_end:
-                        switch (selectOrderTypeBean.get(position).getStatus()) {
-                            case 3:
-                                startActivity(new Intent(getActivity(), SelectPayTypeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
-                                break;
-                            case 4:
-                                startActivityForResult(new Intent(getActivity(), SelectCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
-                                break;
-                            case 5:
-                                switch (selectOrderTypeBean.get(position).getTakeStatus()) {
-                                    case 1:
-                                        //提前还车
-                                        setDocumentsReceivedDialog(2, selectOrderTypeBean.get(position).getOrderId(), position);
-                                        break;
-                                    case 2:
-                                        startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3), REQUEST_CODE_92);
-                                }
-                                break;
-                            case 7:
-                                switch (selectOrderTypeBean.get(position).getTakeStatus()) {
-                                    case 1:
-                                        //申请退车
-                                        setDocumentsReceivedDialog(3, selectOrderTypeBean.get(position).getOrderId(), position);
-                                        break;
-                                    case 2:
-                                        startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4), REQUEST_CODE_92);
-                                }
-                                break;
-                        }
-                        break;
+                if (isClickUtil.isFastClick()) {
+                    switch (view.getId()) {
+                        case R.id.bt_order_type_start:
+                            switch (selectOrderTypeBean.get(position).getStatus()) {
+                                case 3:
+                                    setDocumentsReceivedDialog(0, selectOrderTypeBean.get(position).getOrderId(), position);
+                                    break;
+                                case 4:
+                                    setDocumentsReceivedDialog(1, selectOrderTypeBean.get(position).getOrderId(), position);
+                                    break;
+                                case 5:
+                                    startActivity(new Intent(getActivity(), ExtendTimeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
+                                    break;
+                                case 7:
+                                    startActivity(new Intent(getActivity(), ExtendTimeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
+                                    break;
+                            }
+                            break;
+                        case R.id.bt_order_type_end:
+                            switch (selectOrderTypeBean.get(position).getStatus()) {
+                                case 3:
+                                    startActivity(new Intent(getActivity(), SelectPayTypeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
+                                    break;
+                                case 4:
+                                    startActivityForResult(new Intent(getActivity(), SelectCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
+                                    break;
+                                case 5:
+                                    switch (selectOrderTypeBean.get(position).getTakeStatus()) {
+                                        case 1:
+                                            //提前还车
+                                            setDocumentsReceivedDialog(2, selectOrderTypeBean.get(position).getOrderId(), position);
+                                            break;
+                                        case 2:
+                                            startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3), REQUEST_CODE_92);
+                                    }
+                                    break;
+                                case 7:
+                                    switch (selectOrderTypeBean.get(position).getTakeStatus()) {
+                                        case 1:
+                                            //申请退车
+                                            setDocumentsReceivedDialog(3, selectOrderTypeBean.get(position).getOrderId(), position);
+                                            break;
+                                        case 2:
+                                            startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4), REQUEST_CODE_92);
+                                    }
+                                    break;
+                            }
+                            break;
+                    }
                 }
             }
         });

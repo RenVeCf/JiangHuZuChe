@@ -3,6 +3,7 @@ package com.ipd.jianghuzuche.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.DateUtils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -134,6 +136,7 @@ public class ReturnCarActivity extends BaseActivity<ConfirmVehicleContract.View,
                 //                .setContentSize(18)//滚轮文字大小
 //                .setTitleSize(16)//标题文字大小
 //                .setTitleText("请选择起始时间")
+                .setDecorView((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content))
                 .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
                 .isCyclic(false)//是否循环滚动
 //                .setTitleColor(Color.BLACK)//标题文字颜色
@@ -160,14 +163,16 @@ public class ReturnCarActivity extends BaseActivity<ConfirmVehicleContract.View,
                 selectTime();
                 break;
             case R.id.bt_return_car:
-                if (cbReturnCar.isChecked()) {
-                    TreeMap<String, String> confirmVehicleMap = new TreeMap<>();
-                    confirmVehicleMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                    confirmVehicleMap.put("orderId", orderId + "");
-                    confirmVehicleMap.put("revehicleTime", tvSetCarTime.getText().toString().trim());
-                    getPresenter().getConfirmVehicle(confirmVehicleMap, true, false);
-                } else
-                    ToastUtil.showLongToast(R.string.error_check_box);
+                if (isClickUtil.isFastClick()) {
+                    if (cbReturnCar.isChecked()) {
+                        TreeMap<String, String> confirmVehicleMap = new TreeMap<>();
+                        confirmVehicleMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                        confirmVehicleMap.put("orderId", orderId + "");
+                        confirmVehicleMap.put("revehicleTime", tvSetCarTime.getText().toString().trim());
+                        getPresenter().getConfirmVehicle(confirmVehicleMap, true, false);
+                    } else
+                        ToastUtil.showLongToast(R.string.error_check_box);
+                }
                 break;
         }
     }

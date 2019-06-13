@@ -21,6 +21,7 @@ import com.ipd.jianghuzuche.presenter.SupplementInfoPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.wildma.pictureselector.PictureSelector;
 
 import java.io.File;
@@ -140,15 +141,17 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
                 selectPhoto();
                 break;
             case R.id.bt_supplement_info:
-                if (!idPositive.equals("") && !idOpposite.equals("") && !idHold.equals("")) {
-                    TreeMap<String, String> loginMap = new TreeMap<>();
-                    loginMap.put("idPositive", idPositive);
-                    loginMap.put("idOpposite", idOpposite);
-                    loginMap.put("idHold", idHold);
-                    loginMap.put("userId", (String) SPUtil.get(this, IConstants.USER_ID, ""));
-                    getPresenter().getSupplementInfo(loginMap, true, false);
-                } else
-                    ToastUtil.showShortToast("请选择证件照！");
+                if (isClickUtil.isFastClick()) {
+                    if (!idPositive.equals("") && !idOpposite.equals("") && !idHold.equals("")) {
+                        TreeMap<String, String> loginMap = new TreeMap<>();
+                        loginMap.put("idPositive", idPositive);
+                        loginMap.put("idOpposite", idOpposite);
+                        loginMap.put("idHold", idHold);
+                        loginMap.put("userId", (String) SPUtil.get(this, IConstants.USER_ID, ""));
+                        getPresenter().getSupplementInfo(loginMap, true, false);
+                    } else
+                        ToastUtil.showShortToast("请选择证件照！");
+                }
                 break;
         }
     }

@@ -13,6 +13,7 @@ import com.ipd.jianghuzuche.presenter.FeedBackPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.TreeMap;
 
@@ -72,13 +73,15 @@ public class FeedBackActivity extends BaseActivity<FeedBackContract.View, FeedBa
 
     @OnClick(R.id.bt_feed_back)
     public void onViewClicked() {
-        if (!etFeedBack.getText().toString().trim().equals("")) {
-            TreeMap<String, String> feedBackMap = new TreeMap<>();
-            feedBackMap.put("userId", (String) SPUtil.get(this, USER_ID, ""));
-            feedBackMap.put("content", etFeedBack.getText().toString().trim());
-            getPresenter().feedBack(feedBackMap, true, false);
-        } else
-            finish();
+        if (isClickUtil.isFastClick()) {
+            if (!etFeedBack.getText().toString().trim().equals("")) {
+                TreeMap<String, String> feedBackMap = new TreeMap<>();
+                feedBackMap.put("userId", (String) SPUtil.get(this, USER_ID, ""));
+                feedBackMap.put("content", etFeedBack.getText().toString().trim());
+                getPresenter().feedBack(feedBackMap, true, false);
+            } else
+                finish();
+        }
     }
 
     @Override

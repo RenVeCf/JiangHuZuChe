@@ -31,6 +31,7 @@ import com.ipd.jianghuzuche.presenter.SelectVehiclePresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,11 +153,13 @@ public class SelectCarActivity extends BaseActivity<SelectVehicleContract.View, 
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TreeMap<String, String> selectCarCancelOrderMap = new TreeMap<>();
-                selectCarCancelOrderMap.put("userId", SPUtil.get(SelectCarActivity.this, USER_ID, "") + "");
-                selectCarCancelOrderMap.put("orderId", orderId + "");
-                getPresenter().getSelectCarCancelOrder(selectCarCancelOrderMap, false, false);
-                mCameraDialog.dismiss();
+                if (isClickUtil.isFastClick()) {
+                    TreeMap<String, String> selectCarCancelOrderMap = new TreeMap<>();
+                    selectCarCancelOrderMap.put("userId", SPUtil.get(SelectCarActivity.this, USER_ID, "") + "");
+                    selectCarCancelOrderMap.put("orderId", orderId + "");
+                    getPresenter().getSelectCarCancelOrder(selectCarCancelOrderMap, false, false);
+                    mCameraDialog.dismiss();
+                }
             }
         });
 
@@ -191,10 +194,12 @@ public class SelectCarActivity extends BaseActivity<SelectVehicleContract.View, 
                 setDocumentsReceivedDialog();
                 break;
             case R.id.bt_get_car:
-                TreeMap<String, String> getCarMap = new TreeMap<>();
-                getCarMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                getCarMap.put("orderId", orderId + "");
-                getPresenter().getGetCar(getCarMap, false, false);
+                if (isClickUtil.isFastClick()) {
+                    TreeMap<String, String> getCarMap = new TreeMap<>();
+                    getCarMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                    getCarMap.put("orderId", orderId + "");
+                    getPresenter().getGetCar(getCarMap, false, false);
+                }
                 break;
         }
     }

@@ -40,6 +40,7 @@ import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.NumberUtils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.ryane.banner.AdPageInfo;
 import com.ryane.banner.AdPlayBanner;
 
@@ -267,15 +268,17 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         root.findViewById(R.id.bt_dialog_toast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TreeMap<String, String> loginMap = new TreeMap<>();
-                loginMap.put("userId", SPUtil.get(StoreDetailsActivity.this, USER_ID, "") + "");
-                if (chargeType != 0)
-                    loginMap.put("charges", getLoadString());
-                if (!fm.getLoadStringTwo().equals(""))
-                    loginMap.put("repairs", fm.getLoadStringTwo());
-                loginMap.put("storeId", storeListBean.getStoreId() + "");
-                getPresenter().getRepairConfirm(loginMap, false, false);
-                mCameraDialog.dismiss();
+                if (isClickUtil.isFastClick()) {
+                    TreeMap<String, String> loginMap = new TreeMap<>();
+                    loginMap.put("userId", SPUtil.get(StoreDetailsActivity.this, USER_ID, "") + "");
+                    if (chargeType != 0)
+                        loginMap.put("charges", getLoadString());
+                    if (!fm.getLoadStringTwo().equals(""))
+                        loginMap.put("repairs", fm.getLoadStringTwo());
+                    loginMap.put("storeId", storeListBean.getStoreId() + "");
+                    getPresenter().getRepairConfirm(loginMap, false, false);
+                    mCameraDialog.dismiss();
+                }
             }
         });
         mCameraDialog.setContentView(root);
@@ -406,19 +409,20 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
                 setMapDialog();
                 break;
             case R.id.bt_store_details:
-                if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false)
-                    setCenterLoginDialog();
-                else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false)
-                    setCenterLoginDialog();
-                else {
-                    if (type == 0)
-                        finish();
-                    else if (type == 1) {
-                        if (chargeType == 0 && fm.getLoadStringTwo().equals(""))
-                            ToastUtil.showLongToast("请选择服务！");
-                        else
-                            setDocumentsReceivedDialog();
-
+                if (isClickUtil.isFastClick()) {
+                    if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false)
+                        setCenterLoginDialog();
+                    else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false)
+                        setCenterLoginDialog();
+                    else {
+                        if (type == 0)
+                            finish();
+                        else if (type == 1) {
+                            if (chargeType == 0 && fm.getLoadStringTwo().equals(""))
+                                ToastUtil.showLongToast("请选择服务！");
+                            else
+                                setDocumentsReceivedDialog();
+                        }
                     }
                 }
                 break;

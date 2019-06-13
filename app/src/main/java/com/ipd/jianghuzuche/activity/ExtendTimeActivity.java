@@ -3,6 +3,7 @@ package com.ipd.jianghuzuche.activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -25,8 +26,10 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.ExtendTimeContract;
 import com.ipd.jianghuzuche.presenter.ExtendTimePresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -146,37 +149,6 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
 
     @Override
     public void initListener() {
-//        rgCharging.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.rb_charging_one:
-//                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
-//                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(0).getServicesName());
-//                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(0).getServicesCost() + "元");
-//                        extendTimePowerExchangeFee = extendTimeListBean.get(0).getServicesCost();
-//                        break;
-//                    case R.id.rb_charging_second:
-//                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
-//                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(1).getServicesName());
-//                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(1).getServicesCost() + "元");
-//                        extendTimePowerExchangeFee = extendTimeListBean.get(1).getServicesCost();
-//                        break;
-//                    case R.id.rb_charging_three:
-//                        llExtendTimePowerExchange.setVisibility(View.VISIBLE);
-//                        tvExtendTimePowerExchange.setText(extendTimeListBean.get(2).getServicesName());
-//                        tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(2).getServicesCost() + "元");
-//                        extendTimePowerExchangeFee = extendTimeListBean.get(2).getServicesCost();
-//                        break;
-//                }
-//
-//                double i = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
-//                        + lateMoney
-//                        + extendTimePowerExchangeFee
-//                        - coupon_money;
-//                tvExtendTimeMoneySum.setText(i + "元");
-//            }
-//        });
     }
 
     @Override
@@ -208,6 +180,11 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 tvExtendTime.setText(listData.get(options1));
                 tvExtendTimeServiceTime.setText(listData.get(options1).replaceAll("个月", "") + "x" + ehicleListBean.getVehicleRent());
                 tvExtendTimeServiceCharge.setText((Double.parseDouble(listData.get(options1).replaceAll("个月", "")) * ehicleListBean.getVehicleRent()) + "元");
+                double b = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
+                        + lateMoney
+                        + extendTimePowerExchangeFee
+                        - coupon_money;
+                tvExtendTimeMoneySum.setText(b + "元");
             }
         })
                 .setDividerColor(getResources().getColor(R.color.white))//设置分割线的颜色
@@ -225,6 +202,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                         });
                     }
                 })
+                .setDecorView((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content))
                 .setSelectOptions(0)//设置选择第一个
                 .setOutSideCancelable(true)//点击背的地方不消失
                 .build();//创建
@@ -248,6 +226,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                             + lateMoney
                             + extendTimePowerExchangeFee
                             - coupon_money;
+                    LogUtils.i("rmy", "lateMoney = " + lateMoney + ", extendTimePowerExchangeFee = " + extendTimePowerExchangeFee + ", coupon_money = " + coupon_money);
                     tvExtendTimeMoneySum.setText(i + "元");
                     break;
             }
@@ -290,7 +269,9 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 showPickerView();
                 break;
             case R.id.ll_extend_time_coupon:
-                startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_99);
+                if (isClickUtil.isFastClick()) {
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_99);
+                }
                 break;
             case R.id.ll_alipay:
                 payType = 0;
@@ -303,20 +284,22 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 ivWeixinPay.setVisibility(View.VISIBLE);
                 break;
             case R.id.bt_extend_time:
-                if (!tvExtendTime.getText().toString().trim().equals("请选择租赁时长"))
-                    payType(payType);
-                else
-                    ToastUtil.showShortToast("请选择租赁时长");
+                if (isClickUtil.isFastClick()) {
+                    if (!tvExtendTime.getText().toString().trim().equals("请选择租赁时长"))
+                        payType(payType);
+                    else
+                        ToastUtil.showShortToast("请选择租赁时长");
+                }
                 break;
             case R.id.cb_charging_one:
                 if (cbChargingOne.isChecked()) {
-                    llExtendTimePowerExchange.setVisibility(View.GONE);
-                    extendTimePowerExchangeFee = 0;
-                } else {
                     llExtendTimePowerExchange.setVisibility(View.VISIBLE);
                     tvExtendTimePowerExchange.setText(extendTimeListBean.get(0).getServicesName());
                     tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(0).getServicesCost() + "元");
                     extendTimePowerExchangeFee = extendTimeListBean.get(0).getServicesCost();
+                } else {
+                    llExtendTimePowerExchange.setVisibility(View.GONE);
+                    extendTimePowerExchangeFee = 0;
                 }
 
                 double i = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
@@ -327,13 +310,13 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 break;
             case R.id.cb_charging_second:
                 if (cbChargingSecond.isChecked()) {
-                    extendTimePowerExchangeFee = 0;
-                    llExtendTimePowerExchange.setVisibility(View.GONE);
-                } else {
                     llExtendTimePowerExchange.setVisibility(View.VISIBLE);
                     tvExtendTimePowerExchange.setText(extendTimeListBean.get(1).getServicesName());
                     tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(1).getServicesCost() + "元");
                     extendTimePowerExchangeFee = extendTimeListBean.get(1).getServicesCost();
+                } else {
+                    extendTimePowerExchangeFee = 0;
+                    llExtendTimePowerExchange.setVisibility(View.GONE);
                 }
 
                 double a = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
@@ -344,13 +327,13 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 break;
             case R.id.cb_charging_three:
                 if (cbChargingThree.isChecked()) {
-                    extendTimePowerExchangeFee = 0;
-                    llExtendTimePowerExchange.setVisibility(View.GONE);
-                } else {
                     llExtendTimePowerExchange.setVisibility(View.VISIBLE);
                     tvExtendTimePowerExchange.setText(extendTimeListBean.get(2).getServicesName());
                     tvExtendTimePowerExchangeFee.setText(extendTimeListBean.get(2).getServicesCost() + "元");
                     extendTimePowerExchangeFee = extendTimeListBean.get(2).getServicesCost();
+                } else {
+                    extendTimePowerExchangeFee = 0;
+                    llExtendTimePowerExchange.setVisibility(View.GONE);
                 }
 
                 double b = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
@@ -389,8 +372,8 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 break;
             case 1:
                 cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
-                cbChargingSecond.setVisibility(View.GONE);
-                cbChargingThree.setVisibility(View.GONE);
+                cbChargingSecond.setVisibility(View.INVISIBLE);
+                cbChargingThree.setVisibility(View.INVISIBLE);
 
 //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
 //                rbChargingSecond.setVisibility(View.GONE);
@@ -399,7 +382,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
             case 2:
                 cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
                 cbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
-                cbChargingThree.setVisibility(View.GONE);
+                cbChargingThree.setVisibility(View.INVISIBLE);
 
 //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
 //                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
@@ -420,7 +403,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
     @Override
     public void resultExtendTimeAli(AliPayBean data) {
         if (data.getCode() == 200) {
-            new AliPay(ExtendTimeActivity.this, data.getData().getData());
+            new AliPay(ExtendTimeActivity.this, data.getData().getData(), false);
         }
     }
 

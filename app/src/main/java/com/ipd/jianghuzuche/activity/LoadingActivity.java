@@ -78,26 +78,6 @@ public class LoadingActivity extends BaseActivity {
         adapter = new ContentAdapter(viewList, null);
         lvpLoading.setSwipeable(true);
         lvpLoading.setAdapter(adapter);
-        lvpLoading.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-//                if (position == 1) {
-                    ibLoadingLogin.setVisibility(View.VISIBLE);
-//                } else {
-                    ibLoadingLogin.setVisibility(View.GONE);
-//                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         lvpLoading.setOnTouchListener(new View.OnTouchListener() {
             float startX;
             float startY;//没有用到

@@ -3,6 +3,7 @@ package com.ipd.jianghuzuche.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import com.ipd.jianghuzuche.presenter.SelectOpeningBankPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +130,7 @@ public class AddBankAvtivity extends BaseActivity<SelectOpeningBankContract.View
                         });
                     }
                 })
+                .setDecorView((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content))
                 .setSelectOptions(0)//设置选择第一个
                 .setOutSideCancelable(true)//点击背的地方不消失
                 .build();//创建
@@ -162,16 +165,18 @@ public class AddBankAvtivity extends BaseActivity<SelectOpeningBankContract.View
                 showPickerView();
                 break;
             case R.id.bt_select_add_bank:
-                if (!tvSelectOpeningBank.getText().toString().trim().equals("") && !etSelectCityBank.getText().toString().trim().equals("") && !etSelectAccountBank.getText().toString().trim().equals("") && !etSelectNameBank.getText().toString().trim().equals("")) {
-                    TreeMap<String, String> addBankMap = new TreeMap<>();
-                    addBankMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                    addBankMap.put("bankcardId", bankcardId);
-                    addBankMap.put("city", etSelectCityBank.getText().toString().trim());
-                    addBankMap.put("cardholder", etSelectNameBank.getText().toString().trim());
-                    addBankMap.put("cardNum", etSelectAccountBank.getText().toString().trim());
-                    getPresenter().getAddBank(addBankMap, true, false);
-                } else
-                    ToastUtil.showLongToast("请填写完整信息!");
+                if (isClickUtil.isFastClick()) {
+                    if (!tvSelectOpeningBank.getText().toString().trim().equals("") && !etSelectCityBank.getText().toString().trim().equals("") && !etSelectAccountBank.getText().toString().trim().equals("") && !etSelectNameBank.getText().toString().trim().equals("")) {
+                        TreeMap<String, String> addBankMap = new TreeMap<>();
+                        addBankMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                        addBankMap.put("bankcardId", bankcardId);
+                        addBankMap.put("city", etSelectCityBank.getText().toString().trim());
+                        addBankMap.put("cardholder", etSelectNameBank.getText().toString().trim());
+                        addBankMap.put("cardNum", etSelectAccountBank.getText().toString().trim());
+                        getPresenter().getAddBank(addBankMap, true, false);
+                    } else
+                        ToastUtil.showLongToast("请填写完整信息!");
+                }
                 break;
         }
     }

@@ -18,8 +18,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y150"
             app:srcCompat="@drawable/ic_baidu_map" />
 
         <TextView
@@ -40,8 +40,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y150"
             app:srcCompat="@drawable/ic_gaode_map" />
 
         <TextView
@@ -62,8 +62,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y150"
             app:srcCompat="@drawable/ic_tengxun_map" />
 
         <TextView

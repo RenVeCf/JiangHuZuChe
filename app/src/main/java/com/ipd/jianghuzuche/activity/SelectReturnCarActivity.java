@@ -40,6 +40,7 @@ import com.ipd.jianghuzuche.presenter.OrderDetailsPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -247,27 +248,30 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (type) {
-                    case 0:
-                        TreeMap<String, String> unpaidCancelOrderMap = new TreeMap<>();
-                        unpaidCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
-                        unpaidCancelOrderMap.put("orderId", orderId + "");
-                        getPresenter().getUnpaidCancelOrder(unpaidCancelOrderMap, false, false);
-                        break;
-                    case 1:
-                        TreeMap<String, String> getCarCancelOrderMap = new TreeMap<>();
-                        getCarCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
-                        getCarCancelOrderMap.put("orderId", orderId + "");
-                        getPresenter().getGetCarCancelOrder(getCarCancelOrderMap, false, false);
-                        break;
-                    case 2:
-                        TreeMap<String, String> carReturnCancelOrderMap = new TreeMap<>();
-                        carReturnCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
-                        carReturnCancelOrderMap.put("orderId", orderId + "");
-                        getPresenter().getCarReturnCancelOrder(carReturnCancelOrderMap, false, false);
-                        break;
+                if (isClickUtil.isFastClick()) {
+
+                    switch (type) {
+                        case 0:
+                            TreeMap<String, String> unpaidCancelOrderMap = new TreeMap<>();
+                            unpaidCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
+                            unpaidCancelOrderMap.put("orderId", orderId + "");
+                            getPresenter().getUnpaidCancelOrder(unpaidCancelOrderMap, false, false);
+                            break;
+                        case 1:
+                            TreeMap<String, String> getCarCancelOrderMap = new TreeMap<>();
+                            getCarCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
+                            getCarCancelOrderMap.put("orderId", orderId + "");
+                            getPresenter().getGetCarCancelOrder(getCarCancelOrderMap, false, false);
+                            break;
+                        case 2:
+                            TreeMap<String, String> carReturnCancelOrderMap = new TreeMap<>();
+                            carReturnCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
+                            carReturnCancelOrderMap.put("orderId", orderId + "");
+                            getPresenter().getCarReturnCancelOrder(carReturnCancelOrderMap, false, false);
+                            break;
+                    }
+                    mCameraDialog.dismiss();
                 }
-                mCameraDialog.dismiss();
             }
         });
 
@@ -305,10 +309,12 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
                 setDocumentsReceivedDialog(2);
                 break;
             case R.id.bt_go_pay:
-                TreeMap<String, String> carReturnConfirmMap = new TreeMap<>();
-                carReturnConfirmMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                carReturnConfirmMap.put("orderId", orderId + "");
-                getPresenter().getCarReturnConfirm(carReturnConfirmMap, false, false);
+                if (isClickUtil.isFastClick()) {
+                    TreeMap<String, String> carReturnConfirmMap = new TreeMap<>();
+                    carReturnConfirmMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                    carReturnConfirmMap.put("orderId", orderId + "");
+                    getPresenter().getCarReturnConfirm(carReturnConfirmMap, false, false);
+                }
                 break;
         }
     }

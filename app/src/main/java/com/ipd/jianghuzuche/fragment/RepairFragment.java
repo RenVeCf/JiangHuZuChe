@@ -20,6 +20,7 @@ import com.ipd.jianghuzuche.bean.RepairListBean;
 import com.ipd.jianghuzuche.contract.RepairListContract;
 import com.ipd.jianghuzuche.presenter.RepairListPresenter;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.ryane.banner.AdPageInfo;
 import com.ryane.banner.AdPlayBanner;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -111,14 +112,16 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
         repairAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ChoiceStoreBean.DataBean.StoreListBean choiceStoreBeanList = new ChoiceStoreBean.DataBean.StoreListBean();
-                choiceStoreBeanList.setStoreId(repairListBean.get(position).getStoreId());
-                choiceStoreBeanList.setStoreName(repairListBean.get(position).getStoreName());
-                choiceStoreBeanList.setDescAddress(repairListBean.get(position).getDescAddress());
-                choiceStoreBeanList.setDistance(repairListBean.get(position).getDistance());
-                choiceStoreBeanList.setContactsPhone(repairListBean.get(position).getContactsPhone());
-                choiceStoreBeanList.setPicPath(repairListBean.get(position).getPicPath());
-                startActivity(new Intent(getActivity(), StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList).putExtra("store_type", 1));
+                if (isClickUtil.isFastClick()) {
+                    ChoiceStoreBean.DataBean.StoreListBean choiceStoreBeanList = new ChoiceStoreBean.DataBean.StoreListBean();
+                    choiceStoreBeanList.setStoreId(repairListBean.get(position).getStoreId());
+                    choiceStoreBeanList.setStoreName(repairListBean.get(position).getStoreName());
+                    choiceStoreBeanList.setDescAddress(repairListBean.get(position).getDescAddress());
+                    choiceStoreBeanList.setDistance(repairListBean.get(position).getDistance());
+                    choiceStoreBeanList.setContactsPhone(repairListBean.get(position).getContactsPhone());
+                    choiceStoreBeanList.setPicPath(repairListBean.get(position).getPicPath());
+                    startActivity(new Intent(getActivity(), StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList).putExtra("store_type", 1));
+                }
             }
         });
     }

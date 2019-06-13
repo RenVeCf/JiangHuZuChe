@@ -1,7 +1,10 @@
 package com.ipd.jianghuzuche.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +17,7 @@ import com.ipd.jianghuzuche.base.BasePresenter;
 import com.ipd.jianghuzuche.base.BaseView;
 import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -91,13 +95,35 @@ public class PayTypeActivity extends BaseActivity {
                 tvPayTypeTips.setText("您的提现已成功，钱款会在3～5天内到账");
                 llPayType.setVisibility(View.GONE);
                 break;
+            case 3:
+                ivPayType.setImageResource(R.drawable.ic_pay_fail);
+                tvPayType.setText("支付失败");
+                tvPayTypeTips.setText("很遗憾，您支付失败，请重新支付");
+                llPayType.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (type != 2) {}
-            startActivity(new Intent(this, MainActivity.class));
+        if (type == 0 || type == 1) {
+            if (this instanceof Activity && isClickUtil.isFastClick()) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                if (getCurrentFocus() != null) {
+                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        } else if (type == 3) {
+            if (this instanceof Activity && isClickUtil.isFastClick()) {
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
+                finish();
+                if (getCurrentFocus() != null) {
+                    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        }
         finish();
     }
 
@@ -105,11 +131,17 @@ public class PayTypeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
-                if (type != 2)
+                if (type == 0 || type == 1)
                     startActivity(new Intent(this, MainActivity.class));
+                else if (type == 3) {
+                    ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                    startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
+                }
                 finish();
                 break;
             case R.id.bt_pay_type:
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
                 finish();
                 break;
         }

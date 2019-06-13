@@ -90,8 +90,6 @@ public class SelectOrderFragment extends BaseFragment {
         nlSelectOrder.setOnNaPageChangeListener(new NavitationFollowScrollLayoutText.OnNaPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                Intent intent = new Intent("android.ipd.yonghu");
-//                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
                 fm.Aaa();
             }
 

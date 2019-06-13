@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -191,6 +192,7 @@ public class PlaceOrderFragment extends BaseFragment<PlaceOrderContract.View, Pl
                         });
                     }
                 })
+                .setDecorView((ViewGroup) getActivity().getWindow().getDecorView().findViewById(android.R.id.content))
                 .setSelectOptions(0)//设置选择第一个
                 .setOutSideCancelable(true)//点击背的地方不消失
                 .build();//创建
@@ -322,7 +324,7 @@ public class PlaceOrderFragment extends BaseFragment<PlaceOrderContract.View, Pl
                     @Override
                     public void onPageClick(AdPageInfo info, int postion) {
                         if (data.getData().getPictureList().get(postion).getType() == 3)
-                            startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("h5Type", 8).putExtra("url", data.getData().getPictureList().get(postion).getContent()));
+                            startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("h5Type", 8).putExtra("url", data.getData().getPictureList().get(postion).getContent()).putExtra("title", data.getData().getPictureList().get(postion).getTitle()));
                     }
                 })
                 .setUp();

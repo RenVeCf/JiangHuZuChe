@@ -15,8 +15,6 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.ipd.jianghuzuche.R;
 import com.ipd.jianghuzuche.activity.PayTypeActivity;
-import com.ipd.jianghuzuche.aliPay.AuthResult;
-import com.ipd.jianghuzuche.aliPay.PayResult;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 
 import java.util.Map;
@@ -33,10 +31,12 @@ public class AliPay {
     private static final int SDK_AUTH_FLAG = 2;
     private Activity activity;
     private String orderInfo = "";
+    private boolean isConfirmation = false;
 
-    public AliPay(Activity activity, String orderInfo) {
+    public AliPay(Activity activity, String orderInfo, boolean isConfirmation) {
         this.activity = activity;
         this.orderInfo = orderInfo;
+        this.isConfirmation = isConfirmation;
         payV2();
     }
 
@@ -62,7 +62,10 @@ public class AliPay {
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         showAlert(activity, activity.getString(R.string.pay_failed) + payResult);
-                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), PayTypeActivity.class).putExtra("pay_type", 1).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        if (isConfirmation == true)
+                            ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), PayTypeActivity.class).putExtra("pay_type", 3).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        else
+                            ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), PayTypeActivity.class).putExtra("pay_type", 1).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
                     break;
                 }

@@ -142,13 +142,16 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
     public void resultCoupon(CouponBean data) {
         if (page == 0) {
             couponBean.clear();
-            for (int i = 0; i < couponBean.size(); i++) {
-                if (couponBean.get(i).getMoney() < money) {
-                    couponBean.remove(i);
-                }
-            }
             couponBean.addAll(data.getData().getUserCouponList());
-            if (data.getData().getUserCouponList().size() > 0) {
+            if (couponBean.size() > 0) {
+                for (int i = 0; i < couponBean.size() + 1; i++) {
+                    if (couponBean.size() == 1)
+                        i = 0;
+                    if (couponBean.get(i).getMoney() > money) {
+                        couponBean.remove(i);
+                        i = 0;
+                    }
+                }
                 page += 1;
                 for (int i = 0; i < couponBean.size(); i++) {
                     if (couponBean.get(i).getUserCouponId() == couponId)

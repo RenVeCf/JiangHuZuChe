@@ -17,6 +17,7 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.UserSelectCarContract;
 import com.ipd.jianghuzuche.presenter.UserSelectCarPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +97,10 @@ public class UserSelectCarActivity extends BaseActivity<UserSelectCarContract.Vi
         userSelectCarAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(UserSelectCarActivity.this, CarDetailsActivity.class).putExtra("car_details", userSelectCarBean.get(position)).putExtra("store_by_id", storeByIdBean));
+                if (isClickUtil.isFastClick()) {
+
+                    startActivity(new Intent(UserSelectCarActivity.this, CarDetailsActivity.class).putExtra("car_details", userSelectCarBean.get(position)).putExtra("store_by_id", storeByIdBean));
+                }
             }
         });
     }

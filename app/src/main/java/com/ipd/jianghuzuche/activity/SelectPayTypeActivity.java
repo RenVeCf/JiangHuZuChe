@@ -125,7 +125,7 @@ public class SelectPayTypeActivity extends BaseActivity<SelectTypePayContract.Vi
 
     @Override
     public void resultSelectTypePayAli(AliPayBean data) {
-        new AliPay(SelectPayTypeActivity.this, data.getData().getData());
+        new AliPay(SelectPayTypeActivity.this, data.getData().getData(), false);
     }
 
     @Override

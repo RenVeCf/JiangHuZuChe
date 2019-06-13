@@ -21,6 +21,7 @@ import com.ipd.jianghuzuche.contract.SelectBankContract;
 import com.ipd.jianghuzuche.presenter.SelectBankPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,26 +105,28 @@ public class SelectBankActivity extends BaseActivity<SelectBankContract.View, Se
         selectBankAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
-                for (int i = 0; i < bankListBean.size(); i++) {
-                    bankListBean.get(i).setStatus(2);
-                }
-                bankListBean.get(position).setStatus(1);
-                selectBankAdapter.notifyDataSetChanged();
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 使用postDelayed方式修改UI组件tvMessage的Text属性值
-                        // 并且延迟3S执行
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                setResult(RESULT_OK, new Intent().putExtra("bankListBean", bankListBean.get(position)));
-                                finish();
-                            }
-                        }, 1000);
+                if (isClickUtil.isFastClick()) {
+                    for (int i = 0; i < bankListBean.size(); i++) {
+                        bankListBean.get(i).setStatus(2);
                     }
-                }).start();
+                    bankListBean.get(position).setStatus(1);
+                    selectBankAdapter.notifyDataSetChanged();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 使用postDelayed方式修改UI组件tvMessage的Text属性值
+                            // 并且延迟3S执行
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setResult(RESULT_OK, new Intent().putExtra("bankListBean", bankListBean.get(position)));
+                                    finish();
+                                }
+                            }, 1000);
+                        }
+                    }).start();
+                }
             }
         });
     }
@@ -151,7 +154,9 @@ public class SelectBankActivity extends BaseActivity<SelectBankContract.View, Se
 
     @OnClick(R.id.bt_select_bank)
     public void onViewClicked() {
-        startActivityForResult(new Intent(this, AddBankAvtivity.class), REQUEST_CODE_94);
+        if (isClickUtil.isFastClick()) {
+            startActivityForResult(new Intent(this, AddBankAvtivity.class), REQUEST_CODE_94);
+        }
     }
 
     @Override

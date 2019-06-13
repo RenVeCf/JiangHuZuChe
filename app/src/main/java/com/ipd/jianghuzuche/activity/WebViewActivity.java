@@ -176,7 +176,8 @@ public class WebViewActivity extends BaseActivity {
             }
         });
         wvContent.loadUrl(h5Url);
-        wvContent.loadData(getHtmlData(url), "text/html;charset=utf-8", "utf-8");
+        if (h5Type == 8)
+            wvContent.loadData(getHtmlData(url), "text/html;charset=utf-8", "utf-8");
     }
 
     @Override
@@ -222,7 +223,10 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                ivTopTitle.setText(title);
+                if (h5Type == 8)
+                    ivTopTitle.setText(getIntent().getStringExtra("title"));
+                else
+                    ivTopTitle.setText(title);
             }
         });
     }

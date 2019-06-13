@@ -41,6 +41,7 @@ import com.ipd.jianghuzuche.presenter.OrderDetailsPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -413,68 +414,74 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_car_contract:
-                startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 2));
+                if (isClickUtil.isFastClick()) {
+                    startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 2));
+                }
                 break;
             case R.id.tv_order_details_go_choice_store:
                 setMapDialog();
                 break;
             case R.id.bt_cancel_pay:
-                switch (type) {
-                    case 1:
-                        setDocumentsReceivedDialog(0);
-                        break;
-                    case 2:
-                        setDocumentsReceivedDialog(1);
-                        break;
-                    case 3:
+                if (isClickUtil.isFastClick()) {
+                    switch (type) {
+                        case 1:
+                            setDocumentsReceivedDialog(0);
+                            break;
+                        case 2:
+                            setDocumentsReceivedDialog(1);
+                            break;
+                        case 3:
 //                        switch (takeStatus) {
 //                            case 1:
-                        startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
+                            startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
 //                                break;
 //                            case 2:
 //                                setDocumentsReceivedDialog(2);
 //                                break;
 //                        }
-                        break;
-                    case 4:
+                            break;
+                        case 4:
 //                        switch (takeStatus) {
 //                            case 1:
-                        startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
+                            startActivity(new Intent(this, ExtendTimeActivity.class).putExtra("order_id", orderId));
 //                                break;
 //                            case 2:
 //                                setDocumentsReceivedDialog(2);
 //                                break;
 //                        }
-                        break;
+                            break;
+                    }
                 }
                 break;
             case R.id.bt_go_pay:
-                switch (type) {
-                    case 1:
-                        startActivity(new Intent(this, SelectPayTypeActivity.class).putExtra("order_id", orderId));
-                        break;
-                    case 2:
-                        startActivity(new Intent(this, SelectCarActivity.class).putExtra("order_id", orderId));
-                        break;
-                    case 3:
-                        switch (takeStatus) {
-                            case 1:
-                                setReturnCarDialog();
-                                break;
-                            case 2:
-                                startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 3));
+                if (isClickUtil.isFastClick()) {
+                    switch (type) {
+                        case 1:
+                            startActivity(new Intent(this, SelectPayTypeActivity.class).putExtra("order_id", orderId));
+                            break;
+                        case 2:
+                            startActivity(new Intent(this, SelectCarActivity.class).putExtra("order_id", orderId));
+                            break;
+                        case 3:
+                            switch (takeStatus) {
+                                case 1:
+                                    setReturnCarDialog();
+                                    break;
+                                case 2:
+                                    startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 3));
 
 //                                TreeMap<String, String> carReturnConfirmMap = new TreeMap<>();
 //                                carReturnConfirmMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
 //                                carReturnConfirmMap.put("orderId", orderId + "");
 //                                getPresenter().getCarReturnConfirm(carReturnConfirmMap, false, false);
-                                break;
-                        }
-                        break;
-                    case 4:
-                        startActivity(new Intent(this, ReturnCarActivity.class).putExtra("return_car_title", "申请退车").putExtra("store_name", orderDetailsBean.getOrder().getStoreName()).putExtra("order_id", orderId));
-                        finish();
-                        break;
+                                    break;
+                            }
+                            break;
+                        case 4:
+                            startActivity(new Intent(this, ReturnCarActivity.class).putExtra("return_car_title", "申请退车").putExtra("store_name", orderDetailsBean.getOrder().getStoreName()).putExtra("order_id", orderId));
+                            finish();
+                            break;
+                    }
                 }
                 break;
         }
