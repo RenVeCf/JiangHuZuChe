@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.ipd.jianghuzuche.R;
+import com.ipd.jianghuzuche.activity.StoreDetailsActivity;
 import com.ipd.jianghuzuche.adapter.RepairProjectVerticalAdapter;
 import com.ipd.jianghuzuche.base.BaseFragment;
 import com.ipd.jianghuzuche.base.BasePresenter;
@@ -39,6 +40,7 @@ public class RepairProjectVerticalFragment extends BaseFragment {
     private RepairProjectVerticalAdapter repairProjectVerticalAdapter;
     private int statusPosition;
     private CheckBox cb;
+    private StoreDetailsActivity storeInforActivity;
 
     @Override
     public int getLayoutId() {
@@ -56,7 +58,7 @@ public class RepairProjectVerticalFragment extends BaseFragment {
     }
 
     @Override
-    public void init() {
+    public void init(View view) {
         // 设置管理器
         GridLayoutManager NotUseList = new GridLayoutManager(getActivity(), 4);
         rvRepairProjectVertical.setLayoutManager(NotUseList);
@@ -73,6 +75,8 @@ public class RepairProjectVerticalFragment extends BaseFragment {
 
         repairProjectVerticalAdapter = new RepairProjectVerticalAdapter(repairTypeBean.get(statusPosition).getAppRepairs());
         rvRepairProjectVertical.setAdapter(repairProjectVerticalAdapter);
+        storeInforActivity = (StoreDetailsActivity) getActivity();
+        storeInforActivity.vpStoreInfor.setObjectForPosition(view, statusPosition);
     }
 
     @Override

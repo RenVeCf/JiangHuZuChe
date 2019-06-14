@@ -77,7 +77,7 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
     }
 
     @Override
-    public void init() {
+    public void init(View view) {
         Bundle args = getArguments();
         if (args != null) {
             fmType = args.getInt("fm_type");

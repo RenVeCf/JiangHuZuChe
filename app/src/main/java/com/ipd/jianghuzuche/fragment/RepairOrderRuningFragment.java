@@ -55,7 +55,7 @@ public class RepairOrderRuningFragment extends BaseFragment<RepairOrderContract.
     }
 
     @Override
-    public void init() {
+    public void init(View view) {
         // 设置管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

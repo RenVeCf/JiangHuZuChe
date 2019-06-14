@@ -118,7 +118,7 @@ public class PlaceOrderFragment extends BaseFragment<PlaceOrderContract.View, Pl
     }
 
     @Override
-    public void init() {
+    public void init(View view) {
         mainActivity = (MainActivity) getActivity();
         mainActivity.tvTopTitle.setText(this.getResources().getString(R.string.jiang_hu_express_train));
         mainActivity.tvTopTitle.setTextColor(Color.BLACK);

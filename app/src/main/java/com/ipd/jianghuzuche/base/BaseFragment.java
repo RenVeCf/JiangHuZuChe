@@ -44,17 +44,11 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
         if (presenter != null && view != null) {
             presenter.attachView(this.view);
         }
-        /**
-         * 初始化
-         */
-        init();
-        /**
-         * 事件
-         */
+        //初始化本地数据
+        init(view);
+        //初始化布局监听器
         initListener();
-        /**
-         * 数据
-         */
+        //初始化网络数据
         initData();
         return view;
     }
@@ -66,7 +60,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 
     public abstract V createView();
 
-    public abstract void init();
+    public abstract void init(View view);
 
     public abstract void initListener();
 

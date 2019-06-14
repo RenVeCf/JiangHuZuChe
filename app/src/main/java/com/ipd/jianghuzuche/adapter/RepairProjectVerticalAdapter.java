@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ipd.jianghuzuche.R;
 import com.ipd.jianghuzuche.bean.RepairProjectHorizontalBean;
+import com.ipd.jianghuzuche.utils.LogUtils;
 
 import java.util.List;
 
@@ -24,7 +25,11 @@ public class RepairProjectVerticalAdapter extends BaseQuickAdapter<RepairProject
 
     @Override
     protected void convert(BaseViewHolder helper, RepairProjectHorizontalBean.DataBean.RepairTypeBean.AppRepairsBean item) {
-        helper.setText(R.id.cb_store_infor, item.getRepairName())
-                .addOnClickListener(R.id.cb_store_infor);
+        LogUtils.i("rmy", "item.getRepairName() = " + item.getRepairName());
+        if (item.getRepairName() == null)
+            helper.setGone(R.id.cb_store_infor, false);
+        else
+            helper.setText(R.id.cb_store_infor, item.getRepairName())
+                    .addOnClickListener(R.id.cb_store_infor);
     }
 }

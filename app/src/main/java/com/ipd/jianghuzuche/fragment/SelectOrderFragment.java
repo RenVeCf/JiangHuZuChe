@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.ipd.jianghuzuche.R;
 import com.ipd.jianghuzuche.activity.MainActivity;
@@ -60,7 +61,7 @@ public class SelectOrderFragment extends BaseFragment {
     }
 
     @Override
-    public void init() {
+    public void init(View view) {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.tvTopTitle.setText(this.getResources().getString(R.string.select_order));
         mainActivity.tvTopTitle.setTextColor(Color.BLACK);

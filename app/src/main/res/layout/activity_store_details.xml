@@ -144,7 +144,6 @@
                         android:text="维修项目"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <com.ipd.jianghuzuche.common.view.NavitationLayout
@@ -153,11 +152,17 @@
                     android:layout_height="50dp"
                     android:background="@color/white" />
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vp_store_infor"
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/y700"
-                    android:background="@color/white" />
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <com.ipd.jianghuzuche.common.view.AutoHeightViewPager
+                        android:id="@+id/vp_store_infor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+                </ScrollView>
             </LinearLayout>
 
             <LinearLayout
@@ -207,9 +212,10 @@
                     android:paddingStart="@dimen/x50">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_charge" />
+                        android:id="@+id/iv_charge_frist"
+                        android:layout_width="@dimen/x150"
+                        android:layout_height="@dimen/y150"
+                        android:scaleType="fitXY" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -281,9 +287,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_charge" />
+                            android:id="@+id/iv_charge_second"
+                            android:layout_width="@dimen/x150"
+                            android:layout_height="@dimen/y150"
+                            android:scaleType="fitXY" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -356,9 +363,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_charge" />
+                            android:id="@+id/iv_charge_three"
+                            android:layout_width="@dimen/x150"
+                            android:layout_height="@dimen/y150"
+                            android:scaleType="fitXY" />
 
                         <LinearLayout
                             android:layout_width="0dp"

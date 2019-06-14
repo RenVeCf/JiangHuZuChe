@@ -80,7 +80,7 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
     }
 
     @Override
-    public void init() {
+    public void init(View view) {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.tvTopTitle.setText(this.getResources().getString(R.string.repair));
         mainActivity.tvTopTitle.setTextColor(Color.BLACK);
