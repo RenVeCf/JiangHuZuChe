@@ -30,14 +30,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.ipd.jianghuzuche.R;
 import com.ipd.jianghuzuche.base.BaseActivity;
-import com.ipd.jianghuzuche.base.BasePresenter;
-import com.ipd.jianghuzuche.base.BaseView;
+import com.ipd.jianghuzuche.bean.ModifyVersionBean;
 import com.ipd.jianghuzuche.common.config.IConstants;
 import com.ipd.jianghuzuche.common.view.CircleImageView;
 import com.ipd.jianghuzuche.common.view.TopView;
+import com.ipd.jianghuzuche.contract.ModifyVersionContract;
 import com.ipd.jianghuzuche.fragment.PlaceOrderFragment;
 import com.ipd.jianghuzuche.fragment.RepairFragment;
 import com.ipd.jianghuzuche.fragment.SelectOrderFragment;
+import com.ipd.jianghuzuche.presenter.ModifyVersionPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.NavigationBarUtil;
@@ -46,6 +47,7 @@ import com.ipd.jianghuzuche.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.FIRST_APP;
 import static com.ipd.jianghuzuche.common.config.IConstants.LATIUDE;
@@ -59,7 +61,7 @@ import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
  * Email ： 942685687@qq.com
  * Time ： 2019/4/29.
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<ModifyVersionContract.View, ModifyVersionContract.Presenter> implements ModifyVersionContract.View {
 
     @BindView(R.id.tv_main_top)
     TopView tvMainTop;
@@ -192,13 +194,13 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public ModifyVersionContract.Presenter createPresenter() {
+        return new ModifyVersionPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public ModifyVersionContract.View createView() {
+        return this;
     }
 
     @Override
@@ -535,7 +537,7 @@ public class MainActivity extends BaseActivity {
         mCameraDialog.show();
     }
 
-    private void setCenterLoginDialog() {
+    private void setCenterModifyVersionDialog() {
         TextView tv;
         final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
         //Dialog布局
@@ -610,17 +612,17 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.iv_top_msg:
                 if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false)
-                    setCenterLoginDialog();
+                    setCenterModifyVersionDialog();
                 else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false)
-                    setCenterLoginDialog();
+                    setCenterModifyVersionDialog();
                 else
                     startActivity(new Intent(this, MsgActivity.class));
                 break;
             case R.id.iv_top_sidebar:
                 if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false)
-                    setCenterLoginDialog();
+                    setCenterModifyVersionDialog();
                 else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false)
-                    setCenterLoginDialog();
+                    setCenterModifyVersionDialog();
                 else {
                     if (!dlMain.isDrawerOpen(llSidebarMain)) {
                         dlMain.openDrawer(llSidebarMain);
@@ -632,9 +634,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.rb_navigation_select_order:
                 if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false)
-                    setCenterLoginDialog();
+                    setCenterModifyVersionDialog();
                 else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false)
-                    setCenterLoginDialog();
+                    setCenterModifyVersionDialog();
                 else
                     switchFragment(selectOrderFragment).commit();
                 break;
@@ -907,6 +909,8 @@ public class MainActivity extends BaseActivity {
                 tvSetting.setTextColor(this.getResources().getColor(R.color.black));
                 break;
             case R.id.rl_invitation_code:
+                startActivity(new Intent(this, ShareActivity.class));
+
                 ivWhiteWallet.setVisibility(View.GONE);
                 ivBlueWallet.setVisibility(View.INVISIBLE);
                 ivWallet.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_wallet_gray));
@@ -991,5 +995,15 @@ public class MainActivity extends BaseActivity {
                 tvSetting.setTextColor(this.getResources().getColor(R.color.tx_select_fragment));
                 break;
         }
+    }
+
+    @Override
+    public void resultModifyVersion(ModifyVersionBean data) {
+
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

@@ -11,10 +11,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 允许程序访问WiFi网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 允许程序读写手机状态和身份 -->
-    <uses-permission
-        android:name="android.permission.READ_PHONE_STATE"
-        android:protectionLevel="signature" />
+    <!-- &lt;!&ndash; 允许程序读写手机状态和身份 &ndash;&gt; -->
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.READ_PHONE_STATE" -->
+    <!-- android:protectionLevel="signature" /> -->
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
@@ -276,6 +276,7 @@
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait" />
+        <activity android:name=".activity.ShareActivity"></activity>
     </application>
 
 </manifest>

@@ -84,6 +84,7 @@ public interface UrlConfig {
     String REPAIR_PROJECT_VERTICAL = "appUser/repair/repairList"; //维修保养-类型列表数据
     String CHARGE = "appUser/repair/downCharge"; //维修保养-充电下拉数据
     String REPAIR_CONFIRM = "appUser/repair/okOrder"; //维修保养-确认下单
+    String SRORE_DETAILS = "appUser/repair/storeDetails"; //维修保养-门店详情
 
 
     /**
@@ -97,6 +98,12 @@ public interface UrlConfig {
      * 消息
      */
     String MSG = "appUser/onlineOrder/message"; //用户端-消息列表
+
+
+    /**
+     * 邀请好友
+     */
+    String SHARE = "appUser/Invitation/index"; //邀请好友-页面数据
 
 
     /**

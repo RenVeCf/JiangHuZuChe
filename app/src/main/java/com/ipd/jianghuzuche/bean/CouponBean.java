@@ -12,7 +12,7 @@ public class CouponBean {
     /**
      * code : 200
      * msg : 操作成功
-     * data : {"userCouponList":[{"userCouponId":87,"userId":7,"status":1,"title":"满1000减500","money":500,"endTime":null,"couponId":1,"createTime":"2019-06-06 10:06:34","coupon":null,"telPhone":null,"params":{},"achieveMoney":null,"validityTime":null}]}
+     * data : {"userCouponList":[{"userCouponId":23,"userId":7,"status":1,"title":"满1000减500","money":500,"endTime":null,"couponId":1,"createTime":"2019-06-13 15:31:29","coupon":null,"telPhone":null,"params":{},"achieveMoney":1000,"validityTime":"2019-12-13"},{"userCouponId":11,"userId":7,"status":1,"title":"满1000减500","money":500,"endTime":null,"couponId":1,"createTime":"2019-06-12 16:28:26","coupon":null,"telPhone":null,"params":{},"achieveMoney":1000,"validityTime":"2019-12-09"},{"userCouponId":9,"userId":7,"status":1,"title":"满1000减500","money":500,"endTime":null,"couponId":1,"createTime":"2019-06-12 15:38:21","coupon":null,"telPhone":null,"params":{},"achieveMoney":1000,"validityTime":"2019-12-09"},{"userCouponId":8,"userId":7,"status":1,"title":"满1000减500","money":500,"endTime":null,"couponId":1,"createTime":"2019-06-12 15:37:35","coupon":null,"telPhone":null,"params":{},"achieveMoney":1000,"validityTime":"2019-12-09"},{"userCouponId":1,"userId":7,"status":1,"title":"满1000减500","money":500,"endTime":null,"couponId":1,"createTime":"2019-06-12 14:13:47","coupon":null,"telPhone":null,"params":{},"achieveMoney":1000,"validityTime":"2019-12-09"}]}
      */
 
     private int code;
@@ -56,19 +56,19 @@ public class CouponBean {
 
         public static class UserCouponListBean {
             /**
-             * userCouponId : 87
+             * userCouponId : 23
              * userId : 7
              * status : 1
              * title : 满1000减500
              * money : 500.0
              * endTime : null
              * couponId : 1
-             * createTime : 2019-06-06 10:06:34
+             * createTime : 2019-06-13 15:31:29
              * coupon : null
              * telPhone : null
              * params : {}
-             * achieveMoney : null
-             * validityTime : null
+             * achieveMoney : 1000.0
+             * validityTime : 2019-12-13
              */
 
             private int userCouponId;
@@ -82,7 +82,7 @@ public class CouponBean {
             private Object coupon;
             private Object telPhone;
             private ParamsBean params;
-            private Object achieveMoney;
+            private double achieveMoney;
             private String validityTime;
             private boolean isShow;
 
@@ -182,11 +182,11 @@ public class CouponBean {
                 this.params = params;
             }
 
-            public Object getAchieveMoney() {
+            public double getAchieveMoney() {
                 return achieveMoney;
             }
 
-            public void setAchieveMoney(Object achieveMoney) {
+            public void setAchieveMoney(double achieveMoney) {
                 this.achieveMoney = achieveMoney;
             }
 

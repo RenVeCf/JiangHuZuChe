@@ -28,8 +28,8 @@ public class PayTypeActivity extends BaseActivity {
     TopView tvPayTypeTop;
     @BindView(R.id.tv_top_title)
     TextView tvTopTitle;
-    @BindView(R.id.iv_top_back)
-    ImageView ivTopBack;
+    @BindView(R.id.ll_top_back)
+    LinearLayout llTopBack;
     @BindView(R.id.iv_pay_type)
     ImageView ivPayType;
     @BindView(R.id.tv_pay_type)
@@ -127,10 +127,10 @@ public class PayTypeActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.bt_pay_type, R.id.iv_top_back})
+    @OnClick({R.id.bt_pay_type, R.id.ll_top_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_top_back:
+            case R.id.ll_top_back:
                 if (type == 0 || type == 1)
                     startActivity(new Intent(this, MainActivity.class));
                 else if (type == 3) {

@@ -35,6 +35,8 @@ import com.ipd.jianghuzuche.bean.SelectBankBean;
 import com.ipd.jianghuzuche.bean.SelectOpeningBankBean;
 import com.ipd.jianghuzuche.bean.SelectOrderTypeBean;
 import com.ipd.jianghuzuche.bean.SelectVehicleBean;
+import com.ipd.jianghuzuche.bean.ShareBean;
+import com.ipd.jianghuzuche.bean.StoreDetailsBean;
 import com.ipd.jianghuzuche.bean.SupplementInfoBean;
 import com.ipd.jianghuzuche.bean.UploadImgBean;
 import com.ipd.jianghuzuche.bean.UserSelectCarBean;
@@ -136,6 +138,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(UrlConfig.REPAIR_LIST)
     Observable<RepairListBean> getRepairList(@FieldMap Map<String, String> map);
+
+    //维修保养-首页
+    @FormUrlEncoded
+    @POST(UrlConfig.SRORE_DETAILS)
+    Observable<StoreDetailsBean> getStoreDetails(@FieldMap Map<String, String> map);
 
     //意见反馈
     @FormUrlEncoded
@@ -310,6 +317,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(UrlConfig.MODIFY_VERSION)
     Observable<ModifyVersionBean> getModifyVersion(@FieldMap Map<String, String> map);
+
+    //邀请好友
+    @FormUrlEncoded
+    @POST(UrlConfig.SHARE)
+    Observable<ShareBean> getShare(@FieldMap Map<String, String> map);
 
 //    //获取用户信息
 //    @GET(UrlConfig.GET_USER_INFO)

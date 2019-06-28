@@ -51,7 +51,6 @@ import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_90;
 import static com.ipd.jianghuzuche.common.config.IConstants.STORE_NAME;
 import static com.ipd.jianghuzuche.common.config.IConstants.STORE_PATH;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
-import static com.ipd.jianghuzuche.common.config.IConstants.USE_CAR_TIME;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
 
@@ -160,17 +159,17 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
         tvGetCarTime.setText(DateUtils.times2(Calendar.getInstance().getTimeInMillis()));
         tvUseCarEquipmentCost.setText(userSelectCarBean.getEquipCost() + "元");
         tvUseCarDeposit.setText(userSelectCarBean.getDeposit() + "元");
-        if (!SPUtil.get(this, USE_CAR_TIME, "").equals("")) {
-            if (userSelectCarBean.getRentOften() >= Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, ""))) {
-                tvUseCarTime.setText(userSelectCarBean.getRentOften() + "个月");
-                tvUseCarServiceTime.setText(userSelectCarBean.getRentOften() + "x" + userSelectCarBean.getVehicleRent());
-                tvUseCarServiceCharge.setText(userSelectCarBean.getRentOften() * userSelectCarBean.getVehicleRent() + "元");
-            } else {
-                tvUseCarTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "个月");
-                tvUseCarServiceTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "x" + userSelectCarBean.getVehicleRent());
-                tvUseCarServiceCharge.setText(Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, "")) * userSelectCarBean.getVehicleRent() + "元");
-            }
-        }
+//        if (!SPUtil.get(this, USE_CAR_TIME, "").equals("")) {
+//            if (userSelectCarBean.getRentOften() >= Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, ""))) {
+        tvUseCarTime.setText(userSelectCarBean.getRentOften() + "个月");
+        tvUseCarServiceTime.setText(userSelectCarBean.getRentOften() + "x" + userSelectCarBean.getVehicleRent());
+        tvUseCarServiceCharge.setText(userSelectCarBean.getRentOften() * userSelectCarBean.getVehicleRent() + "元");
+//            } else {
+//                tvUseCarTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "个月");
+//                tvUseCarServiceTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "x" + userSelectCarBean.getVehicleRent());
+//                tvUseCarServiceCharge.setText(Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, "")) * userSelectCarBean.getVehicleRent() + "元");
+//            }
+//        }
         if (!SPUtil.get(this, STORE_NAME, "").equals(""))
             tvStoreName.setText(SPUtil.get(this, STORE_NAME, "") + "");
         if (!SPUtil.get(this, STORE_PATH, "").equals(""))

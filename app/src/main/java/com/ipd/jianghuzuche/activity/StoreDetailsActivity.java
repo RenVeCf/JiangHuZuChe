@@ -32,6 +32,7 @@ import com.ipd.jianghuzuche.bean.ChargeBean;
 import com.ipd.jianghuzuche.bean.ChoiceStoreBean;
 import com.ipd.jianghuzuche.bean.RepairConfirmBean;
 import com.ipd.jianghuzuche.bean.RepairProjectHorizontalBean;
+import com.ipd.jianghuzuche.bean.StoreDetailsBean;
 import com.ipd.jianghuzuche.common.config.IConstants;
 import com.ipd.jianghuzuche.common.view.AutoHeightViewPager;
 import com.ipd.jianghuzuche.common.view.NavitationLayout;
@@ -146,6 +147,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
 
     private int chargeType = 0;
     private String[] picPath = null;
+    private String[] chargePath = null;
     private int type;
     private List<AdPageInfo> images;
     private ChoiceStoreBean.DataBean.StoreListBean storeListBean = new ChoiceStoreBean.DataBean.StoreListBean();
@@ -154,6 +156,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
     private List<ChargeBean.DataBean.ChargeListBean> chargeListBean;
     private RepairProjectVerticalFragment fm;
     private List<RepairProjectHorizontalBean.DataBean.RepairTypeBean> repairProjectHorizontalBean = new ArrayList<>();
+    private String chargeId = "";
 
     @Override
     public int getLayoutId() {
@@ -183,6 +186,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         tvTopTitle.setText(storeListBean.getStoreName());
         if (type == 0) {
             btStoreDetails.setText("预订车辆");
+            btStoreDetails.setVisibility(View.VISIBLE);
             llStoreDetails.setVisibility(View.GONE);
         } else if (type == 1) {
             llRepair.setVisibility(View.VISIBLE);
@@ -247,9 +251,15 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
             TreeMap<String, String> repairProjectHorizontalMap = new TreeMap<>();
             repairProjectHorizontalMap.put("city", SPUtil.get(this, CITY, "") + "");
             getPresenter().getRepairProjectHorizontal(repairProjectHorizontalMap, false, false);
-            TreeMap<String, String> chargeMap = new TreeMap<>();
-            chargeMap.put("city", SPUtil.get(this, CITY, "") + "");
-            getPresenter().getCharge(chargeMap, false, false);
+
+            TreeMap<String, String> storeDetailsMap = new TreeMap<>();
+//            storeDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+            storeDetailsMap.put("storeId", storeListBean.getStoreId() + "");
+            getPresenter().getStoreDetails(storeDetailsMap, false, false);
+//
+//            TreeMap<String, String> chargeMap = new TreeMap<>();
+//            chargeMap.put("city", SPUtil.get(this, CITY, "") + "");
+//            getPresenter().getCharge(chargeMap, false, false);
         }
     }
 
@@ -303,14 +313,17 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
             @Override
             public void onClick(View v) {
                 if (isClickUtil.isFastClick()) {
-                    TreeMap<String, String> loginMap = new TreeMap<>();
-                    loginMap.put("userId", SPUtil.get(StoreDetailsActivity.this, USER_ID, "") + "");
-                    if (chargeType != 0)
-                        loginMap.put("charges", getLoadString());
-                    if (!fm.getLoadStringTwo().equals(""))
-                        loginMap.put("repairs", fm.getLoadStringTwo());
-                    loginMap.put("storeId", storeListBean.getStoreId() + "");
-                    getPresenter().getRepairConfirm(loginMap, false, false);
+                    if (chargeType != 0 || !fm.getLoadStringTwo().equals("")) {
+                        TreeMap<String, String> loginMap = new TreeMap<>();
+                        loginMap.put("userId", SPUtil.get(StoreDetailsActivity.this, USER_ID, "") + "");
+                        if (chargeType != 0)
+                            loginMap.put("charges", getLoadString());
+                        if (!fm.getLoadStringTwo().equals(""))
+                            loginMap.put("repairs", fm.getLoadStringTwo());
+                        loginMap.put("storeId", storeListBean.getStoreId() + "");
+                        getPresenter().getRepairConfirm(loginMap, false, false);
+                    } else
+                        ToastUtil.showLongToast("请选择服务！");
                     mCameraDialog.dismiss();
                 }
             }
@@ -579,66 +592,115 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
     @Override
     public void resultRepairProjectHorizontal(RepairProjectHorizontalBean data) {
         repairProjectHorizontalBean.addAll(data.getData().getRepairType());
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < data.getData().getRepairType().size(); i++) {
-            list.add(data.getData().getRepairType().get(i).getRepairName());
-        }
-        String[] titles = list.toArray(new String[list.size()]);
+        if (repairProjectHorizontalBean.size() > 0) {
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < repairProjectHorizontalBean.size(); i++) {
+                list.add(repairProjectHorizontalBean.get(i).getRepairName());
+            }
+            String[] titles = list.toArray(new String[list.size()]);
 
-        //向集合添加Fragment
-        for (int i = 0; i < titles.length; i++) {
-            fm = new RepairProjectVerticalFragment();
-            Bundle args = new Bundle();
-            args.putParcelableArrayList("store_details", (ArrayList<? extends Parcelable>) repairProjectHorizontalBean);
-            args.putInt("status_position", i);
-            fm.setArguments(args);
-            fragments.add(fm);
-        }
-        //设置导航条
-        nlStoreInfor.setViewPager(this, titles, vpStoreInfor, R.color.tx_bottom_navigation, R.color.tx_bottom_navigation_select, 16, 16, 0, 45, true);
-        nlStoreInfor.setBgLine(this, 0, R.color.whitesmoke);
-        nlStoreInfor.setNavLine(this, 3, R.color.tx_bottom_navigation_select, 0);
+            //向集合添加Fragment
+            for (int i = 0; i < titles.length; i++) {
+                fm = new RepairProjectVerticalFragment();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList("store_details", (ArrayList<? extends Parcelable>) repairProjectHorizontalBean);
+                args.putInt("status_position", i);
+                fm.setArguments(args);
+                fragments.add(fm);
+            }
+            //设置导航条
+            nlStoreInfor.setViewPager(this, titles, vpStoreInfor, R.color.tx_bottom_navigation, R.color.tx_bottom_navigation_select, 16, 16, 0, 45, true);
+            nlStoreInfor.setBgLine(this, 0, R.color.whitesmoke);
+            nlStoreInfor.setNavLine(this, 3, R.color.tx_bottom_navigation_select, 0);
 
-        viewPagerAdapter = new ViewPagerAdapter(this.getSupportFragmentManager(), fragments);
-        vpStoreInfor.setAdapter(viewPagerAdapter);
-        vpStoreInfor.setOffscreenPageLimit(titles.length);
+            viewPagerAdapter = new ViewPagerAdapter(this.getSupportFragmentManager(), fragments);
+            vpStoreInfor.setAdapter(viewPagerAdapter);
+            vpStoreInfor.setOffscreenPageLimit(titles.length);
+
+            btStoreDetails.setVisibility(View.VISIBLE);
+        } else
+            llRepair.setVisibility(View.GONE);
     }
 
     @Override
     public void resultCharge(ChargeBean data) {
         chargeListBean.addAll(data.getData().getChargeList());
-        if (chargeListBean.size() < 1) {
+        chargePath = chargeId.split(",");
+        if (chargePath.length < 1 || chargeId.equals("")) {
             llCharge.setVisibility(View.GONE);
-        } else if (chargeListBean.size() < 2) {
-            llChargeSecond.setVisibility(View.GONE);
-            llChargeThree.setVisibility(View.GONE);
-            tvChargeFrist.setText(chargeListBean.get(0).getTitle());
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(0).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeFrist);
-            tvChargeFristFee.setText("费用" + chargeListBean.get(0).getCost() + "元");
-        } else if (chargeListBean.size() < 3) {
-            llChargeThree.setVisibility(View.GONE);
-            tvChargeFrist.setText(chargeListBean.get(0).getTitle());
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(0).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeFrist);
-            tvChargeFristFee.setText("费用" + chargeListBean.get(0).getCost() + "元");
-            tvChargeSecond.setText(chargeListBean.get(1).getTitle());
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(1).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeSecond);
-            tvChargeSecondFee.setText("费用" + chargeListBean.get(1).getCost() + "元");
+        } else if (chargePath.length < 2) {
+            for (int j = 0; j < chargeListBean.size(); j++) {
+                if (chargePath[0].equals(chargeListBean.get(j).getChargeId() + "")) {
+                    llChargeSecond.setVisibility(View.GONE);
+                    llChargeThree.setVisibility(View.GONE);
+                    tvChargeFrist.setText(chargeListBean.get(j).getTitle());
+                    Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(j).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeFrist);
+                    tvChargeFristFee.setText("费用" + chargeListBean.get(j).getCost() + "元");
+                }
+            }
+        } else if (chargePath.length < 3) {
+            for (int j = 0; j < chargeListBean.size(); j++) {
+                if (chargePath[0].equals(chargeListBean.get(j).getChargeId() + "")) {
+                    llChargeSecond.setVisibility(View.GONE);
+                    llChargeThree.setVisibility(View.GONE);
+                    tvChargeFrist.setText(chargeListBean.get(j).getTitle());
+                    Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(j).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeFrist);
+                    tvChargeFristFee.setText("费用" + chargeListBean.get(j).getCost() + "元");
+                }
+            }
+
+            for (int j = 0; j < chargeListBean.size(); j++) {
+                if (chargePath[1].equals(chargeListBean.get(j).getChargeId() + "")) {
+                    llChargeSecond.setVisibility(View.VISIBLE);
+                    llChargeThree.setVisibility(View.GONE);
+                    tvChargeSecond.setText(chargeListBean.get(j).getTitle());
+                    Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(j).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeSecond);
+                    tvChargeSecondFee.setText("费用" + chargeListBean.get(j).getCost() + "元");
+                }
+            }
         } else {
-            tvChargeFrist.setText(chargeListBean.get(0).getTitle());
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(0).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeFrist);
-            tvChargeFristFee.setText("费用" + chargeListBean.get(0).getCost() + "元");
-            tvChargeSecond.setText(chargeListBean.get(1).getTitle());
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(1).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeSecond);
-            tvChargeSecondFee.setText("费用" + chargeListBean.get(1).getCost() + "元");
-            tvChargeThree.setText(chargeListBean.get(2).getTitle());
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(2).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeThree);
-            tvChargeThreeFee.setText("费用" + chargeListBean.get(2).getCost() + "元");
+            for (int j = 0; j < chargeListBean.size(); j++) {
+                if (chargePath[0].equals(chargeListBean.get(j).getChargeId() + "")) {
+                    llChargeSecond.setVisibility(View.GONE);
+                    llChargeThree.setVisibility(View.GONE);
+                    tvChargeFrist.setText(chargeListBean.get(j).getTitle());
+                    Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(j).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeFrist);
+                    tvChargeFristFee.setText("费用" + chargeListBean.get(j).getCost() + "元");
+                }
+            }
+
+            for (int j = 0; j < chargeListBean.size(); j++) {
+                if (chargePath[1].equals(chargeListBean.get(j).getChargeId() + "")) {
+                    llChargeSecond.setVisibility(View.VISIBLE);
+                    llChargeThree.setVisibility(View.GONE);
+                    tvChargeSecond.setText(chargeListBean.get(j).getTitle());
+                    Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(j).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeSecond);
+                    tvChargeSecondFee.setText("费用" + chargeListBean.get(j).getCost() + "元");
+                }
+            }
+
+            for (int j = 0; j < chargeListBean.size(); j++) {
+                if (chargePath[2].equals(chargeListBean.get(j).getChargeId() + "")) {
+                    llChargeThree.setVisibility(View.VISIBLE);
+                    tvChargeThree.setText(chargeListBean.get(j).getTitle());
+                    Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + chargeListBean.get(j).getIcon()).apply(new RequestOptions()).apply(new RequestOptions().placeholder(R.drawable.ic_charge)).into(ivChargeThree);
+                    tvChargeThreeFee.setText("费用" + chargeListBean.get(j).getCost() + "元");
+                }
+            }
         }
     }
 
     @Override
     public void resultRepairConfirm(RepairConfirmBean data) {
         startActivity(new Intent(StoreDetailsActivity.this, OrderOnlineActivity.class).putExtra("order_online", data.getData().getOrder()).putParcelableArrayListExtra("order_online_list", (ArrayList<? extends Parcelable>) data.getData().getCostList()).putExtra("longitude", storeListBean.getLongitude()).putExtra("latitude", storeListBean.getLatitude()));
+    }
+
+    @Override
+    public void resultStoreDetails(StoreDetailsBean data) {
+        chargeId = data.getData().getStore().getChargeId();
+        TreeMap<String, String> chargeMap = new TreeMap<>();
+        chargeMap.put("city", SPUtil.get(this, CITY, "") + "");
+        getPresenter().getCharge(chargeMap, false, false);
     }
 
     @Override

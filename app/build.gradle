@@ -1,4 +1,28 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+
+MobSDK {
+    appKey "2b709e20e5932"
+    appSecret "d8ce41d3391099d4b9b08eb8a6ddd9fa"
+
+    ShareSDK {
+        devInfo {
+            Wechat {
+                appId "wx1a65c563b86ec579"
+                appSecret "44f54b9cfa50b75cdf6fd9488694fc75"
+                userName "gh_afb25ac019c9"
+                path "pages/index/index.html?id=1"
+                withShareTicket true
+                miniprogramType 2
+            }
+
+            WechatMoments {
+                appId "wx1a65c563b86ec579"
+                appSecret "44f54b9cfa50b75cdf6fd9488694fc75"
+            }
+        }
+    }
+}
 
 android {
     useLibrary 'org.apache.http.legacy'

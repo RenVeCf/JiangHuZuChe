@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.mob.MobSDK;
+
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Stack;
@@ -18,11 +20,11 @@ public class ApplicationUtil extends Application {
     private static Context mContext; //全局上下文对象
     private static ApplicationUtil sManager;
     private Stack<WeakReference<Activity>> mActivityStack;
-    public static String registrationId; //极光的系统注册ID
 
     @Override
     public void onCreate() {
         super.onCreate();
+        MobSDK.init(this);//http://www.mob.com/ 使用这个公司的分享功能，具体参照官网提示，页面分享功能初始化
         mContext = getApplicationContext();
 
         JPushInterface.setDebugMode(true);

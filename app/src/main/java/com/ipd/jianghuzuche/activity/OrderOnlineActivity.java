@@ -331,14 +331,6 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 "&coord_type=bd09ll" + // 坐标系
                 "&src=" + getPackageName()));
         startActivity(intent); // 启动调用
-//        Intent intent = new Intent();
-//        intent.setData(Uri.parse("baidumap://map/direction?destination=latlng:"
-//                + latitude + ","
-//                + longitude + "|name:" + descAddress + // 终点
-//                "&mode=riding" + // 导航路线方式
-//                "&coord_type=bd09ll" + // 坐标系
-//                "&src=" + getPackageName()));
-//        startActivity(intent); // 启动调用
     }
 
     /**

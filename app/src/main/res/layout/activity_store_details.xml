@@ -440,6 +440,7 @@
                 android:layout_width="@dimen/x450"
                 android:layout_height="@dimen/y135"
                 android:layout_marginBottom="@dimen/y30"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/y30"
                 android:background="@drawable/bg_confirm_bt"
                 android:text="预订车辆"

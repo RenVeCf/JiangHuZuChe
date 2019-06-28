@@ -5,6 +5,7 @@ import com.ipd.jianghuzuche.base.BaseView;
 import com.ipd.jianghuzuche.bean.ChargeBean;
 import com.ipd.jianghuzuche.bean.RepairConfirmBean;
 import com.ipd.jianghuzuche.bean.RepairProjectHorizontalBean;
+import com.ipd.jianghuzuche.bean.StoreDetailsBean;
 
 import java.util.TreeMap;
 
@@ -26,6 +27,8 @@ public interface StoreDetailsContract {
 
         void resultRepairConfirm(RepairConfirmBean data);
 
+        void resultStoreDetails(StoreDetailsBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
@@ -35,5 +38,7 @@ public interface StoreDetailsContract {
         public abstract void getCharge(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getRepairConfirm(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getStoreDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }
