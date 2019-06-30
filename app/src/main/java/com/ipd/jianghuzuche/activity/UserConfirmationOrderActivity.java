@@ -32,7 +32,9 @@ import com.ipd.jianghuzuche.contract.OrderPayContract;
 import com.ipd.jianghuzuche.presenter.OrderPayPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.DateUtils;
+import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.StringUtils;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -215,6 +217,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 aliPayMap.put("userCouponId", couponId + "");
                 aliPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 aliPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("deposit=" + userSelectCarBean.getDeposit() + ",equipCost=" + userSelectCarBean.getEquipCost() + ",rentDuration=" + tvUseCarTime.getText().toString().trim().replaceAll("个月", "") + "takevehicleTime=" + DateUtils.getTodayDateTime1() + ",tenancyService=" + tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, "") + ",vehicleId=" + userSelectCarBean.getVehicleId() + ",week=" + tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2) + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getOrderAliPay(aliPayMap, true, false);
                 break;
             case 1:
@@ -229,6 +232,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 weixinPayMap.put("userCouponId", couponId + "");
                 weixinPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 weixinPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
+                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("deposit=" + userSelectCarBean.getDeposit() + ",equipCost=" + userSelectCarBean.getEquipCost() + ",rentDuration=" + tvUseCarTime.getText().toString().trim().replaceAll("个月", "") + "takevehicleTime=" + DateUtils.getTodayDateTime1() + ",tenancyService=" + tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, "") + ",vehicleId=" + userSelectCarBean.getVehicleId() + ",week=" + tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2) + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
                 break;
         }

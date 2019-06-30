@@ -94,6 +94,7 @@
                     android:button="@null"
                     android:drawableEnd="@drawable/select_radio_check"
                     android:drawablePadding="@dimen/x20"
+                    android:gravity="center"
                     android:textColor="@color/tx_bottom_navigation" />
 
                 <CheckBox
@@ -105,58 +106,61 @@
                     android:button="@null"
                     android:drawableEnd="@drawable/select_radio_check"
                     android:drawablePadding="@dimen/x20"
+                    android:gravity="center"
                     android:textColor="@color/tx_bottom_navigation" />
 
                 <CheckBox
                     android:id="@+id/cb_charging_three"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/x30"
                     android:layout_marginStart="@dimen/x30"
                     android:layout_weight="1"
                     android:button="@null"
                     android:drawableEnd="@drawable/select_radio_check"
                     android:drawablePadding="@dimen/x20"
+                    android:gravity="center"
                     android:textColor="@color/tx_bottom_navigation" />
 
                 <!--<RadioGroup-->
-                    <!--android:id="@+id/rg_charging"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginStart="@dimen/x50"-->
-                    <!--android:orientation="horizontal">-->
+                <!--android:id="@+id/rg_charging"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="@dimen/x50"-->
+                <!--android:orientation="horizontal">-->
 
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/rb_charging_one"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginStart="@dimen/x30"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:button="@null"-->
-                        <!--android:drawableEnd="@drawable/select_radio_check"-->
-                        <!--android:drawablePadding="@dimen/x20"-->
-                        <!--android:textColor="@color/tx_bottom_navigation" />-->
+                <!--<RadioButton-->
+                <!--android:id="@+id/rb_charging_one"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="@dimen/x30"-->
+                <!--android:layout_weight="1"-->
+                <!--android:button="@null"-->
+                <!--android:drawableEnd="@drawable/select_radio_check"-->
+                <!--android:drawablePadding="@dimen/x20"-->
+                <!--android:textColor="@color/tx_bottom_navigation" />-->
 
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/rb_charging_second"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginStart="@dimen/x30"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:button="@null"-->
-                        <!--android:drawableEnd="@drawable/select_radio_check"-->
-                        <!--android:drawablePadding="@dimen/x20"-->
-                        <!--android:textColor="@color/tx_bottom_navigation" />-->
+                <!--<RadioButton-->
+                <!--android:id="@+id/rb_charging_second"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="@dimen/x30"-->
+                <!--android:layout_weight="1"-->
+                <!--android:button="@null"-->
+                <!--android:drawableEnd="@drawable/select_radio_check"-->
+                <!--android:drawablePadding="@dimen/x20"-->
+                <!--android:textColor="@color/tx_bottom_navigation" />-->
 
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/rb_charging_three"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginStart="@dimen/x30"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:button="@null"-->
-                        <!--android:drawableEnd="@drawable/select_radio_check"-->
-                        <!--android:drawablePadding="@dimen/x20"-->
-                        <!--android:textColor="@color/tx_bottom_navigation" />-->
+                <!--<RadioButton-->
+                <!--android:id="@+id/rb_charging_three"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="@dimen/x30"-->
+                <!--android:layout_weight="1"-->
+                <!--android:button="@null"-->
+                <!--android:drawableEnd="@drawable/select_radio_check"-->
+                <!--android:drawablePadding="@dimen/x20"-->
+                <!--android:textColor="@color/tx_bottom_navigation" />-->
                 <!--</RadioGroup>-->
             </LinearLayout>
 

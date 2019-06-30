@@ -1,6 +1,7 @@
 package com.ipd.jianghuzuche.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,6 +30,7 @@ import com.ipd.jianghuzuche.bean.CancelOrderBean;
 import com.ipd.jianghuzuche.bean.SelectOrderTypeBean;
 import com.ipd.jianghuzuche.contract.SelectOrderTypeContract;
 import com.ipd.jianghuzuche.presenter.SelectOrderTypePresenter;
+import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.isClickUtil;
@@ -74,6 +76,12 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
     @Override
     public SelectOrderTypeContract.View createView() {
         return this;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ToastUtil.showShortToast("11111111111111111111");
     }
 
     @Override
@@ -228,11 +236,14 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
         loginMap.put("userId", SPUtil.get(getActivity(), USER_ID, "") + "");
         loginMap.put("status", status);
         loginMap.put("page", page + "");
-        getPresenter().getSelectOrderType(loginMap, true, false);
+        getPresenter().getSelectOrderType(loginMap, false, false);
     }
 
-    public void Aaa() {
+    public void Aaa(int position) {
+        fmType = position;
+        page = 0;
         initData();
+        orderTypeAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -243,6 +254,7 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
                 case REQUEST_CODE_92:
                     page = 0;
                     initData();
+                    orderTypeAdapter.notifyDataSetChanged();
                     break;
             }
         }
@@ -346,15 +358,21 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
     @Override
     public void resultUnpaidCancelOrder(CancelOrderBean data) {
         ToastUtil.showLongToast(data.getMsg());
-        if (data.getCode() == 200)
+        if (data.getCode() == 200) {
+            page = 0;
             initData();
+            orderTypeAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void resultGetCarCancelOrder(CancelOrderBean data) {
         ToastUtil.showLongToast(data.getMsg());
-        if (data.getCode() == 200)
+        if (data.getCode() == 200) {
+            page = 0;
             initData();
+            orderTypeAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

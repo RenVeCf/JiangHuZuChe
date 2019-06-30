@@ -627,7 +627,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
             choiceStoreAdapter.setNewData(vehicleOrstatusBean);
 
             vehiclePicBean = data.getData().getVehiclePic();
-            tvCarCode.setText(vehiclePicBean.getPlateNumber());
+            tvCarCode.setText(vehiclePicBean.getPlateNumber()); //FIXME 填完取车单 这个参数还是空
             String[] strs = vehiclePicBean.getPicPath().split(",");
             for (int i = 0, len = strs.length; i < len; i++) {
                 imgList.add(strs[i].toString());

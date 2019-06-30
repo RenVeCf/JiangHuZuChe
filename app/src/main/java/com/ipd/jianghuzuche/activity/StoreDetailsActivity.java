@@ -225,7 +225,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
 
             }
         });
-        vpStoreInfor.resetHeight(0, 0);
+        vpStoreInfor.resetHeight(0, 1);
     }
 
     @Override
@@ -249,7 +249,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
 
         if (type == 1) {
             TreeMap<String, String> repairProjectHorizontalMap = new TreeMap<>();
-            repairProjectHorizontalMap.put("city", SPUtil.get(this, CITY, "") + "");
+            repairProjectHorizontalMap.put("storeId", storeListBean.getStoreId() + "");
             getPresenter().getRepairProjectHorizontal(repairProjectHorizontalMap, false, false);
 
             TreeMap<String, String> storeDetailsMap = new TreeMap<>();
@@ -699,7 +699,8 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
     public void resultStoreDetails(StoreDetailsBean data) {
         chargeId = data.getData().getStore().getChargeId();
         TreeMap<String, String> chargeMap = new TreeMap<>();
-        chargeMap.put("city", SPUtil.get(this, CITY, "") + "");
+        chargeMap.put("storeId", storeListBean.getStoreId() + "");
+//        chargeMap.put("city", SPUtil.get(this, CITY, "") + "");
         getPresenter().getCharge(chargeMap, false, false);
     }
 

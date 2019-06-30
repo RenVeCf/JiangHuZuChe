@@ -43,8 +43,8 @@ public class PersonalDataActivity extends BaseActivity<ModifyUserDataContract.Vi
 
     @BindView(R.id.tv_personal_data_top)
     TopView tvPersonalDataTop;
-    @BindView(R.id.iv_top_back)
-    ImageView ivTopBack;
+    @BindView(R.id.ll_top_back)
+    LinearLayout llTopBack;
     @BindView(R.id.civ_personal_data_head)
     CircleImageView civPersonalDataHead;
     @BindView(R.id.ll_update_personal_data_head)
@@ -135,7 +135,7 @@ public class PersonalDataActivity extends BaseActivity<ModifyUserDataContract.Vi
         finish();
     }
 
-    @OnClick({R.id.ll_update_personal_data_head, R.id.ll_update_personal_data_name, R.id.iv_top_back})
+    @OnClick({R.id.ll_update_personal_data_head, R.id.ll_update_personal_data_name, R.id.ll_top_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_update_personal_data_head:
@@ -144,7 +144,7 @@ public class PersonalDataActivity extends BaseActivity<ModifyUserDataContract.Vi
             case R.id.ll_update_personal_data_name:
                 startActivityForResult(new Intent(this, NameActivity.class), IConstants.REQUEST_CODE_95);
                 break;
-            case R.id.iv_top_back:
+            case R.id.ll_top_back:
                 setResult(RESULT_OK, new Intent().putExtra("refresh", 0));
                 finish();
                 break;

@@ -27,7 +27,9 @@ import com.ipd.jianghuzuche.contract.ExtendTimeContract;
 import com.ipd.jianghuzuche.presenter.ExtendTimePresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.LogUtils;
+import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.StringUtils;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -245,6 +247,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 aliPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 aliPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");
                 aliPayMap.put("lateMoney", lateMoney + "");
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("chargeMoney=" + extendTimePowerExchangeFee + ",lateMoney=" + lateMoney + ",orderId=" + orderId + ",rentDuration=" + tvExtendTime.getText().toString().trim().replaceAll("个月", "") + ",tenancyService=" + tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
                 getPresenter().getExtendTimeAli(aliPayMap, true, false);
                 break;
             case 1:
@@ -257,6 +260,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 weixinPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 weixinPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");
                 weixinPayMap.put("lateMoney", lateMoney + "");
+                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("chargeMoney=" + extendTimePowerExchangeFee + ",lateMoney=" + lateMoney + ",orderId=" + orderId + ",rentDuration=" + tvExtendTime.getText().toString().trim().replaceAll("个月", "") + ",tenancyService=" + tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
                 getPresenter().getExtendTimeWeiChat(weixinPayMap, true, false);
                 break;
         }

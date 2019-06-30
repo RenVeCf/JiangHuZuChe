@@ -76,6 +76,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
 
         couponId = getIntent().getIntExtra("coupon_id", 0);
         couponType = getIntent().getIntExtra("coupon_type", 2);
+        money = getIntent().getDoubleExtra("money", 0);
 
         // 设置管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -85,7 +86,6 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
         rvUserCoupon.setHasFixedSize(true);
         rvUserCoupon.setItemAnimator(new DefaultItemAnimator());
 
-        money = getIntent().getDoubleExtra("money", 0);
         couponBean = new ArrayList<>();
         userCouponAdapter = new UserCouponAdapter(couponBean);
         rvUserCoupon.setAdapter(userCouponAdapter);
@@ -144,11 +144,11 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
             couponBean.clear();
             couponBean.addAll(data.getData().getUserCouponList());
             if (couponBean.size() > 0) {
-                for (int i = 0; i < couponBean.size(); i++) {
-                    if (couponBean.get(i).getAchieveMoney() < money) {
+                for (int i = 0; i < couponBean.size(); ) {
+                    if (couponBean.get(i).getAchieveMoney() > money) {
                         couponBean.remove(i);
-                        i = 0;
-                    }
+                    } else
+                        i++;
                 }
                 page += 1;
                 for (int i = 0; i < couponBean.size(); i++) {

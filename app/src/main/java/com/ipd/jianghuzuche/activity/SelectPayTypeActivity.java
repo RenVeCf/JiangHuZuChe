@@ -15,7 +15,9 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.SelectTypePayContract;
 import com.ipd.jianghuzuche.presenter.SelectTypePayPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.StringUtils;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -92,12 +94,14 @@ public class SelectPayTypeActivity extends BaseActivity<SelectTypePayContract.Vi
                 TreeMap<String, String> aliPayMap = new TreeMap<>();
                 aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliPayMap.put("orderId", orderId + "");
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("orderId=" + orderId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
                 getPresenter().getSelectTypePayAli(aliPayMap, true, false);
                 break;
             case 1:
                 TreeMap<String, String> weixinPayMap = new TreeMap<>();
                 weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weixinPayMap.put("orderId", orderId + "");
+                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("orderId=" + orderId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
                 getPresenter().getSelectTypePayWeChat(weixinPayMap, true, false);
                 break;
         }

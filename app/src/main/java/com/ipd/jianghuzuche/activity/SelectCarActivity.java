@@ -230,7 +230,11 @@ public class SelectCarActivity extends BaseActivity<SelectVehicleContract.View, 
     @Override
     public void resultGetCar(GetCarBean data) {
         ToastUtil.showLongToast(data.getMsg());
-        startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
+//        startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
+        if (data.getCode() == 200) {
+            setResult(RESULT_OK, new Intent().putExtra("refresh", 0));
+            finish();
+        }
         finish();
     }
 
