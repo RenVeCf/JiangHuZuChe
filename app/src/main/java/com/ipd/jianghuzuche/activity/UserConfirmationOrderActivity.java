@@ -161,17 +161,17 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
         tvGetCarTime.setText(DateUtils.times2(Calendar.getInstance().getTimeInMillis()));
         tvUseCarEquipmentCost.setText(userSelectCarBean.getEquipCost() + "元");
         tvUseCarDeposit.setText(userSelectCarBean.getDeposit() + "元");
-//        if (!SPUtil.get(this, USE_CAR_TIME, "").equals("")) {
-//            if (userSelectCarBean.getRentOften() >= Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, ""))) {
+        //        if (!SPUtil.get(this, USE_CAR_TIME, "").equals("")) {
+        //            if (userSelectCarBean.getRentOften() >= Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, ""))) {
         tvUseCarTime.setText(userSelectCarBean.getRentOften() + "个月");
         tvUseCarServiceTime.setText(userSelectCarBean.getRentOften() + "x" + userSelectCarBean.getVehicleRent());
         tvUseCarServiceCharge.setText(userSelectCarBean.getRentOften() * userSelectCarBean.getVehicleRent() + "元");
-//            } else {
-//                tvUseCarTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "个月");
-//                tvUseCarServiceTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "x" + userSelectCarBean.getVehicleRent());
-//                tvUseCarServiceCharge.setText(Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, "")) * userSelectCarBean.getVehicleRent() + "元");
-//            }
-//        }
+        //            } else {
+        //                tvUseCarTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "个月");
+        //                tvUseCarServiceTime.setText(SPUtil.get(this, USE_CAR_TIME, "") + "x" + userSelectCarBean.getVehicleRent());
+        //                tvUseCarServiceCharge.setText(Integer.parseInt((String) SPUtil.get(this, USE_CAR_TIME, "")) * userSelectCarBean.getVehicleRent() + "元");
+        //            }
+        //        }
         if (!SPUtil.get(this, STORE_NAME, "").equals(""))
             tvStoreName.setText(SPUtil.get(this, STORE_NAME, "") + "");
         if (!SPUtil.get(this, STORE_PATH, "").equals(""))
@@ -217,7 +217,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 aliPayMap.put("userCouponId", couponId + "");
                 aliPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 aliPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("deposit=" + userSelectCarBean.getDeposit() + ",equipCost=" + userSelectCarBean.getEquipCost() + ",rentDuration=" + tvUseCarTime.getText().toString().trim().replaceAll("个月", "") + "takevehicleTime=" + DateUtils.getTodayDateTime1() + ",tenancyService=" + tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, "") + ",vehicleId=" + userSelectCarBean.getVehicleId() + ",week=" + tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2) + "f9a75bb045d75998e1509b75ed3a5225")));
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getOrderAliPay(aliPayMap, true, false);
                 break;
             case 1:
@@ -232,7 +232,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 weixinPayMap.put("userCouponId", couponId + "");
                 weixinPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 weixinPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("deposit=" + userSelectCarBean.getDeposit() + ",equipCost=" + userSelectCarBean.getEquipCost() + ",rentDuration=" + tvUseCarTime.getText().toString().trim().replaceAll("个月", "") + "takevehicleTime=" + DateUtils.getTodayDateTime1() + ",tenancyService=" + tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, "") + ",vehicleId=" + userSelectCarBean.getVehicleId() + ",week=" + tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2) + "f9a75bb045d75998e1509b75ed3a5225")));
+                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getOrderWeiXinPay(weixinPayMap, true, false);
                 break;
         }
@@ -249,7 +249,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 break;
             case R.id.ll_user_confirmation_order_coupon:
                 if (isClickUtil.isFastClick()) {
-                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_90);
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_id", couponId), REQUEST_CODE_90);
                 }
                 break;
             case R.id.ll_alipay:

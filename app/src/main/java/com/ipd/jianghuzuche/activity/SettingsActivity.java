@@ -12,6 +12,7 @@ import com.ipd.jianghuzuche.base.BasePresenter;
 import com.ipd.jianghuzuche.base.BaseView;
 import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.CacheUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 
 import butterknife.BindView;
@@ -68,6 +69,7 @@ public class SettingsActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_clear_app:
+                CacheUtil.clearAllCache(this);
                 break;
             case R.id.ll_about_us:
                 startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 7));
@@ -75,6 +77,7 @@ public class SettingsActivity extends BaseActivity {
             case R.id.bt_settings:
                 // 退出登录删除别名
                 JPushInterface.deleteAlias(this, JPUSH_SEQUENCE);
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
                 //清除所有临时储存
                 SPUtil.clear(ApplicationUtil.getContext());
                 startActivity(new Intent(this, LoginActivity.class));

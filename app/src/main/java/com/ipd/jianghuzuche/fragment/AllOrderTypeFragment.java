@@ -79,12 +79,6 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        ToastUtil.showShortToast("11111111111111111111");
-    }
-
-    @Override
     public void init(View view) {
         Bundle args = getArguments();
         if (args != null) {

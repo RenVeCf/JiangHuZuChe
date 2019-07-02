@@ -16,7 +16,9 @@ import com.ipd.jianghuzuche.contract.RegisterContract;
 import com.ipd.jianghuzuche.presenter.RegisterPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.CountDownUtil;
+import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.StringUtils;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.VerifyUtils;
 import com.ipd.jianghuzuche.utils.isClickUtil;
@@ -133,6 +135,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
                         registerMap.put("password", etRegisterPwd.getText().toString().trim());
                         registerMap.put("invitationCode", etInvitationCode.getText().toString().trim());
                         registerMap.put("smsCode", etRegisterVerificationCode.getText().toString().trim());
+                        registerMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(registerMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                         getPresenter().getRegister(registerMap, true, false);
                     } else if (cbRegister.isChecked() == false) {
                         ToastUtil.showShortToast(getString(R.string.error_check_box));

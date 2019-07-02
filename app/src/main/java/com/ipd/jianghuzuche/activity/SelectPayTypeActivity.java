@@ -94,14 +94,14 @@ public class SelectPayTypeActivity extends BaseActivity<SelectTypePayContract.Vi
                 TreeMap<String, String> aliPayMap = new TreeMap<>();
                 aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliPayMap.put("orderId", orderId + "");
-                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("orderId=" + orderId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getSelectTypePayAli(aliPayMap, true, false);
                 break;
             case 1:
                 TreeMap<String, String> weixinPayMap = new TreeMap<>();
                 weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weixinPayMap.put("orderId", orderId + "");
-                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("orderId=" + orderId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
+                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getSelectTypePayWeChat(weixinPayMap, true, false);
                 break;
         }

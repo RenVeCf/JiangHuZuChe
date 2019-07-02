@@ -247,7 +247,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 aliPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 aliPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");
                 aliPayMap.put("lateMoney", lateMoney + "");
-                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("chargeMoney=" + extendTimePowerExchangeFee + ",lateMoney=" + lateMoney + ",orderId=" + orderId + ",rentDuration=" + tvExtendTime.getText().toString().trim().replaceAll("个月", "") + ",tenancyService=" + tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
+                aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getExtendTimeAli(aliPayMap, true, false);
                 break;
             case 1:
@@ -260,7 +260,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 weixinPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 weixinPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");
                 weixinPayMap.put("lateMoney", lateMoney + "");
-                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5("chargeMoney=" + extendTimePowerExchangeFee + ",lateMoney=" + lateMoney + ",orderId=" + orderId + ",rentDuration=" + tvExtendTime.getText().toString().trim().replaceAll("个月", "") + ",tenancyService=" + tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", "") + ",total=" + tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", "") + ",userCouponId=" + couponId + ",userId=" + SPUtil.get(this, USER_ID, ""))));
+                weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getExtendTimeWeiChat(weixinPayMap, true, false);
                 break;
         }
@@ -274,7 +274,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 break;
             case R.id.ll_extend_time_coupon:
                 if (isClickUtil.isFastClick()) {
-                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_99);
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_id", couponId), REQUEST_CODE_99);
                 }
                 break;
             case R.id.ll_alipay:

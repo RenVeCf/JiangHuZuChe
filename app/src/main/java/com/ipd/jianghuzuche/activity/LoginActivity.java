@@ -12,7 +12,9 @@ import com.ipd.jianghuzuche.bean.LoginBean;
 import com.ipd.jianghuzuche.contract.LoginContract;
 import com.ipd.jianghuzuche.presenter.LoginPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.StringUtils;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.VerifyUtils;
 
@@ -126,6 +128,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
                     loginMap.put("telPhone", etLoginPhone.getText().toString().trim());
                     //获取密码
                     loginMap.put("password", etLoginPwd.getText().toString().trim());
+                    loginMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(loginMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                     getPresenter().getLogin(loginMap, true, false);
                 } else if (etLoginPhone.getText().toString().trim().length() != 11 || !VerifyUtils.isMobileNumber(etLoginPhone.getText().toString().trim())) {
                     ToastUtil.showShortToast(getString(R.string.error_phone_num));

@@ -35,7 +35,9 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.OrderOnlineContract;
 import com.ipd.jianghuzuche.presenter.OrderOnlinePresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.StringUtils;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -174,6 +176,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 aliMap.put("orderId", repairConfirmBean.getOrderId() + "");
                 aliMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
                 aliMap.put("userCouponId", couponId + "");
+                aliMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getRepairAli(aliMap, true, false);
                 break;
             case 1:
@@ -182,6 +185,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 weCahatMap.put("orderId", repairConfirmBean.getOrderId() + "");
                 weCahatMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
                 weCahatMap.put("userCouponId", couponId + "");
+                weCahatMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weCahatMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getRepairWeChat(weCahatMap, true, false);
                 break;
         }
@@ -215,7 +219,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 break;
             case R.id.ll_user_confirmation_order_coupon:
                 if (isClickUtil.isFastClick()) {
-                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""))).putExtra("coupon_id", couponId), REQUEST_CODE_93);
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_id", couponId), REQUEST_CODE_93);
                 }
                 break;
             case R.id.ll_alipay:
