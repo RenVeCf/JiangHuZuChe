@@ -484,13 +484,14 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
 
             vehicleEndcostBean.clear();
             if (data.getData().getVehicleEndcost().size() > 0) {
-                llExtendedFee.setVisibility(View.VISIBLE);
+                llExtendedFee.setVisibility(View.GONE);
                 for (int i = 0; i < data.getData().getVehicleEndcost().size(); i++) {
                     OrderDetailsBean.DataBean.VehicleEndcostBean aaa = new OrderDetailsBean.DataBean.VehicleEndcostBean();
                     aaa.setTenancyService(data.getData().getVehicleEndcost().get(i).getTenancyService());
                     aaa.setChargeMoney(data.getData().getVehicleEndcost().get(i).getChargeMoney());
                     aaa.setCoupon(data.getData().getVehicleEndcost().get(i).getCoupon());
                     aaa.setTotal(data.getData().getVehicleEndcost().get(i).getTotal());
+                    aaa.setVehicleRent(data.getData().getVehicleEndcost().get(i).getVehicleRent());
                     vehicleEndcostBean.add(aaa);
                 }
                 extendTimeAdapter.setNewData(vehicleEndcostBean);

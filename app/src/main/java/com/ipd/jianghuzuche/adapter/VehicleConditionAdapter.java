@@ -36,11 +36,12 @@ public class VehicleConditionAdapter extends BaseQuickAdapter<SelectVehicleBean.
                 break;
             case 2:
                 vehicleConditionType = "破损";
-                tvVehicleConditionFee.setText("- " + item.getDamagedCost() + "元");
+                tvVehicleConditionFee.setVisibility(View.GONE);
                 break;
             case 3:
                 vehicleConditionType = "破损";
                 tvVehicleConditionFee.setVisibility(View.VISIBLE);
+                tvVehicleConditionFee.setText("- " + item.getDamagedCost() + "元");
                 break;
         }
         helper.setText(R.id.tv_vehicle_condition_name, item.getVestatusName())

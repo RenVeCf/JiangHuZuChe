@@ -22,8 +22,9 @@ public class ExtendTimeAdapter extends BaseQuickAdapter<OrderDetailsBean.DataBea
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderDetailsBean.DataBean.VehicleEndcostBean item) { //FIXME 券名称没给
+    protected void convert(BaseViewHolder helper, OrderDetailsBean.DataBean.VehicleEndcostBean item) {
         helper.setText(R.id.tv_use_car_service_charge, item.getTenancyService() + "元")
+                .setText(R.id.tv_use_car_service_time, item.getRentDuration() + "x" + item.getVehicleRent())
                 .setText(R.id.tv_charge_service, item.getChargeMoney() + "元")
                 .setText(R.id.tv_use_car_coupon_money, "-" + item.getCoupon() + "元")
                 .setText(R.id.tv_use_car_money_sum, item.getTotal() + "元");

@@ -108,7 +108,8 @@ public class PayTypeActivity extends BaseActivity {
     public void onBackPressed() {
         if (type == 0 || type == 1) {
             if (this instanceof Activity && isClickUtil.isFastClick()) {
-                startActivity(new Intent(this, MainActivity.class));
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
                 finish();
                 if (getCurrentFocus() != null) {
                     ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -131,9 +132,10 @@ public class PayTypeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_top_back:
-                if (type == 0 || type == 1)
-                    startActivity(new Intent(this, MainActivity.class));
-                else if (type == 3) {
+                if (type == 0 || type == 1) {
+                    ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                    startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
+                } else if (type == 3) {
                     ApplicationUtil.getManager().finishActivity(MainActivity.class);
                     startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
                 }

@@ -181,7 +181,8 @@ public class ReturnCarActivity extends BaseActivity<ConfirmVehicleContract.View,
     public void resultConfirmVehicle(ConfirmVehicleBean data) {
         ToastUtil.showShortToast(data.getMsg());
         if (data.getCode() == 200) {
-            setResult(RESULT_OK, new Intent().putExtra("refresh", 0));
+            ApplicationUtil.getManager().finishActivity(MainActivity.class);
+            startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
             finish();
         }
     }

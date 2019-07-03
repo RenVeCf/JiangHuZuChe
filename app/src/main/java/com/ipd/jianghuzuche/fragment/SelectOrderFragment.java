@@ -13,6 +13,7 @@ import com.ipd.jianghuzuche.base.BaseFragment;
 import com.ipd.jianghuzuche.base.BasePresenter;
 import com.ipd.jianghuzuche.base.BaseView;
 import com.ipd.jianghuzuche.common.view.NavitationFollowScrollLayoutText;
+import com.ipd.jianghuzuche.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class SelectOrderFragment extends BaseFragment {
     private ViewPagerAdapter viewPagerAdapter;
     private List<Fragment> fragments;
     private AllOrderTypeFragment fm;
+    private int positions = 0;
 
     @Override
     public int getLayoutId() {
@@ -58,6 +60,9 @@ public class SelectOrderFragment extends BaseFragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.tvTopTitle.setText(this.getResources().getString(R.string.select_order));
         mainActivity.tvTopTitle.setTextColor(Color.BLACK);
+        if (fm != null) {
+            fm.Aaa(positions);
+        }
     }
 
     @Override
@@ -91,6 +96,7 @@ public class SelectOrderFragment extends BaseFragment {
         nlSelectOrder.setOnNaPageChangeListener(new NavitationFollowScrollLayoutText.OnNaPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                positions = position;
                 fm.Aaa(position);
             }
 

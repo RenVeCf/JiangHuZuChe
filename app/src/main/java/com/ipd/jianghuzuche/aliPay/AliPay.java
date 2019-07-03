@@ -58,7 +58,6 @@ public class AliPay {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showAlert(activity, activity.getString(R.string.pay_success) + payResult);
                         ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), PayTypeActivity.class).putExtra("pay_type", 0).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         showAlert(activity, activity.getString(R.string.pay_failed) + payResult);

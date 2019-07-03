@@ -29,6 +29,6 @@ public class Api {
 
     private Api() {
         BaseApi baseApi = new BaseApi();
-        apiService = baseApi.getSimpleRetrofit(BASE_URL).create(ApiService.class);
+        apiService = baseApi.getRetrofit(BASE_URL).create(ApiService.class);
     }
 }

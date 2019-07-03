@@ -11,7 +11,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +21,7 @@ import com.ipd.jianghuzuche.base.BaseActivity;
 import com.ipd.jianghuzuche.base.BasePresenter;
 import com.ipd.jianghuzuche.base.BaseView;
 import com.ipd.jianghuzuche.bean.UserSelectCarBean;
+import com.ipd.jianghuzuche.common.view.ImageViewSquare;
 import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 
@@ -47,7 +47,7 @@ public class CarDetailsActivity extends BaseActivity {
     @BindView(R.id.bt_car_details)
     Button btCarDetails;
     @BindView(R.id.iv_car_details)
-    ImageView ivCarDetails;
+    ImageViewSquare ivCarDetails;
     @BindView(R.id.tv_car_money)
     TextView tvCarMoney;
     @BindView(R.id.tv_deposit)

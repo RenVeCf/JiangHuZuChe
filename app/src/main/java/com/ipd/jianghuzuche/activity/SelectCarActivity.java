@@ -230,19 +230,19 @@ public class SelectCarActivity extends BaseActivity<SelectVehicleContract.View, 
     @Override
     public void resultGetCar(GetCarBean data) {
         ToastUtil.showLongToast(data.getMsg());
-//        startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
         if (data.getCode() == 200) {
-            setResult(RESULT_OK, new Intent().putExtra("refresh", 0));
+            ApplicationUtil.getManager().finishActivity(MainActivity.class);
+            startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
             finish();
         }
-        finish();
     }
 
     @Override
     public void resultSelectCarCancelOrder(CancelOrderBean data) {
         ToastUtil.showLongToast(data.getMsg());
         if (data.getCode() == 200) {
-            setResult(RESULT_OK, new Intent().putExtra("refresh", 0));
+            ApplicationUtil.getManager().finishActivity(MainActivity.class);
+            startActivity(new Intent(this, MainActivity.class).putExtra("howPage", 1));
             finish();
         }
     }

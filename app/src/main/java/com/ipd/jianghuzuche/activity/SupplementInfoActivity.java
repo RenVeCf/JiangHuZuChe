@@ -19,7 +19,9 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.SupplementInfoContract;
 import com.ipd.jianghuzuche.presenter.SupplementInfoPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.StringUtils;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.wildma.pictureselector.PictureSelector;
@@ -148,6 +150,7 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
                         loginMap.put("idOpposite", idOpposite);
                         loginMap.put("idHold", idHold);
                         loginMap.put("userId", (String) SPUtil.get(this, IConstants.USER_ID, ""));
+                        loginMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(loginMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                         getPresenter().getSupplementInfo(loginMap, true, false);
                     } else
                         ToastUtil.showShortToast("请选择证件照！");
