@@ -115,27 +115,27 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_tencent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_tencent"
-                    android:gravity="center_horizontal"
-                    android:text="QQ"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                <!--android:id="@+id/tv_tencent"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:drawableTop="@drawable/ic_tencent"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:text="QQ"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="16sp" />-->
 
-                <TextView
-                    android:id="@+id/tv_q_zone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_q_zone"
-                    android:gravity="center_horizontal"
-                    android:text="QQ空间"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                <!--android:id="@+id/tv_q_zone"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:drawableTop="@drawable/ic_q_zone"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:text="QQ空间"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="16sp" />-->
             </LinearLayout>
 
             <LinearLayout

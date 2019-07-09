@@ -61,6 +61,7 @@ public class SelectOrderFragment extends BaseFragment {
         mainActivity.tvTopTitle.setText(this.getResources().getString(R.string.select_order));
         mainActivity.tvTopTitle.setTextColor(Color.BLACK);
         if (fm != null) {
+            LogUtils.i("rmy", "onHiddenChanged");
             fm.Aaa(positions);
         }
     }
@@ -97,17 +98,19 @@ public class SelectOrderFragment extends BaseFragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 positions = position;
-                fm.Aaa(position);
+                LogUtils.i("rmy", "onPageScrolled = " + position);
+//                fm.Aaa(position);
             }
 
             @Override
             public void onPageSelected(int position) {
-
+                LogUtils.i("rmy", "onPageSelected = " + position);
+                fm.Aaa(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                LogUtils.i("rmy", "onPageScrollStateChanged = " + state);
             }
         });
     }

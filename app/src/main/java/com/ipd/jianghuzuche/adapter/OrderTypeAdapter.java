@@ -79,9 +79,16 @@ public class OrderTypeAdapter extends BaseQuickAdapter<SelectOrderTypeBean.DataB
                         .setGone(R.id.view_line, true);
                 break;
             case 7:
+                switch (item.getTakeStatus()) {
+                    case 1:
+                        helper.setText(R.id.bt_order_type_end, "申请退车");
+                        break;
+                    case 2:
+                        helper.setText(R.id.bt_order_type_end, "查看退车单");
+                        break;
+                }
                 helper.setText(R.id.bt_order_type_start, "延长租期")
                         .setText(R.id.tv_order_type, "已到期")
-                        .setText(R.id.bt_order_type_end, "申请退车")
                         .setGone(R.id.bt_order_type_start, true)
                         .setGone(R.id.bt_order_type_end, true)
                         .setGone(R.id.view_line, true);

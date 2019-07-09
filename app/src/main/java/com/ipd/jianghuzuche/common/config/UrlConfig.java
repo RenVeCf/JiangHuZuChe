@@ -109,5 +109,5 @@ public interface UrlConfig {
     /**
      * 版本更新
      */
-    String MODIFY_VERSION = "app/version/versionInfo"; //版本更新
+    String MODIFY_VERSION = "appUser/version/versionInfo"; //版本更新
 }

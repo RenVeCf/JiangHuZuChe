@@ -109,7 +109,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
     private String coupon_name = "";
     private double coupon_money = 0;
     private double sumMoney = 0;
-    private int couponId = 0;
+    private List<Integer> couponId = new ArrayList<>();
     private String longitude = "";
     private String latitude = "";
 
@@ -171,20 +171,34 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
     private void payType(int payType) {
         switch (payType) {
             case 0:
+                String couponIds = "";
                 TreeMap<String, String> aliMap = new TreeMap<>();
                 aliMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliMap.put("orderId", repairConfirmBean.getOrderId() + "");
                 aliMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                aliMap.put("userCouponId", couponId + "");
+                for (int i = 0; i < couponId.size(); i++) {
+                    if (i < couponId.size() - 1)
+                        couponIds += couponId.get(i) + ",";
+                    else
+                        couponIds += couponId.get(i) + "";
+                }
+                aliMap.put("userCouponId", couponIds.equals("") ? "0" : couponIds);
                 aliMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getRepairAli(aliMap, true, false);
                 break;
             case 1:
+                String couponIds1 = "";
                 TreeMap<String, String> weCahatMap = new TreeMap<>();
                 weCahatMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weCahatMap.put("orderId", repairConfirmBean.getOrderId() + "");
                 weCahatMap.put("payMoney", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
-                weCahatMap.put("userCouponId", couponId + "");
+                for (int i = 0; i < couponId.size(); i++) {
+                    if (i < couponId.size() - 1)
+                        couponIds1 += couponId.get(i) + ",";
+                    else
+                        couponIds1 += couponId.get(i) + "";
+                }
+                weCahatMap.put("userCouponId", couponIds1.equals("") ? "0" : couponIds1);
                 weCahatMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weCahatMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getRepairWeChat(weCahatMap, true, false);
                 break;
@@ -197,10 +211,10 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_93:
-                    couponId = data.getIntExtra("coupon_id", 0);
-                    coupon_name = data.getStringExtra("coupon_name");
-                    tvUseCarCouponName.setText(coupon_name);
-                    tvUserConfirmationOrderCouponType.setText(coupon_name);
+                    couponId = data.getIntegerArrayListExtra("coupon_id");
+                    //                    coupon_name = data.getStringExtra("coupon_name");
+                    //                    tvUseCarCouponName.setText(coupon_name);
+                    //                    tvUserConfirmationOrderCouponType.setText(coupon_name);
                     coupon_money = data.getDoubleExtra("coupon_money", 0);
                     tvUseCarCouponMoney.setText("-" + coupon_money + "元");
                     double i = sumMoney
@@ -219,7 +233,7 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
                 break;
             case R.id.ll_user_confirmation_order_coupon:
                 if (isClickUtil.isFastClick()) {
-                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_id", couponId), REQUEST_CODE_93);
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_money", coupon_money).putIntegerArrayListExtra("coupon_id", (ArrayList<Integer>) couponId), REQUEST_CODE_93);
                 }
                 break;
             case R.id.ll_alipay:
@@ -358,24 +372,34 @@ public class OrderOnlineActivity extends BaseActivity<OrderOnlineContract.View, 
 
     @Override
     public void resultRepairAli(AliPayBean data) {
-        new AliPay(OrderOnlineActivity.this, data.getData().getData(), false);
+        if (data.getCode() == 200)
+            new AliPay(OrderOnlineActivity.this, data.getData().getData(), false);
+        else if (data.getCode() == 201) {
+            startActivity(new Intent(this, PayTypeActivity.class).putExtra("pay_type", 0));
+            finish();
+        }
     }
 
     @Override
     public void resultRepairWeChat(WeChatPayBean data) {
-        IWXAPI api = WXAPIFactory.createWXAPI(this, null);
-        api.registerApp("wx1a65c563b86ec579");
-        PayReq req = new PayReq();
-        req.appId = data.getData().getData().getAppid();//你的微信appid
-        req.partnerId = data.getData().getData().getPartnerid();//商户号
-        req.prepayId = data.getData().getData().getPrepayid();//预支付交易会话ID
-        req.nonceStr = data.getData().getData().getNoncestr();//随机字符串
-        req.timeStamp = data.getData().getData().getTimestamp() + "";//时间戳
-        req.packageValue = data.getData().getData().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
-        req.sign = data.getData().getData().getSign();//签名
-        //  req.extData         = "app data"; // optional
-        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-        api.sendReq(req);
+        if (data.getCode() == 200) {
+            IWXAPI api = WXAPIFactory.createWXAPI(this, null);
+            api.registerApp("wx1a65c563b86ec579");
+            PayReq req = new PayReq();
+            req.appId = data.getData().getData().getAppid();//你的微信appid
+            req.partnerId = data.getData().getData().getPartnerid();//商户号
+            req.prepayId = data.getData().getData().getPrepayid();//预支付交易会话ID
+            req.nonceStr = data.getData().getData().getNoncestr();//随机字符串
+            req.timeStamp = data.getData().getData().getTimestamp() + "";//时间戳
+            req.packageValue = data.getData().getData().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
+            req.sign = data.getData().getData().getSign();//签名
+            //  req.extData         = "app data"; // optional
+            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+            api.sendReq(req);
+        } else if (data.getCode() == 201) {
+            startActivity(new Intent(this, PayTypeActivity.class).putExtra("pay_type", 0));
+            finish();
+        }
     }
 
     @Override

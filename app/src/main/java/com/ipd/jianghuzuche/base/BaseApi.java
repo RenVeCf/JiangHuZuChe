@@ -36,9 +36,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class BaseApi {
 
     //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 7676;
+    public static final int READ_TIME_OUT = 150000;
     //连接时长，单位：毫秒
-    public static final int CONNECT_TIME_OUT = 7676;
+    public static final int CONNECT_TIME_OUT = 150000;
 
     /**
      * 无超时及缓存策略的Retrofit

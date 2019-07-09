@@ -478,8 +478,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                             }
                             break;
                         case 4:
-                            startActivity(new Intent(this, ReturnCarActivity.class).putExtra("return_car_title", "申请退车").putExtra("store_name", orderDetailsBean.getOrder().getStoreName()).putExtra("order_id", orderId));
-                            finish();
+                            switch (takeStatus) {
+                                case 1:
+                                    startActivity(new Intent(this, ReturnCarActivity.class).putExtra("return_car_title", "申请退车").putExtra("store_name", orderDetailsBean.getOrder().getStoreName()).putExtra("order_id", orderId));
+                                    finish();
+                                    break;
+                                case 2:
+                                    startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 4));
+                                    break;
+                            }
                             break;
                     }
                 }

@@ -24,6 +24,7 @@ import com.ipd.jianghuzuche.presenter.SelectOpeningBankPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.ipd.jianghuzuche.utils.VerifyUtils;
 import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
@@ -167,13 +168,16 @@ public class AddBankAvtivity extends BaseActivity<SelectOpeningBankContract.View
             case R.id.bt_select_add_bank:
                 if (isClickUtil.isFastClick()) {
                     if (!tvSelectOpeningBank.getText().toString().trim().equals("") && !etSelectCityBank.getText().toString().trim().equals("") && !etSelectAccountBank.getText().toString().trim().equals("") && !etSelectNameBank.getText().toString().trim().equals("")) {
-                        TreeMap<String, String> addBankMap = new TreeMap<>();
-                        addBankMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                        addBankMap.put("bankcardId", bankcardId);
-                        addBankMap.put("city", etSelectCityBank.getText().toString().trim());
-                        addBankMap.put("cardholder", etSelectNameBank.getText().toString().trim());
-                        addBankMap.put("cardNum", etSelectAccountBank.getText().toString().trim());
-                        getPresenter().getAddBank(addBankMap, true, false);
+                        if (VerifyUtils.checkBankCard(etSelectAccountBank.getText().toString().trim())) {
+                            TreeMap<String, String> addBankMap = new TreeMap<>();
+                            addBankMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                            addBankMap.put("bankcardId", bankcardId);
+                            addBankMap.put("city", etSelectCityBank.getText().toString().trim());
+                            addBankMap.put("cardholder", etSelectNameBank.getText().toString().trim());
+                            addBankMap.put("cardNum", etSelectAccountBank.getText().toString().trim());
+                            getPresenter().getAddBank(addBankMap, true, false);
+                        } else
+                            ToastUtil.showShortToast("请填写正确的银行卡号!");
                     } else
                         ToastUtil.showLongToast("请填写完整信息!");
                 }

@@ -2,7 +2,6 @@ package com.ipd.jianghuzuche.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,10 +55,10 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
     TextView tvWechat;
     @BindView(R.id.tv_wechat_moments)
     TextView tvWechatMoments;
-    @BindView(R.id.tv_tencent)
-    TextView tvTencent;
-    @BindView(R.id.tv_q_zone)
-    TextView tvQZone;
+    //    @BindView(R.id.tv_tencent)
+    //    TextView tvTencent;
+    //    @BindView(R.id.tv_q_zone)
+    //    TextView tvQZone;
     @BindView(R.id.rv_share)
     RecyclerView rvShare;
 
@@ -117,7 +116,7 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
 
     }
 
-    @OnClick({R.id.tv_wechat, R.id.tv_wechat_moments, R.id.tv_tencent, R.id.tv_q_zone})
+    @OnClick({R.id.tv_wechat, R.id.tv_wechat_moments})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_wechat:
@@ -126,10 +125,10 @@ public class ShareActivity extends BaseActivity<ShareContract.View, ShareContrac
             case R.id.tv_wechat_moments:
                 showShare1(shareUrl, WechatMoments.NAME);
                 break;
-            case R.id.tv_tencent:
-                break;
-            case R.id.tv_q_zone:
-                break;
+//            case R.id.tv_tencent:
+//                break;
+//            case R.id.tv_q_zone:
+//                break;
         }
     }
 

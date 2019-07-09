@@ -26,7 +26,6 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.ExtendTimeContract;
 import com.ipd.jianghuzuche.presenter.ExtendTimePresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
-import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.MD5Utils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.StringUtils;
@@ -91,15 +90,15 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
     @BindView(R.id.ll_power_exchange)
     LinearLayout llPowerExchange;
     //    @BindView(R.id.rb_charging_one)
-//    RadioButton rbChargingOne;
-//    @BindView(R.id.rb_charging_second)
-//    RadioButton rbChargingSecond;
-//    @BindView(R.id.rb_charging_three)
-//    RadioButton rbChargingThree;
+    //    RadioButton rbChargingOne;
+    //    @BindView(R.id.rb_charging_second)
+    //    RadioButton rbChargingSecond;
+    //    @BindView(R.id.rb_charging_three)
+    //    RadioButton rbChargingThree;
     @BindView(R.id.tv_extend_time_power_exchange_fee)
     TextView tvExtendTimePowerExchangeFee;
     //    @BindView(R.id.rg_charging)
-//    RadioGroup rgCharging;
+    //    RadioGroup rgCharging;
     @BindView(R.id.ll_extend_time_power_exchange)
     LinearLayout llExtendTimePowerExchange;
     @BindView(R.id.ll_extend_time_late)
@@ -116,8 +115,8 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
     private int orderId = 0;
     private String coupon_name = "";
     private double coupon_money = 0;
-    private int couponId = 0;
-    private List<ExtendTimeListBean.DataBean.VehicleServicesBean> extendTimeListBean;
+    private List<Integer> couponId = new ArrayList<>();
+    private List<ExtendTimeBean.DataBean.VehicleServicesBean> extendTimeListBean;
     private ExtendTimeBean.DataBean.VehicleListBean ehicleListBean;
     private double lateMoney = 0;
     private double extendTimePowerExchangeFee = 0;
@@ -160,9 +159,9 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
         extendTimeMap.put("orderId", orderId + "");
         getPresenter().getExtendTime(extendTimeMap, true, false);
 
-        TreeMap<String, String> extendTimeListMap = new TreeMap<>();
-        extendTimeListMap.put("city", SPUtil.get(this, CITY, "") + "");
-        getPresenter().getExtendTimeList(extendTimeListMap, false, false);
+//        TreeMap<String, String> extendTimeListMap = new TreeMap<>();
+//        extendTimeListMap.put("orderId", orderId + "");
+//        getPresenter().getExtendTimeList(extendTimeListMap, false, false);
     }
 
     private List<String> getUseCarTimeData() {
@@ -218,17 +217,16 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_99:
-                    couponId = data.getIntExtra("coupon_id", 0);
-                    coupon_name = data.getStringExtra("coupon_name");
-                    tvUseCarCouponName.setText(coupon_name);
-                    tvExtendTimeCouponType.setText(coupon_name);
+                    couponId = data.getIntegerArrayListExtra("coupon_id");
+                    //                    coupon_name = data.getStringExtra("coupon_name");
+                    //                    tvUseCarCouponName.setText(coupon_name);
+                    //                    tvExtendTimeCouponType.setText(coupon_name);
                     coupon_money = data.getDoubleExtra("coupon_money", 0);
                     tvUseCarCouponMoney.setText("-" + coupon_money + "元");
                     double i = Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""))
                             + lateMoney
                             + extendTimePowerExchangeFee
                             - coupon_money;
-                    LogUtils.i("rmy", "lateMoney = " + lateMoney + ", extendTimePowerExchangeFee = " + extendTimePowerExchangeFee + ", coupon_money = " + coupon_money);
                     tvExtendTimeMoneySum.setText(i + "元");
                     break;
             }
@@ -238,11 +236,18 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
     private void payType(int payType) {
         switch (payType) {
             case 0:
+                String couponIds = "";
                 TreeMap<String, String> aliPayMap = new TreeMap<>();
                 aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliPayMap.put("orderId", orderId + "");
                 aliPayMap.put("tenancyService", tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""));
-                aliPayMap.put("userCouponId", couponId + "");
+                for (int i = 0; i < couponId.size(); i++) {
+                    if (i < couponId.size() - 1)
+                        couponIds += couponId.get(i) + ",";
+                    else
+                        couponIds += couponId.get(i) + "";
+                }
+                aliPayMap.put("userCouponId", couponIds.equals("") ? "0" : couponIds);
                 aliPayMap.put("total", tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", ""));
                 aliPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 aliPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");
@@ -251,11 +256,18 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 getPresenter().getExtendTimeAli(aliPayMap, true, false);
                 break;
             case 1:
+                String couponIds1 = "";
                 TreeMap<String, String> weixinPayMap = new TreeMap<>();
                 weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weixinPayMap.put("orderId", orderId + "");
                 weixinPayMap.put("tenancyService", tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", ""));
-                weixinPayMap.put("userCouponId", couponId + "");
+                for (int i = 0; i < couponId.size(); i++) {
+                    if (i < couponId.size() - 1)
+                        couponIds1 += couponId.get(i) + ",";
+                    else
+                        couponIds1 += couponId.get(i) + "";
+                }
+                weixinPayMap.put("userCouponId", couponIds1.equals("") ? "0" : couponIds1);
                 weixinPayMap.put("total", tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", ""));
                 weixinPayMap.put("rentDuration", tvExtendTime.getText().toString().trim().replaceAll("个月", ""));
                 weixinPayMap.put("chargeMoney", extendTimePowerExchangeFee + "");
@@ -274,7 +286,7 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 break;
             case R.id.ll_extend_time_coupon:
                 if (isClickUtil.isFastClick()) {
-                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_id", couponId), REQUEST_CODE_99);
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvExtendTimeMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_money", coupon_money).putIntegerArrayListExtra("coupon_id", (ArrayList<Integer>) couponId), REQUEST_CODE_99);
                 }
                 break;
             case R.id.ll_alipay:
@@ -360,10 +372,8 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
             llExtendTimeLate.setVisibility(View.GONE);
 
         tvExtendTimeMoneySum.setText(Double.parseDouble(tvExtendTimeServiceCharge.getText().toString().trim().replaceAll("元", "")) + lateMoney + "元");
-    }
 
-    @Override
-    public void resultExtendTimeList(ExtendTimeListBean data) {
+
         extendTimeListBean.clear();
         if (data.getData().getVehicleServices().size() > 0)
             extendTimeListBean.addAll(data.getData().getVehicleServices());
@@ -379,35 +389,80 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
                 cbChargingSecond.setVisibility(View.INVISIBLE);
                 cbChargingThree.setVisibility(View.INVISIBLE);
 
-//                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
-//                rbChargingSecond.setVisibility(View.GONE);
-//                rbChargingThree.setVisibility(View.GONE);
+                //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+                //                rbChargingSecond.setVisibility(View.GONE);
+                //                rbChargingThree.setVisibility(View.GONE);
                 break;
             case 2:
                 cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
                 cbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
                 cbChargingThree.setVisibility(View.INVISIBLE);
 
-//                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
-//                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
-//                rbChargingThree.setVisibility(View.GONE);
+                //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+                //                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+                //                rbChargingThree.setVisibility(View.GONE);
                 break;
             case 3:
                 cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
                 cbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
                 cbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
 
-//                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
-//                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
-//                rbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
+                //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+                //                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+                //                rbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
                 break;
         }
+    }
+
+    @Override
+    public void resultExtendTimeList(ExtendTimeListBean data) {
+//        extendTimeListBean.clear();
+//        if (data.getData().getVehicleServices().size() > 0)
+//            extendTimeListBean.addAll(data.getData().getVehicleServices());
+//        else
+//            llExtendTimePowerExchange.setVisibility(View.GONE);
+//
+//        switch (extendTimeListBean.size()) {
+//            case 0:
+//                llPowerExchange.setVisibility(View.GONE);
+//                break;
+//            case 1:
+//                cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                cbChargingSecond.setVisibility(View.INVISIBLE);
+//                cbChargingThree.setVisibility(View.INVISIBLE);
+//
+//                //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                //                rbChargingSecond.setVisibility(View.GONE);
+//                //                rbChargingThree.setVisibility(View.GONE);
+//                break;
+//            case 2:
+//                cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                cbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+//                cbChargingThree.setVisibility(View.INVISIBLE);
+//
+//                //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                //                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+//                //                rbChargingThree.setVisibility(View.GONE);
+//                break;
+//            case 3:
+//                cbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                cbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+//                cbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
+//
+//                //                rbChargingOne.setText(data.getData().getVehicleServices().get(0).getServicesName());
+//                //                rbChargingSecond.setText(data.getData().getVehicleServices().get(1).getServicesName());
+//                //                rbChargingThree.setText(data.getData().getVehicleServices().get(2).getServicesName());
+//                break;
+//        }
     }
 
     @Override
     public void resultExtendTimeAli(AliPayBean data) {
         if (data.getCode() == 200) {
             new AliPay(ExtendTimeActivity.this, data.getData().getData(), false);
+        } else if (data.getCode() == 201) {
+            startActivity(new Intent(this, PayTypeActivity.class).putExtra("pay_type", 0));
+            finish();
         }
     }
 
@@ -427,6 +482,9 @@ public class ExtendTimeActivity extends BaseActivity<ExtendTimeContract.View, Ex
             //  req.extData         = "app data"; // optional
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
             api.sendReq(req);
+        } else if (data.getCode() == 201) {
+            startActivity(new Intent(this, PayTypeActivity.class).putExtra("pay_type", 0));
+            finish();
         }
     }
 

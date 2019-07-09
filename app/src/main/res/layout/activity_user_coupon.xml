@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.ipd.jianghuzuche.activity.UserCouponActivity">
 
     <com.ipd.jianghuzuche.common.view.TopView
         android:id="@+id/tv_user_coupon_top"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         android:gravity="bottom"
         app:is_back="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:title="@string/coupon" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_user_coupon"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_coupon_top">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_user_coupon"
@@ -27,4 +33,37 @@
             android:layout_height="match_parent"
             android:background="@color/whitesmoke" />
     </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_sum_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:layout_weight="1"
+            android:textColor="@color/tx_bottom_navigation"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_coupon"
+            android:layout_width="@dimen/x300"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/y10"
+            android:layout_marginEnd="@dimen/x50"
+            android:layout_marginTop="@dimen/y10"
+            android:background="@drawable/bg_confirm_bt"
+            android:gravity="center"
+            android:text="@string/confirm"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

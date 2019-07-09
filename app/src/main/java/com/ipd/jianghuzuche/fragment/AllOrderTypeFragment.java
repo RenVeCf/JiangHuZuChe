@@ -1,7 +1,6 @@
 package com.ipd.jianghuzuche.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -105,6 +104,7 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
             public void onRefresh() {
                 page = 0;
                 initData();
+                LogUtils.i("rmy", "Bbb");
                 srlOrderType.setRefreshing(false);
             }
         });
@@ -237,6 +237,7 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
         fmType = position;
         page = 0;
         initData();
+        LogUtils.i("rmy", "Aaa");
         orderTypeAdapter.notifyDataSetChanged();
     }
 
@@ -377,5 +378,6 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
     @Override
     public void onLoadMoreRequested() {
         initData();
+        LogUtils.i("rmy", "Ccc");
     }
 }

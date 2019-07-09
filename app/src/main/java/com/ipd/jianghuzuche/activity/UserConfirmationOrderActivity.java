@@ -41,6 +41,7 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
@@ -120,7 +121,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
     private String coupon_name = "";
     private double coupon_money = 0;
     private int payType;
-    private int couponId = 0;
+    private List<Integer> couponId = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -187,10 +188,10 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_90:
-                    couponId = data.getIntExtra("coupon_id", 0);
-                    coupon_name = data.getStringExtra("coupon_name");
-                    tvUseCarCouponName.setText(coupon_name);
-                    tvUserConfirmationOrderCouponType.setText(coupon_name);
+                    couponId = data.getIntegerArrayListExtra("coupon_id");
+                    //                    coupon_name = data.getStringExtra("coupon_name");
+                    //                    tvUseCarCouponName.setText(coupon_name);
+                    //                    tvUserConfirmationOrderCouponType.setText(coupon_name);
                     coupon_money = data.getDoubleExtra("coupon_money", 0);
                     tvUseCarCouponMoney.setText("-" + coupon_money + "元");
                     double i = Double.parseDouble(tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""))
@@ -206,6 +207,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
     private void payType(int payType) {
         switch (payType) {
             case 0:
+                String couponIds = "";
                 TreeMap<String, String> aliPayMap = new TreeMap<>();
                 aliPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 aliPayMap.put("vehicleId", userSelectCarBean.getVehicleId() + "");
@@ -214,13 +216,20 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 aliPayMap.put("week", tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2));
                 aliPayMap.put("deposit", userSelectCarBean.getDeposit() + "");
                 aliPayMap.put("equipCost", userSelectCarBean.getEquipCost() + "");
-                aliPayMap.put("userCouponId", couponId + "");
+                for (int i = 0; i < couponId.size(); i++) {
+                    if (i < couponId.size() - 1)
+                        couponIds += couponId.get(i) + ",";
+                    else
+                        couponIds += couponId.get(i) + "";
+                }
+                aliPayMap.put("userCouponId", couponIds.equals("") ? "0" : couponIds);
                 aliPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 aliPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
                 aliPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(aliPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                 getPresenter().getOrderAliPay(aliPayMap, true, false);
                 break;
             case 1:
+                String couponIds1 = "";
                 TreeMap<String, String> weixinPayMap = new TreeMap<>();
                 weixinPayMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                 weixinPayMap.put("vehicleId", userSelectCarBean.getVehicleId() + "");
@@ -229,7 +238,13 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 weixinPayMap.put("week", tvGetCarTime.getText().toString().substring(tvGetCarTime.getText().toString().length() - 2));
                 weixinPayMap.put("deposit", userSelectCarBean.getDeposit() + "");
                 weixinPayMap.put("equipCost", userSelectCarBean.getEquipCost() + "");
-                weixinPayMap.put("userCouponId", couponId + "");
+                for (int i = 0; i < couponId.size(); i++) {
+                    if (i < couponId.size() - 1)
+                        couponIds1 += couponId.get(i) + ",";
+                    else
+                        couponIds1 += couponId.get(i) + "";
+                }
+                weixinPayMap.put("userCouponId", couponIds1.equals("") ? "0" : couponIds1);
                 weixinPayMap.put("tenancyService", tvUseCarServiceCharge.getText().toString().trim().replaceAll("元", ""));
                 weixinPayMap.put("total", tvUseCarMoneySum.getText().toString().trim().replaceAll("元", ""));
                 weixinPayMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(weixinPayMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
@@ -249,7 +264,7 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
                 break;
             case R.id.ll_user_confirmation_order_coupon:
                 if (isClickUtil.isFastClick()) {
-                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_id", couponId), REQUEST_CODE_90);
+                    startActivityForResult(new Intent(this, UserCouponActivity.class).putExtra("money", Double.parseDouble(tvUseCarMoneySum.getText().toString().trim().replaceAll("元", "")) + coupon_money).putExtra("coupon_money", coupon_money).putIntegerArrayListExtra("coupon_id", (ArrayList<Integer>) couponId), REQUEST_CODE_90);
                 }
                 break;
             case R.id.ll_alipay:
@@ -388,24 +403,34 @@ public class UserConfirmationOrderActivity extends BaseActivity<OrderPayContract
 
     @Override
     public void resultOrderAliPay(AliPayBean data) {
-        new AliPay(UserConfirmationOrderActivity.this, data.getData().getData(), true);
+        if (data.getCode() == 200)
+            new AliPay(UserConfirmationOrderActivity.this, data.getData().getData(), true);
+        else if (data.getCode() == 201) {
+            startActivity(new Intent(this, PayTypeActivity.class).putExtra("pay_type", 0));
+            finish();
+        }
     }
 
     @Override
     public void resultOrderWeiXinPay(WeChatPayBean data) {
-        IWXAPI api = WXAPIFactory.createWXAPI(this, null);
-        api.registerApp("wx1a65c563b86ec579");
-        PayReq req = new PayReq();
-        req.appId = data.getData().getData().getAppid();//你的微信appid
-        req.partnerId = data.getData().getData().getPartnerid();//商户号
-        req.prepayId = data.getData().getData().getPrepayid();//预支付交易会话ID
-        req.nonceStr = data.getData().getData().getNoncestr();//随机字符串
-        req.timeStamp = data.getData().getData().getTimestamp() + "";//时间戳
-        req.packageValue = data.getData().getData().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
-        req.sign = data.getData().getData().getSign();//签名
-        //  req.extData         = "app data"; // optional
-        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-        api.sendReq(req);
+        if (data.getCode() == 200) {
+            IWXAPI api = WXAPIFactory.createWXAPI(this, null);
+            api.registerApp("wx1a65c563b86ec579");
+            PayReq req = new PayReq();
+            req.appId = data.getData().getData().getAppid();//你的微信appid
+            req.partnerId = data.getData().getData().getPartnerid();//商户号
+            req.prepayId = data.getData().getData().getPrepayid();//预支付交易会话ID
+            req.nonceStr = data.getData().getData().getNoncestr();//随机字符串
+            req.timeStamp = data.getData().getData().getTimestamp() + "";//时间戳
+            req.packageValue = data.getData().getData().getPackageX(); //扩展字段, 这里固定填写Sign = WXPay
+            req.sign = data.getData().getData().getSign();//签名
+            //  req.extData         = "app data"; // optional
+            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+            api.sendReq(req);
+        } else if (data.getCode() == 201) {
+            startActivity(new Intent(this, PayTypeActivity.class).putExtra("pay_type", 0));
+            finish();
+        }
     }
 
     @Override

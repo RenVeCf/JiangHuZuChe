@@ -249,7 +249,6 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
             @Override
             public void onClick(View v) {
                 if (isClickUtil.isFastClick()) {
-
                     switch (type) {
                         case 0:
                             TreeMap<String, String> unpaidCancelOrderMap = new TreeMap<>();
@@ -309,7 +308,7 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
                 setDocumentsReceivedDialog(2);
                 break;
             case R.id.bt_go_pay:
-                if (isClickUtil.isFastLongClick()) {
+                if (isClickUtil.isFastClick()) {
                     TreeMap<String, String> carReturnConfirmMap = new TreeMap<>();
                     carReturnConfirmMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                     carReturnConfirmMap.put("orderId", orderId + "");
