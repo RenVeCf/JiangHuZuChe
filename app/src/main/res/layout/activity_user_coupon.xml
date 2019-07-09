@@ -35,6 +35,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
+        android:id="@+id/ll_sum_money"
         android:layout_width="0dp"
         android:layout_height="@dimen/y150"
         android:background="@color/white"

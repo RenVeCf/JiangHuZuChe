@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -50,6 +51,8 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
     SwipeRefreshLayout srlUserCoupon;
     @BindView(R.id.tv_sum_money)
     TextView tvSumMoney;
+    @BindView(R.id.ll_sum_money)
+    LinearLayout llSumMoney;
 
     private List<CouponBean.DataBean.UserCouponListBean> couponBean;
     private UserCouponAdapter userCouponAdapter;
@@ -84,6 +87,8 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
 
         couponIdList = getIntent().getIntegerArrayListExtra("coupon_id");
         couponType = getIntent().getIntExtra("coupon_type", 2);
+        if (couponType == 1)
+            llSumMoney.setVisibility(View.GONE);
         money = getIntent().getDoubleExtra("money", 0);
         sumMoney = getIntent().getDoubleExtra("coupon_money", 0);
         tvSumMoney.setText(Html.fromHtml("累计优惠: <font color=\"#0076FF\"> ¥" + sumMoney + "元</font>"));
@@ -177,8 +182,6 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
                 //                    } else
                 //                        i++;
                 //                }
-
-
                 page += 1;
                 for (int j : couponIdList) {
                     for (int i = 0; i < couponBean.size(); i++) {

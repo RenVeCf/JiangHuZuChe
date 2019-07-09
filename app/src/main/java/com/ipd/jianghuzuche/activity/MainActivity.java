@@ -47,6 +47,9 @@ import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.xuexiang.xupdate.XUpdate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
@@ -183,6 +186,7 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
     RelativeLayout rlInvitationCode;
 
     private long firstTime = 0;
+    private List<Integer> couponId = new ArrayList<>();
     private Fragment currentFragment = new Fragment();
     private PlaceOrderFragment placeOrderFragment = new PlaceOrderFragment();
     private SelectOrderFragment selectOrderFragment = new SelectOrderFragment();
@@ -836,7 +840,7 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
                 tvSetting.setTextColor(this.getResources().getColor(R.color.black));
                 break;
             case R.id.rl_coupon:
-                startActivity(new Intent(this, UserCouponActivity.class).putExtra("coupon_type", 1));
+                startActivity(new Intent(this, UserCouponActivity.class).putExtra("coupon_type", 1).putIntegerArrayListExtra("coupon_id", (ArrayList<Integer>) couponId));
 
                 ivWhiteWallet.setVisibility(View.GONE);
                 ivBlueWallet.setVisibility(View.INVISIBLE);
