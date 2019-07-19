@@ -27,9 +27,13 @@ import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.INVITAION_CODE;
+import static com.ipd.jianghuzuche.common.config.IConstants.IS_SUPPLEMENT_INFO;
+import static com.ipd.jianghuzuche.common.config.IConstants.JPUSH_SEQUENCE;
+import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 
 /**
@@ -161,8 +165,9 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             SPUtil.put(this, IConstants.PHONE, data.getData().getUser().getTelPhone());
             SPUtil.put(this, INVITAION_CODE, data.getData().getUser().getInvitationCode());
             SPUtil.put(this, IConstants.AVATAR, BASE_LOCAL_URL + data.getData().getUser().getAvatar());
-
-            startActivity(new Intent(this, SupplementInfoActivity.class));
+            JPushInterface.setAlias(this, JPUSH_SEQUENCE, "jhzc" + data.getData().getUser().getTelPhone());
+            SPUtil.put(this, REVIEW, data.getData().getUser().getStatus() + "");
+            startActivity(new Intent(this, SupplementInfoActivity.class).putExtra("review_type", 1));
             finish();
         }
     }

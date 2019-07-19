@@ -31,13 +31,14 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
     private LinearLayout llTopBack;
     private ImageView ivTopSidebar;
     private ImageView ivTopMsg;
-    private TextView tvTopBank;
+    private TextView tvTopBank, tvTopReview;
 
     //各icon是否显示
     private Boolean isBack;
     private Boolean isSidebar;
     private Boolean isMsg;
     private Boolean isBank;
+    private Boolean isReview;
     private Context mContext;
 
     public TopView(Context context) {
@@ -56,6 +57,7 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         isSidebar = typedArray.getBoolean(R.styleable.TopView_is_sidebar, false);
         isMsg = typedArray.getBoolean(R.styleable.TopView_is_msg, false);
         isBank = typedArray.getBoolean(R.styleable.TopView_is_bank, false);
+        isReview = typedArray.getBoolean(R.styleable.TopView_is_review, false);
         tvTopBank.setTextColor(typedArray.getColor(R.styleable.TopView_bank_color, getResources().getColor(R.color.black)));
         typedArray.recycle();
 
@@ -63,6 +65,7 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         ivTopSidebar.setVisibility(isSidebar ? View.VISIBLE : View.GONE);
         ivTopMsg.setVisibility(isMsg ? View.VISIBLE : View.GONE);
         tvTopBank.setVisibility(isBank ? View.VISIBLE : View.GONE);
+        tvTopReview.setVisibility(isReview ? View.VISIBLE : View.GONE);
     }
 
     public TopView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -78,6 +81,7 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         ivTopSidebar = (ImageView) this.findViewById(R.id.iv_top_sidebar);
         ivTopMsg = (ImageView) this.findViewById(R.id.iv_top_msg);
         tvTopBank = (TextView) this.findViewById(R.id.tv_top_bank);
+        tvTopReview = (TextView) this.findViewById(R.id.tv_top_review);
 
         llTopBack.setOnClickListener(this);
         ivTopSidebar.setOnClickListener(this);

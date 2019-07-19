@@ -21,7 +21,6 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.CouponContract;
 import com.ipd.jianghuzuche.presenter.CouponPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
-import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 
@@ -93,7 +92,6 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
         sumMoney = getIntent().getDoubleExtra("coupon_money", 0);
         tvSumMoney.setText(Html.fromHtml("累计优惠: <font color=\"#0076FF\"> ¥" + sumMoney + "元</font>"));
 
-
         // 设置管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -103,7 +101,7 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
         rvUserCoupon.setItemAnimator(new DefaultItemAnimator());
 
         couponBean = new ArrayList<>();
-        userCouponAdapter = new UserCouponAdapter(couponBean);
+        userCouponAdapter = new UserCouponAdapter(couponBean, couponType);
         rvUserCoupon.setAdapter(userCouponAdapter);
     }
 
@@ -118,47 +116,49 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
             }
         });
 
-        userCouponAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
-                //                for (int i = 0; i < couponBean.size(); i++) {
-                //                    couponBean.get(i).setShow(false);
-                //                }
-                if (couponBean.get(position).isShow()) {
-                    couponBean.get(position).setShow(false);
-                    for (int j = 0; j < couponIdList.size(); j++) {
-                        if (couponBean.get(position).getUserCouponId() == couponIdList.get(j))
-                            couponIdList.remove(j);
+        if (couponType == 2) {
+            userCouponAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
+                    //                for (int i = 0; i < couponBean.size(); i++) {
+                    //                    couponBean.get(i).setShow(false);
+                    //                }
+                    if (couponBean.get(position).isShow()) {
+                        couponBean.get(position).setShow(false);
+                        for (int j = 0; j < couponIdList.size(); j++) {
+                            if (couponBean.get(position).getUserCouponId() == couponIdList.get(j))
+                                couponIdList.remove(j);
+                        }
+
+                        sumMoney -= couponBean.get(position).getMoney();
+                    } else {
+                        if (money - sumMoney >= 0 ? true : false) {
+                            couponBean.get(position).setShow(true);
+                            couponIdList.add(couponBean.get(position).getUserCouponId());
+                            sumMoney += couponBean.get(position).getMoney();
+                        } else
+                            ToastUtil.showShortToast("最低减至0元，券金额已超出！");
                     }
+                    tvSumMoney.setText(Html.fromHtml("累计优惠: <font color=\"#0076FF\"> ¥" + sumMoney + "元</font>"));
+                    userCouponAdapter.notifyDataSetChanged();
 
-                    sumMoney -= couponBean.get(position).getMoney();
-                } else {
-                    if (money - sumMoney >= 0 ? true : false) {
-                        couponBean.get(position).setShow(true);
-                        couponIdList.add(couponBean.get(position).getUserCouponId());
-                        sumMoney += couponBean.get(position).getMoney();
-                    } else
-                        ToastUtil.showShortToast("最低减至0元，券金额已超出！");
+                    //                new Thread(new Runnable() {
+                    //                    @Override
+                    //                    public void run() {
+                    //                        // 使用postDelayed方式修改UI组件tvMessage的Text属性值
+                    //                        // 并且延迟执行
+                    //                        handler.postDelayed(new Runnable() {
+                    //                            @Override
+                    //                            public void run() {
+                    //                                setResult(RESULT_OK, new Intent().putExtra("coupon_name", couponBean.get(position).getTitle()).putExtra("coupon_money", couponBean.get(position).getMoney()).putExtra("coupon_id", couponBean.get(position).getUserCouponId()));
+                    //                                finish();
+                    //                            }
+                    //                        }, 500);
+                    //                    }
+                    //                }).start();
                 }
-                tvSumMoney.setText(Html.fromHtml("累计优惠: <font color=\"#0076FF\"> ¥" + sumMoney + "元</font>"));
-                userCouponAdapter.notifyDataSetChanged();
-
-                //                new Thread(new Runnable() {
-                //                    @Override
-                //                    public void run() {
-                //                        // 使用postDelayed方式修改UI组件tvMessage的Text属性值
-                //                        // 并且延迟执行
-                //                        handler.postDelayed(new Runnable() {
-                //                            @Override
-                //                            public void run() {
-                //                                setResult(RESULT_OK, new Intent().putExtra("coupon_name", couponBean.get(position).getTitle()).putExtra("coupon_money", couponBean.get(position).getMoney()).putExtra("coupon_id", couponBean.get(position).getUserCouponId()));
-                //                                finish();
-                //                            }
-                //                        }, 500);
-                //                    }
-                //                }).start();
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -185,8 +185,6 @@ public class UserCouponActivity extends BaseActivity<CouponContract.View, Coupon
                 page += 1;
                 for (int j : couponIdList) {
                     for (int i = 0; i < couponBean.size(); i++) {
-                        LogUtils.i("rmy", "getUserCouponId = " + couponBean.get(i).getUserCouponId());
-                        LogUtils.i("rmy", "j = " + j);
                         if (couponBean.get(i).getUserCouponId() == j)
                             couponBean.get(i).setShow(true);
                     }

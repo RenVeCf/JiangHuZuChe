@@ -58,7 +58,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
-import static com.ipd.jianghuzuche.common.config.IConstants.CITY;
+import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
@@ -377,7 +377,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
                     startActivity(new Intent(StoreDetailsActivity.this, LoginActivity.class));
                     finish();
                 } else if ((Boolean) (SPUtil.get(StoreDetailsActivity.this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
-                    startActivity(new Intent(StoreDetailsActivity.this, SupplementInfoActivity.class));
+                    startActivity(new Intent(StoreDetailsActivity.this, SupplementInfoActivity.class).putExtra("review_type", Integer.valueOf(SPUtil.get(StoreDetailsActivity.this, REVIEW, "") + "")));
                     finish();
                 }
                 mCameraDialog.dismiss();

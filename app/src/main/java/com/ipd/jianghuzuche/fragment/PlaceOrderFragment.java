@@ -53,6 +53,7 @@ import static com.ipd.jianghuzuche.common.config.IConstants.CITY;
 import static com.ipd.jianghuzuche.common.config.IConstants.LATIUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.LONGTITUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_91;
+import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.IConstants.USE_CAR_TIME;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ryane.banner.AdPlayBanner.ImageLoaderType.GLIDE;
@@ -216,7 +217,7 @@ public class PlaceOrderFragment extends BaseFragment<PlaceOrderContract.View, Pl
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                     getActivity().finish();
                 } else if ((Boolean) (SPUtil.get(getActivity(), IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
-                    startActivity(new Intent(getActivity(), SupplementInfoActivity.class));
+                    startActivity(new Intent(getActivity(), SupplementInfoActivity.class).putExtra("review_type", Integer.valueOf(SPUtil.get(getContext(), REVIEW, "") + "")));
                     getActivity().finish();
                 }
                 mCameraDialog.dismiss();

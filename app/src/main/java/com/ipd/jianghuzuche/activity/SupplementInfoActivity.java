@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -48,6 +49,8 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
 
     @BindView(R.id.tv_supplement_info_top)
     TopView tvSupplementInfoTop;
+    @BindView(R.id.tv_top_review)
+    TextView tvTopReview;
     @BindView(R.id.iv_id_card_positive)
     ImageView ivIdCardPositive;
     @BindView(R.id.iv_id_card_back)
@@ -62,6 +65,7 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
     private String idOpposite = "";
     private String idHold = "";
     private int flag;
+    private int reviewType = 0;//1.未上传资料 2正常4.审核中 5.已拒绝
 
     @Override
     public int getLayoutId() {
@@ -84,6 +88,22 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvSupplementInfoTop);
+
+        reviewType = getIntent().getIntExtra("review_type", 0);
+        switch (reviewType) {
+            case 1:
+                tvTopReview.setText("未审核");
+                break;
+            case 4:
+                tvTopReview.setText("审核中");
+                ivIdCardPositive.setEnabled(false);
+                ivIdCardBack.setEnabled(false);
+                ivIdCardHand.setEnabled(false);
+                break;
+            case 5:
+                tvTopReview.setText("已拒绝");
+                break;
+        }
     }
 
     @Override
@@ -162,9 +182,8 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
     @Override
     public void resultSupplementInfo(SupplementInfoBean data) {
         ToastUtil.showLongToast(data.getMsg());
-        if (data.getData().getUser().getStatus() == 2) {
+        if (data.getCode() == 200) {
             SPUtil.put(this, IS_SUPPLEMENT_INFO, true);
-
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }

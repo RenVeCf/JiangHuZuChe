@@ -32,6 +32,7 @@ import static com.ipd.jianghuzuche.common.config.IConstants.IS_SUPPLEMENT_INFO;
 import static com.ipd.jianghuzuche.common.config.IConstants.JPUSH_SEQUENCE;
 import static com.ipd.jianghuzuche.common.config.IConstants.NAME;
 import static com.ipd.jianghuzuche.common.config.IConstants.PHONE;
+import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
@@ -151,12 +152,18 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
             SPUtil.put(this, INVITAION_CODE, data.getData().getUser().getInvitationCode());
             SPUtil.put(this, AVATAR, BASE_LOCAL_URL + data.getData().getUser().getAvatar());
             JPushInterface.setAlias(this, JPUSH_SEQUENCE, "jhzc" + data.getData().getUser().getTelPhone());
+            //用户状态： status  1.未上传资料 2正常4.审核中 5.已拒绝
+            SPUtil.put(this, REVIEW, data.getData().getUser().getStatus() + "");
             if (data.getData().getUser().getStatus() == 1)
-                startActivity(new Intent(this, SupplementInfoActivity.class));
+                startActivity(new Intent(this, SupplementInfoActivity.class).putExtra("review_type", 1));
             else if (data.getData().getUser().getStatus() == 2) {
                 SPUtil.put(this, IS_SUPPLEMENT_INFO, true);
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
+            } else if (data.getData().getUser().getStatus() == 4) {
+                startActivity(new Intent(this, SupplementInfoActivity.class).putExtra("review_type", 4));
+            } else if (data.getData().getUser().getStatus() == 5) {
+                startActivity(new Intent(this, SupplementInfoActivity.class).putExtra("review_type", 5));
             }
         }
     }

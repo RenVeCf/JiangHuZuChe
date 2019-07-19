@@ -58,6 +58,7 @@ import static com.ipd.jianghuzuche.common.config.IConstants.FIRST_APP;
 import static com.ipd.jianghuzuche.common.config.IConstants.LATIUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.LONGTITUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_98;
+import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_URL;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.MODIFY_VERSION;
@@ -570,7 +571,7 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
                 } else if ((Boolean) (SPUtil.get(MainActivity.this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
-                    startActivity(new Intent(MainActivity.this, SupplementInfoActivity.class));
+                    startActivity(new Intent(MainActivity.this, SupplementInfoActivity.class).putExtra("review_type", Integer.valueOf(SPUtil.get(MainActivity.this, REVIEW, "") + "")));
                     finish();
                 }
                 mCameraDialog.dismiss();

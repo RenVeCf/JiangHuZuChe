@@ -20,9 +20,11 @@ import java.util.List;
 public class UserCouponAdapter extends BaseQuickAdapter<CouponBean.DataBean.UserCouponListBean, BaseViewHolder> {
 
     private ImageView ivCouponSelect;
+    private int couponType = 0;
 
-    public UserCouponAdapter(@Nullable List<CouponBean.DataBean.UserCouponListBean> data) {
+    public UserCouponAdapter(@Nullable List<CouponBean.DataBean.UserCouponListBean> data, int couponType) {
         super(R.layout.adapter_user_coupon, data);
+        this.couponType = couponType;
     }
 
     @Override
@@ -31,6 +33,11 @@ public class UserCouponAdapter extends BaseQuickAdapter<CouponBean.DataBean.User
         helper.setText(R.id.tv_coupon_use_money, item.getMoney() + "")
                 .setText(R.id.tv_coupon_condition_money, item.getTitle())
                 .setText(R.id.tv_coupon_end_time, item.getValidityTime());
+        if (couponType == 1) {
+            helper.setGone(R.id.aciv_coupon_type, true);
+            helper.setImageResource(R.id.aciv_coupon_type, item.getStatus() == 1 ? R.mipmap.ic_not_coupon : R.mipmap.ic_coupon);//1:使用了，2:未使用
+        } else
+            helper.setGone(R.id.aciv_coupon_type, false);
         if (item.isShow()) {
             ivCouponSelect.setVisibility(View.VISIBLE);
         } else {

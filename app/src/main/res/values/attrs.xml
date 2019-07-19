@@ -8,6 +8,7 @@
         <attr name="is_msg" format="boolean" />
         <attr name="is_bank" format="boolean" />
         <attr name="bank_color" format="color" />
+        <attr name="is_review" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
