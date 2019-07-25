@@ -35,6 +35,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        //必须要保证所有的flavor 都属于同一个维度
+        flavorDimensions "default"
 
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         ndk {
@@ -49,18 +51,83 @@ android {
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
+    signingConfigs {
+        config {
+            keyAlias 'jianghuzuche'
+            keyPassword '123456'
+            storeFile file('D:/android_jks/jianghuzuche.jks')
+            storePassword '123456'
+        }
+        test {
+            keyAlias 'jianghuzuche'
+            keyPassword '123456'
+            storeFile file('D:/android_jks/jianghuzuche.jks')
+            storePassword '123456'
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled false // 混淆
             shrinkResources false
+            //压缩对齐生成的apk包
+            zipAlignEnabled true
+            //混淆的配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名配置
+            signingConfig signingConfigs.config
+            //启用multidex的支持
+            multiDexEnabled true
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "jianghuzuche_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled false // 混淆
             shrinkResources false
+            //压缩对齐生成的apk包
+            zipAlignEnabled true
+            //混淆的配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名配置
+            signingConfig signingConfigs.test
+            //启用multidex的支持
+            multiDexEnabled true
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "jianghuzuche_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
+    }
+
+    //多渠道打包
+    productFlavors {
+//        huawei {}
+//        xiaomi {}
+//        yingyongbao {}
+        baidu {}
+//        wandoujia {}
+        qh360 {}
+//        pp {}
+//        vivo {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [INSTALL_CHANNEL_VALUE: name]
     }
 
     lintOptions {

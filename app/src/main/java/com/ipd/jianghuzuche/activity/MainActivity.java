@@ -3,9 +3,11 @@ package com.ipd.jianghuzuche.activity;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,7 +35,6 @@ import com.ipd.jianghuzuche.base.BaseActivity;
 import com.ipd.jianghuzuche.bean.ModifyVersionBean;
 import com.ipd.jianghuzuche.common.config.IConstants;
 import com.ipd.jianghuzuche.common.view.CircleImageView;
-import com.ipd.jianghuzuche.common.view.CustomUpdateParser;
 import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.ModifyVersionContract;
 import com.ipd.jianghuzuche.fragment.PlaceOrderFragment;
@@ -45,10 +46,10 @@ import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.NavigationBarUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
-import com.xuexiang.xupdate.XUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,11 +58,11 @@ import io.reactivex.ObservableTransformer;
 import static com.ipd.jianghuzuche.common.config.IConstants.FIRST_APP;
 import static com.ipd.jianghuzuche.common.config.IConstants.LATIUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.LONGTITUDE;
+import static com.ipd.jianghuzuche.common.config.IConstants.PACKAGE_NAME;
 import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_98;
 import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
-import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_URL;
-import static com.ipd.jianghuzuche.common.config.UrlConfig.MODIFY_VERSION;
+import static com.ipd.jianghuzuche.utils.AppUtils.getAppVersionName;
 
 /**
  * Description ：主页
@@ -410,16 +411,16 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
 
     @Override
     public void initData() {
-        //版本更新
-        XUpdate.newBuild(this)
-                .updateUrl(BASE_URL + MODIFY_VERSION)
-                .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
-                .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
-                .update();
-        //        TreeMap<String, String> modifyVersionMap = new TreeMap<>();
-        //        modifyVersionMap.put("platform", "1");
-        //        modifyVersionMap.put("type", "1");
-        //        getPresenter().getModifyVersion(modifyVersionMap, false, false);
+//        //版本更新
+//        XUpdate.newBuild(this)
+//                .updateUrl(BASE_URL + MODIFY_VERSION)
+//                .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
+//                .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
+//                .update();
+        TreeMap<String, String> modifyVersionMap = new TreeMap<>();
+        modifyVersionMap.put("platform", "1");
+        modifyVersionMap.put("type", "1");
+        getPresenter().getModifyVersion(modifyVersionMap, false, false);
     }
 
     /**
@@ -1015,9 +1016,42 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
         }
     }
 
+    /**
+     * 检测程序是否安装
+     *
+     * @param packageName
+     * @return
+     */
+    private boolean isInstalled(String packageName) {
+        PackageManager manager = this.getPackageManager();
+        //获取所有已安装程序的包信息
+        List<PackageInfo> installedPackages = manager.getInstalledPackages(0);
+        if (installedPackages != null) {
+            for (PackageInfo info : installedPackages) {
+                if (info.packageName.equals(packageName))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void resultModifyVersion(ModifyVersionBean data) {
-
+        if (data.getCode() == 200) {
+            if (!getAppVersionName(this, PACKAGE_NAME).equals(data.getData().getVersionYes().getVersionNo())) {
+                if (!isInstalled("com.baidu.appsearch")) {
+                    ToastUtil.showShortToast("请先安装百度手机助手客户端");
+                    return;
+                }
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse("market://details?id=" + PACKAGE_NAME);//app包名
+                intent.setData(uri);
+                intent.setPackage("com.baidu.appsearch");//百度手机助手包名
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
     }
 
     @Override

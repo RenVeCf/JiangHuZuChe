@@ -49,6 +49,32 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_check_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/y50"
+        android:paddingEnd="@dimen/x50"
+        android:paddingStart="@dimen/x50"
+        android:paddingTop="@dimen/y50">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="版本更新"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_right_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_about_us"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -69,7 +69,6 @@ public class ModifyVersionBean {
              * versionNo : 1.0
              * platform : 1
              * intro : 安卓第一个版本
-
              * modify : 1
              * news : 1
              * type : 1

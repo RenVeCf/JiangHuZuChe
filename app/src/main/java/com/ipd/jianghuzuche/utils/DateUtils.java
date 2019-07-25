@@ -143,7 +143,6 @@ public class DateUtils {
         }
     }
 
-
     public static String timedate1(String time) {
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd");
         if (time.length() == 13) {

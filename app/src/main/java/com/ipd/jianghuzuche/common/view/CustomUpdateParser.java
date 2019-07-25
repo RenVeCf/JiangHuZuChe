@@ -19,13 +19,14 @@ public class CustomUpdateParser implements IUpdateParser {
         ModifyVersionBean result = new Gson().fromJson(json, ModifyVersionBean.class);
         if (result != null) {
             return new UpdateEntity()
-                    .setHasUpdate(result.getData().getVersionYes().getNews() == 1 ? false : true)
-                    .setForce(result.getData().getVersionYes().getModify() == 1 ? true : false)
+                    .setHasUpdate(true)//result.getData().getVersionYes().getNews() == 1 ? false : true)
+                    .setForce(true)//result.getData().getVersionYes().getModify() == 1 ? true : false)
                     .setIsIgnorable(false)
-                    .setVersionCode(result.getData().getVersionYes().getVersionId())
+//                    .setVersionCode(2)
                     .setVersionName(result.getData().getVersionYes().getVersionNo())
                     .setUpdateContent(result.getData().getVersionYes().getIntro())
-                    .setDownloadUrl("");
+                    .setIsAutoInstall(true)
+                    .setDownloadUrl("");//"https://raw.githubusercontent.com/xuexiangjys/XUpdate/master/apk/xupdate_demo_1.0.2.apk");
         }
         return null;
     }
