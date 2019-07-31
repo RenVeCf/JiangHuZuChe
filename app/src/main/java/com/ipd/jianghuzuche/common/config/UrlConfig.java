@@ -10,10 +10,8 @@ public interface UrlConfig {
     /**
      * 域名
      */
-    String BASE_URL = "http://47.93.126.235:8010/jhzc/";
-    String BASE_LOCAL_URL = "http://47.93.126.235:8010/";
-//    String BASE_URL = "http://192.168.1.112/";
-//    String BASE_LOCAL_URL = "http://192.168.1.112/";
+    String BASE_URL = "http://jhkc.hanyu365.com.cn:8010/jhzc/";
+    String BASE_LOCAL_URL = "http://jhkc.hanyu365.com.cn:8010/";
 
     /**
      * 登陆
