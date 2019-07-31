@@ -35,6 +35,7 @@ import com.ipd.jianghuzuche.base.BaseActivity;
 import com.ipd.jianghuzuche.bean.ModifyVersionBean;
 import com.ipd.jianghuzuche.common.config.IConstants;
 import com.ipd.jianghuzuche.common.view.CircleImageView;
+import com.ipd.jianghuzuche.common.view.CustomUpdateParser;
 import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.ModifyVersionContract;
 import com.ipd.jianghuzuche.fragment.PlaceOrderFragment;
@@ -46,6 +47,7 @@ import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.NavigationBarUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.xuexiang.xupdate.XUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,8 @@ import static com.ipd.jianghuzuche.common.config.IConstants.PACKAGE_NAME;
 import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_98;
 import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
+import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_URL;
+import static com.ipd.jianghuzuche.common.config.UrlConfig.MODIFY_VERSION;
 import static com.ipd.jianghuzuche.utils.AppUtils.getAppVersionName;
 
 /**
@@ -411,16 +415,16 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
 
     @Override
     public void initData() {
-//        //版本更新
-//        XUpdate.newBuild(this)
-//                .updateUrl(BASE_URL + MODIFY_VERSION)
-//                .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
-//                .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
-//                .update();
-        TreeMap<String, String> modifyVersionMap = new TreeMap<>();
-        modifyVersionMap.put("platform", "1");
-        modifyVersionMap.put("type", "1");
-        getPresenter().getModifyVersion(modifyVersionMap, false, false);
+        //版本更新
+        XUpdate.newBuild(this)
+                .updateUrl(BASE_URL + MODIFY_VERSION)
+                .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
+                .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
+                .update();
+//        TreeMap<String, String> modifyVersionMap = new TreeMap<>();
+//        modifyVersionMap.put("platform", "1");
+//        modifyVersionMap.put("type", "1");
+//        getPresenter().getModifyVersion(modifyVersionMap, false, false);
     }
 
     /**

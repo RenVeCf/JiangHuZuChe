@@ -12,6 +12,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.ipd.jianghuzuche.R;
 import com.ipd.jianghuzuche.base.BaseActivity;
 import com.ipd.jianghuzuche.bean.ModifyVersionBean;
+import com.ipd.jianghuzuche.common.view.CustomUpdateParser;
 import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.ModifyVersionContract;
 import com.ipd.jianghuzuche.presenter.ModifyVersionPresenter;
@@ -19,6 +20,7 @@ import com.ipd.jianghuzuche.utils.ApplicationUtil;
 import com.ipd.jianghuzuche.utils.CacheUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.xuexiang.xupdate.XUpdate;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -30,6 +32,8 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.JPUSH_SEQUENCE;
 import static com.ipd.jianghuzuche.common.config.IConstants.PACKAGE_NAME;
+import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_URL;
+import static com.ipd.jianghuzuche.common.config.UrlConfig.MODIFY_VERSION;
 import static com.ipd.jianghuzuche.utils.AppUtils.getAppVersionName;
 
 public class SettingsActivity extends BaseActivity<ModifyVersionContract.View, ModifyVersionContract.Presenter> implements ModifyVersionContract.View {
@@ -122,10 +126,16 @@ public class SettingsActivity extends BaseActivity<ModifyVersionContract.View, M
                 CacheUtil.clearAllCache(this);
                 break;
             case R.id.ll_check_version:
-                TreeMap<String, String> modifyVersionMap = new TreeMap<>();
-                modifyVersionMap.put("platform", "1");
-                modifyVersionMap.put("type", "1");
-                getPresenter().getModifyVersion(modifyVersionMap, false, false);
+                //版本更新
+                XUpdate.newBuild(this)
+                        .updateUrl(BASE_URL + MODIFY_VERSION)
+                        .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
+                        .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
+                        .update();
+//                TreeMap<String, String> modifyVersionMap = new TreeMap<>();
+//                modifyVersionMap.put("platform", "1");
+//                modifyVersionMap.put("type", "1");
+//                getPresenter().getModifyVersion(modifyVersionMap, false, false);
                 break;
             case R.id.ll_about_us:
                 startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 7));
