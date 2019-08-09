@@ -7,7 +7,7 @@ package com.ipd.jianghuzuche.utils;
  * Time ： 2018/9/6.
  */
 public class isClickUtil {
-    private static final int MIN_DELAY_TIME = 2000;  // 两次点击间隔不能少于2000ms
+    private static final int MIN_DELAY_TIME = 700;  // 两次点击间隔不能少于700ms
     private static long lastClickTime;
 
     public static boolean isFastClick() {

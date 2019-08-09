@@ -51,8 +51,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:button="@null"
-                android:drawablePadding="@dimen/y10"
                 android:drawableTop="@drawable/select_bg_place_order"
+                android:drawablePadding="@dimen/y10"
                 android:gravity="center"
                 android:text="@string/place_order"
                 android:textColor="@drawable/tx_select_main" />
@@ -63,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:button="@null"
-                android:drawablePadding="@dimen/y10"
                 android:drawableTop="@drawable/select_bg_select_order"
+                android:drawablePadding="@dimen/y10"
                 android:gravity="center"
                 android:text="@string/select_order"
                 android:textColor="@drawable/tx_select_main" />
@@ -75,8 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:button="@null"
-                android:drawablePadding="@dimen/y10"
                 android:drawableTop="@drawable/select_bg_repair"
+                android:drawablePadding="@dimen/y10"
                 android:gravity="center"
                 android:text="@string/repair"
                 android:textColor="@drawable/tx_select_main" />
@@ -144,24 +144,24 @@
                     android:id="@+id/iv_white_wallet"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_wallet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:background="@drawable/bg_sidebar_item_select"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/bg_sidebar_item_select" />
 
                 <ImageView
                     android:id="@+id/iv_wallet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_wallet"
                     app:srcCompat="@drawable/select_sidebar_wallet" />
 
@@ -185,8 +185,8 @@
                     android:id="@+id/iv_white_maintenance_order"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_maintenance_order"
@@ -201,8 +201,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_maintenance_order"
                     app:srcCompat="@drawable/select_sidebar_maintenance_order" />
 
@@ -227,8 +227,8 @@
                     android:id="@+id/iv_white_customer_service"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_customer_service"
@@ -243,8 +243,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_customer_service"
                     app:srcCompat="@drawable/select_sidebar_customer_service" />
 
@@ -268,8 +268,8 @@
                     android:id="@+id/iv_white_feedback"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_feedback"
@@ -284,8 +284,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_feedback"
                     app:srcCompat="@drawable/select_sidebar_feedback" />
 
@@ -309,8 +309,8 @@
                     android:id="@+id/iv_white_coupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_coupon"
@@ -325,8 +325,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_coupon"
                     app:srcCompat="@drawable/select_sidebar_coupon" />
 
@@ -350,8 +350,8 @@
                     android:id="@+id/iv_white_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_notice"
@@ -366,8 +366,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_notice"
                     app:srcCompat="@drawable/select_sidebar_notice" />
 
@@ -391,8 +391,8 @@
                     android:id="@+id/iv_white_invitation_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_invitation_code"
@@ -407,8 +407,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_invitation_code"
                     app:srcCompat="@drawable/select_sidebar_invitation_code" />
 
@@ -442,8 +442,8 @@
                     android:id="@+id/iv_white_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_sidebar_item_select_white"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/bg_sidebar_item_select_white" />
 
                 <ImageView
                     android:id="@+id/iv_blue_setting"
@@ -458,8 +458,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/x50"
                     android:layout_marginStart="@dimen/x60"
+                    android:layout_marginEnd="@dimen/x50"
                     android:layout_toEndOf="@+id/iv_blue_setting"
                     app:srcCompat="@drawable/select_sidebar_setting" />
 

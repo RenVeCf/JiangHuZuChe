@@ -121,7 +121,7 @@ android {
 //        yingyongbao {}
         baidu {}
 //        wandoujia {}
-        qh360 {}
+//        qh360 {}
 //        pp {}
 //        vivo {}
     }

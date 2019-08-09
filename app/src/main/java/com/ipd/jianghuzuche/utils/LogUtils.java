@@ -17,7 +17,7 @@ public class LogUtils {
 
     // 是否需要打印bug，可以在application的onCreate函数里面初始化
     public static boolean isDebug = true;
-    private static final String TAG = "LogUtil";
+    private static final String TAG = "rmy";
 
     // 下面四个是默认tag的函数
     public static void i(String msg)

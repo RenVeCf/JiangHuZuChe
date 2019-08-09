@@ -51,7 +51,6 @@ import com.xuexiang.xupdate.XUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -634,11 +633,13 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_top_msg:
-                if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false)
+                LogUtils.i("(Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) = " + (Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)));
+                LogUtils.i("(Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) = " + (Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)));
+                if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false) {
                     setCenterModifyVersionDialog();
-                else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false)
+                } else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
                     setCenterModifyVersionDialog();
-                else
+                } else
                     startActivity(new Intent(this, MsgActivity.class));
                 break;
             case R.id.iv_top_sidebar:

@@ -183,7 +183,6 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
     public void resultSupplementInfo(SupplementInfoBean data) {
         ToastUtil.showLongToast(data.getMsg());
         if (data.getCode() == 200) {
-            SPUtil.put(this, IS_SUPPLEMENT_INFO, true);
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
