@@ -92,7 +92,7 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
         reviewType = getIntent().getIntExtra("review_type", 0);
         switch (reviewType) {
             case 1:
-                tvTopReview.setText("未审核");
+                tvTopReview.setVisibility(View.GONE);//首次
                 break;
             case 4:
                 tvTopReview.setText("审核中");
