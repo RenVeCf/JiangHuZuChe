@@ -35,7 +35,7 @@ public class UserCouponAdapter extends BaseQuickAdapter<CouponBean.DataBean.User
                 .setText(R.id.tv_coupon_end_time, item.getValidityTime());
         if (couponType == 1) {
             helper.setGone(R.id.aciv_coupon_type, true);
-            helper.setImageResource(R.id.aciv_coupon_type, item.getStatus() == 1 ? R.mipmap.ic_not_coupon : R.mipmap.ic_coupon);//1:使用了，2:未使用
+            helper.setImageResource(R.id.aciv_coupon_type, item.getStatus() == 1 ? R.mipmap.ic_coupon : R.mipmap.ic_not_coupon);//1:未使用，2:使用了
         } else
             helper.setGone(R.id.aciv_coupon_type, false);
         if (item.isShow()) {

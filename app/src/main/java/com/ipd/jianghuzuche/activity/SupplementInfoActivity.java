@@ -36,7 +36,7 @@ import io.reactivex.ObservableTransformer;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-import static com.ipd.jianghuzuche.common.config.IConstants.IS_SUPPLEMENT_INFO;
+import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 
 /**
@@ -183,6 +183,8 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
     public void resultSupplementInfo(SupplementInfoBean data) {
         ToastUtil.showLongToast(data.getMsg());
         if (data.getCode() == 200) {
+            //用户状态： status  1.未上传资料 2正常4.审核中 5.已拒绝
+            SPUtil.put(this, REVIEW, data.getData().getUser().getStatus() + "");
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
