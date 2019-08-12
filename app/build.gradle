@@ -51,20 +51,20 @@ android {
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
-//    signingConfigs {
-//        config {
-//            keyAlias 'jianghuzuche'
-//            keyPassword '123456'
-//            storeFile file('D:/android_jks/jianghuzuche.jks')
-//            storePassword '123456'
-//        }
-//        test {
-//            keyAlias 'jianghuzuche'
-//            keyPassword '123456'
-//            storeFile file('D:/android_jks/jianghuzuche.jks')
-//            storePassword '123456'
-//        }
-//    }
+    signingConfigs {
+        config {
+            keyAlias 'jianghuzuche'
+            keyPassword '123456'
+            storeFile file('../jianghuzuche.jks')
+            storePassword '123456'
+        }
+        test {
+            keyAlias 'jianghuzuche'
+            keyPassword '123456'
+            storeFile file('../jianghuzuche.jks')
+            storePassword '123456'
+        }
+    }
 
     buildTypes {
         release {
@@ -74,20 +74,20 @@ android {
             zipAlignEnabled true
             //混淆的配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            //签名配置
-//            signingConfig signingConfigs.config
-//            //启用multidex的支持
-//            multiDexEnabled true
-//            applicationVariants.all { variant ->
-//                variant.outputs.all { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
-//                        def fileName = "jianghuzuche_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-//                        outputFileName = fileName
-//                    }
-//                }
-//            }
+            //签名配置
+            signingConfig signingConfigs.config
+            //启用multidex的支持
+            multiDexEnabled true
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "jianghuzuche_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
 
         debug {
@@ -97,20 +97,20 @@ android {
             zipAlignEnabled true
             //混淆的配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            //签名配置
-//            signingConfig signingConfigs.test
-//            //启用multidex的支持
-//            multiDexEnabled true
-//            applicationVariants.all { variant ->
-//                variant.outputs.all { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
-//                        def fileName = "jianghuzuche_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-//                        outputFileName = fileName
-//                    }
-//                }
-//            }
+            //签名配置
+            signingConfig signingConfigs.test
+            //启用multidex的支持
+            multiDexEnabled true
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "jianghuzuche_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
     }
 
