@@ -78,10 +78,10 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
         //将每个Activity加入到栈中
         ApplicationUtil.getManager().addActivity(this);
         //自动登录
-        if (!SPUtil.get(this, IS_SUPPLEMENT_INFO, "").equals("")) {
+        if ((Boolean) (SPUtil.get(this, IS_SUPPLEMENT_INFO, false)) != false) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        } else if (!SPUtil.get(this, IS_LOGIN, "").equals("")) {
+        } else if ((Boolean) (SPUtil.get(this, IS_LOGIN, false)) != false) {
             startActivity(new Intent(this, SupplementInfoActivity.class));
             finish();
         }

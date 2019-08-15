@@ -260,6 +260,7 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
         final Dialog mCameraDialog = new Dialog(getContext(), R.style.BottomDialog);
         //Dialog布局
         LinearLayout root = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.dialog_center, null);
+        root.findViewById(R.id.tv_dialog_center_start).setVisibility(View.GONE);
         tv = root.findViewById(R.id.tv_dialog_center_end);
         switch (type) {
             case 0:

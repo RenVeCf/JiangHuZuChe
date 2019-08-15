@@ -58,7 +58,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
-import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
+import static com.ipd.jianghuzuche.common.config.IConstants.IS_LOGIN;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
@@ -342,20 +342,22 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
         //Dialog布局
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_center, null);
-        root.findViewById(R.id.tv_dialog_center_start).setVisibility(View.VISIBLE);
+        root.findViewById(R.id.tv_dialog_center_start).setVisibility(View.GONE);
         tv = root.findViewById(R.id.tv_dialog_center_end);
         tv.setText("请先登录");
         //初始化视图
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((Boolean) (SPUtil.get(StoreDetailsActivity.this, IConstants.IS_LOGIN, false)) == false) {
-                    startActivity(new Intent(StoreDetailsActivity.this, LoginActivity.class));
-                    finish();
-                } else if ((Boolean) (SPUtil.get(StoreDetailsActivity.this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
-                    startActivity(new Intent(StoreDetailsActivity.this, SupplementInfoActivity.class).putExtra("review_type", Integer.valueOf(SPUtil.get(StoreDetailsActivity.this, REVIEW, "") + "")));
-                    finish();
-                }
+//                if ((Boolean) (SPUtil.get(StoreDetailsActivity.this, IConstants.IS_LOGIN, false)) == false) {
+                startActivity(new Intent(StoreDetailsActivity.this, LoginActivity.class));
+                SPUtil.put(StoreDetailsActivity.this, IS_LOGIN, false);
+                finish();
+//                }
+//                else if ((Boolean) (SPUtil.get(StoreDetailsActivity.this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
+//                    startActivity(new Intent(StoreDetailsActivity.this, SupplementInfoActivity.class).putExtra("review_type", Integer.valueOf(SPUtil.get(StoreDetailsActivity.this, REVIEW, "") + "")));
+//                    finish();
+//                }
                 mCameraDialog.dismiss();
             }
         });
@@ -607,8 +609,8 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
             public void onPageSelected(final int position) {
                 int o = 0;
                 if (repairProjectHorizontalBean.get(position).getAppRepairs().size() > 4)
-                    o = repairProjectHorizontalBean.get(0).getAppRepairs().size() % 4 == 0 ? repairProjectHorizontalBean.get(0).getAppRepairs().size() / 4 : repairProjectHorizontalBean.get(0).getAppRepairs().size() / 4 + 1;
-                else if (repairProjectHorizontalBean.get(position).getAppRepairs().size() < 4 && repairProjectHorizontalBean.get(position).getAppRepairs().size() != 0)
+                    o = repairProjectHorizontalBean.get(position).getAppRepairs().size() % 4 == 0 ? repairProjectHorizontalBean.get(position).getAppRepairs().size() / 4 : repairProjectHorizontalBean.get(position).getAppRepairs().size() / 4 + 1;
+                else if (repairProjectHorizontalBean.get(position).getAppRepairs().size() <= 4 && repairProjectHorizontalBean.get(position).getAppRepairs().size() != 0)
                     o = 1;
                 // 切换到当前页面，重置高度
                 vpStoreInfor.resetHeight(position, o);

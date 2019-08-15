@@ -181,13 +181,14 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
 
     @Override
     public void resultSupplementInfo(SupplementInfoBean data) {
-        ToastUtil.showLongToast(data.getMsg());
         if (data.getCode() == 200) {
+            ToastUtil.showLongToast("身份证审核中，请耐心等待");
             //用户状态： status  1.未上传资料 2正常4.审核中 5.已拒绝
             SPUtil.put(this, REVIEW, data.getData().getUser().getStatus() + "");
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
     }
 
     @Override

@@ -319,6 +319,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
         final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
         //Dialog布局
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_center, null);
+        root.findViewById(R.id.tv_dialog_center_start).setVisibility(View.GONE);
         tv = root.findViewById(R.id.tv_dialog_center_end);
         tv.setText("是否取消订单？");
 
@@ -376,6 +377,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
         final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
         //Dialog布局
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_center, null);
+        root.findViewById(R.id.tv_dialog_center_start).setVisibility(View.GONE);
         tv = root.findViewById(R.id.tv_dialog_center_end);
         tv.setText("是否提前还车？");
 

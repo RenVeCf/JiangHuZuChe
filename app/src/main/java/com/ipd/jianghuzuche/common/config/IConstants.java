@@ -24,7 +24,7 @@ public interface IConstants {
     String PHONE = "phone"; //用户手机号码
     String SERVICE_PHONE = "service_phone"; //咨询客服号码
     String AVATAR = "avatar"; //头像
-    String REVIEW = "review"; //1.未上传资料 2正常4.审核中 5.已拒绝
+    String REVIEW = "review"; //1.未上传资料 2正常 4.审核中 5.已拒绝
     String INVITAION_CODE = "invitation_code"; //邀请码
     String LATIUDE = "latitude"; //经度
     String LONGTITUDE = "longtitude"; //纬度

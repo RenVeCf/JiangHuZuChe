@@ -57,11 +57,11 @@ import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.FIRST_APP;
+import static com.ipd.jianghuzuche.common.config.IConstants.IS_LOGIN;
 import static com.ipd.jianghuzuche.common.config.IConstants.LATIUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.LONGTITUDE;
 import static com.ipd.jianghuzuche.common.config.IConstants.PACKAGE_NAME;
 import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_98;
-import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_URL;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.MODIFY_VERSION;
@@ -564,20 +564,22 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
         final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
         //Dialog布局
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_center, null);
-        root.findViewById(R.id.tv_dialog_center_start).setVisibility(View.VISIBLE);
+        root.findViewById(R.id.tv_dialog_center_start).setVisibility(View.GONE);
         tv = root.findViewById(R.id.tv_dialog_center_end);
         tv.setText("请先登录");
         //初始化视图
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((Boolean) (SPUtil.get(MainActivity.this, IConstants.IS_LOGIN, false)) == false) {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    finish();
-                } else if ((Boolean) (SPUtil.get(MainActivity.this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
-                    startActivity(new Intent(MainActivity.this, SupplementInfoActivity.class).putExtra("review_type", Integer.valueOf(SPUtil.get(MainActivity.this, REVIEW, "") + "")));
-                    finish();
-                }
+//                if ((Boolean) (SPUtil.get(MainActivity.this, IConstants.IS_LOGIN, false)) == false) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                SPUtil.put(MainActivity.this, IS_LOGIN, false);
+                finish();
+//                }
+//                else if ((Boolean) (SPUtil.get(MainActivity.this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {
+//                    startActivity(new Intent(MainActivity.this, SupplementInfoActivity.class).putExtra("review_type", Integer.valueOf(SPUtil.get(MainActivity.this, REVIEW, "") + "")));
+//                    finish();
+//                }
                 mCameraDialog.dismiss();
             }
         });
@@ -633,8 +635,6 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_top_msg:
-                LogUtils.i("(Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) = " + (Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)));
-                LogUtils.i("(Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) = " + (Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)));
                 if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false) {
                     setCenterModifyVersionDialog();
                 } else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false) {

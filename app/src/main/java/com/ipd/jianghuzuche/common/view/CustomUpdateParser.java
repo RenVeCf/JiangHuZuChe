@@ -32,7 +32,7 @@ public class CustomUpdateParser implements IUpdateParser {
                     .setVersionName(result.getData().getVersionYes().getVersionNo())
                     .setUpdateContent(result.getData().getVersionYes().getIntro())
                     .setIsAutoInstall(true)
-                    .setDownloadUrl("http://jhkc.hanyu365.com.cn/rentCarGov/jianghuzuche_v" + getAppVersionName(ApplicationUtil.getContext(), PACKAGE_NAME) + "_baidu.apk");
+                    .setDownloadUrl("http://jhkc.hanyu365.com.cn/rentCarGov/jianghuzuche_baidu.apk");
         }
         return null;
     }
