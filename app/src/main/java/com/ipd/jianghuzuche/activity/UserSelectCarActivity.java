@@ -17,6 +17,7 @@ import com.ipd.jianghuzuche.common.view.TopView;
 import com.ipd.jianghuzuche.contract.UserSelectCarContract;
 import com.ipd.jianghuzuche.presenter.UserSelectCarPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.isClickUtil;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import java.util.TreeMap;
 
 import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
+
+import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 
 /**
  * Description ：选车
@@ -98,7 +101,6 @@ public class UserSelectCarActivity extends BaseActivity<UserSelectCarContract.Vi
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (isClickUtil.isFastClick()) {
-
                     startActivity(new Intent(UserSelectCarActivity.this, CarDetailsActivity.class).putExtra("car_details", userSelectCarBean.get(position)).putExtra("store_by_id", storeByIdBean));
                 }
             }
@@ -109,6 +111,7 @@ public class UserSelectCarActivity extends BaseActivity<UserSelectCarContract.Vi
     public void initData() {
         if (!storeId.equals("")) {
             TreeMap<String, String> choiceStoreMap = new TreeMap<>();
+            choiceStoreMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
             choiceStoreMap.put("storeId", storeId);
             choiceStoreMap.put("page", page + "");
             getPresenter().getUserSelectCar(choiceStoreMap, false, false);

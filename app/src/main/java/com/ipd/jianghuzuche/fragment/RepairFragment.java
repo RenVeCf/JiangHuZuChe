@@ -20,6 +20,7 @@ import com.ipd.jianghuzuche.bean.RepairListBean;
 import com.ipd.jianghuzuche.contract.RepairListContract;
 import com.ipd.jianghuzuche.presenter.RepairListPresenter;
 import com.ipd.jianghuzuche.utils.SPUtil;
+import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.ryane.banner.AdPageInfo;
 import com.ryane.banner.AdPlayBanner;
@@ -52,9 +53,10 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
     @BindView(R.id.ab_repair)
     AdPlayBanner abRepair;
 
-    private List<AdPageInfo> images;
-    private List<RepairListBean.DataBean.StoreListBean> repairListBean;
+    private List<AdPageInfo> images = new ArrayList<>();
+    private List<RepairListBean.DataBean.StoreListBean> repairListBean = new ArrayList<>();
     private RepairAdapter repairAdapter;
+    private int pageNum = 0;//页数
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -92,11 +94,6 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
         // 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvRepair.setHasFixedSize(true);
         rvRepair.setItemAnimator(new DefaultItemAnimator());
-
-        images = new ArrayList<>();
-        repairListBean = new ArrayList<>();
-        repairAdapter = new RepairAdapter(repairListBean);
-        rvRepair.setAdapter(repairAdapter);
     }
 
     @Override
@@ -104,41 +101,90 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
         srlRepair.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageNum = 0;
                 initData();
                 srlRepair.setRefreshing(false);
-            }
-        });
-
-        repairAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (isClickUtil.isFastClick()) {
-                    ChoiceStoreBean.DataBean.StoreListBean choiceStoreBeanList = new ChoiceStoreBean.DataBean.StoreListBean();
-                    choiceStoreBeanList.setStoreId(repairListBean.get(position).getStoreId());
-                    choiceStoreBeanList.setStoreName(repairListBean.get(position).getStoreName());
-                    choiceStoreBeanList.setDescAddress(repairListBean.get(position).getDescAddress());
-                    choiceStoreBeanList.setDistance(repairListBean.get(position).getDistance());
-                    choiceStoreBeanList.setContactsPhone(repairListBean.get(position).getContactsPhone());
-                    choiceStoreBeanList.setPicPath(repairListBean.get(position).getPicPath());
-                    startActivity(new Intent(getActivity(), StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList).putExtra("store_type", 1));
-                }
             }
         });
     }
 
     @Override
     public void initData() {
-        TreeMap<String, String> loginMap = new TreeMap<>();
-        loginMap.put("longitude", SPUtil.get(getActivity(), LONGTITUDE, "") + "");
-        loginMap.put("latitude", SPUtil.get(getActivity(), LATIUDE, "") + "");
-        getPresenter().getRepairList(loginMap, true, false);
+        TreeMap<String, String> repairListMap = new TreeMap<>();
+        repairListMap.put("longitude", SPUtil.get(getActivity(), LONGTITUDE, "") + "");
+        repairListMap.put("latitude", SPUtil.get(getActivity(), LATIUDE, "") + "");
+        repairListMap.put("page", pageNum + "");
+        getPresenter().getRepairList(repairListMap, true, false);
     }
 
     @Override
     public void resultRepairList(final RepairListBean data) {
-        repairListBean.clear();
-        repairListBean.addAll(data.getData().getStoreList());
-        repairAdapter.setNewData(repairListBean);
+        if (data.getCode() == 200) {
+            if (data.getData().getStoreList().size() > 0) {
+                if (pageNum == 0) {
+                    repairListBean.clear();
+                    repairListBean.addAll(data.getData().getStoreList());
+                    repairAdapter = new RepairAdapter(repairListBean);
+                    rvRepair.setAdapter(repairAdapter);
+                    repairAdapter.bindToRecyclerView(rvRepair);
+                    repairAdapter.setEnableLoadMore(true);
+                    repairAdapter.openLoadAnimation();
+                    repairAdapter.disableLoadMoreIfNotFullPage();
+
+                    repairAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            if (isClickUtil.isFastClick()) {
+                                ChoiceStoreBean.DataBean.StoreListBean choiceStoreBeanList = new ChoiceStoreBean.DataBean.StoreListBean();
+                                choiceStoreBeanList.setStoreId(repairListBean.get(position).getStoreId());
+                                choiceStoreBeanList.setStoreName(repairListBean.get(position).getStoreName());
+                                choiceStoreBeanList.setDescAddress(repairListBean.get(position).getDescAddress());
+                                choiceStoreBeanList.setDistance(repairListBean.get(position).getDistance());
+                                choiceStoreBeanList.setContactsPhone(repairListBean.get(position).getContactsPhone());
+                                choiceStoreBeanList.setPicPath(repairListBean.get(position).getPicPath());
+                                startActivity(new Intent(getActivity(), StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList).putExtra("store_type", 1));
+                            }
+                        }
+                    });
+
+                    //上拉加载
+                    repairAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                        @Override
+                        public void onLoadMoreRequested() {
+                            rvRepair.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initData();
+                                }
+                            }, 1000);
+                        }
+                    }, rvRepair);
+
+                    if (repairListBean.size() > 10) {
+                        pageNum += 1;
+                    } else {
+                        repairAdapter.loadMoreEnd();
+                    }
+                } else {
+                    if ((repairListBean.size() - pageNum * 10) > 0) {
+                        pageNum += 1;
+                        repairAdapter.addData(repairListBean);
+                        repairAdapter.loadMoreComplete(); //完成本次
+                    } else {
+                        repairAdapter.addData(repairListBean);
+                        repairAdapter.loadMoreEnd(); //完成所有加载
+                    }
+                }
+            } else {
+                repairListBean.clear();
+                repairAdapter = new RepairAdapter(repairListBean);
+                rvRepair.setAdapter(repairAdapter);
+                repairAdapter.loadMoreEnd(); //完成所有加载
+                repairAdapter.setEmptyView(R.layout.null_data, rvRepair);
+            }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
+
 
         AdPageInfo info1;
         for (int i = 0; i < data.getData().getPictureList().size(); i++) {

@@ -68,6 +68,7 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
     private List<ChoiceStoreBean.DataBean.StoreListBean> choiceStoreBeanList;
     private String latitude = "";
     private String longtitude = "";
+    private int pageNum = 0;//页数
 
     @Override
     public int getLayoutId() {
@@ -110,42 +111,9 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
         srlChoiceStore.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageNum = 0;
                 initData();
                 srlChoiceStore.setRefreshing(false);
-            }
-        });
-
-        choiceStoreAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (isClickUtil.isFastClick()) {
-                    SPUtil.put(ChoiceStoreActivity.this, STORE_NAME, choiceStoreBeanList.get(position).getStoreName() + "");
-                    SPUtil.put(ChoiceStoreActivity.this, STORE_PATH, choiceStoreBeanList.get(position).getDescAddress() + "");
-
-                    setResult(RESULT_OK, new Intent()
-                            .putExtra("store_id", choiceStoreBeanList.get(position).getStoreId() + "")
-                            .putExtra("store_name", choiceStoreBeanList.get(position).getStoreName()));
-                    finish();
-                }
-            }
-        });
-
-        choiceStoreAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (isClickUtil.isFastClick()) {
-                    switch (view.getId()) {
-                        case R.id.tv_go_store:
-                            setMapDialog(position);
-                            break;
-                        case R.id.tv_store_distance:
-                            setMapDialog(position);
-                            break;
-                        case R.id.ll_go_store_details:
-                            startActivity(new Intent(ChoiceStoreActivity.this, StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList.get(position)).putExtra("store_type", 0));
-                            break;
-                    }
-                }
             }
         });
     }
@@ -155,6 +123,8 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
         TreeMap<String, String> choiceStoreMap = new TreeMap<>();
         choiceStoreMap.put("longitude", longtitude);
         choiceStoreMap.put("latitude", latitude);
+        choiceStoreMap.put("storeName", etSearch.getText().toString().trim());
+        choiceStoreMap.put("page", pageNum + "");
         getPresenter().getChoiceStore(choiceStoreMap, true, false);
     }
 
@@ -273,12 +243,89 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
 
     @Override
     public void resultChoiceStore(final ChoiceStoreBean data) {
-        choiceStoreBeanList.clear();
-        choiceStoreBeanList.addAll(data.getData().getStoreList());
-        choiceStoreAdapter.setNewData(choiceStoreBeanList);
+        if (data.getCode() == 200) {
+            if (data.getData().getStoreList().size() > 0) {
+                if (pageNum == 0) {
+                    choiceStoreBeanList.clear();
+                    choiceStoreBeanList.addAll(data.getData().getStoreList());
+                    choiceStoreAdapter = new ChoiceStoreAdapter(choiceStoreBeanList);
+                    rvChoiceStore.setAdapter(choiceStoreAdapter);
+                    choiceStoreAdapter.bindToRecyclerView(rvChoiceStore);
+                    choiceStoreAdapter.setEnableLoadMore(true);
+                    choiceStoreAdapter.openLoadAnimation();
+                    choiceStoreAdapter.disableLoadMoreIfNotFullPage();
 
-        //空数据时的页面
-        choiceStoreAdapter.setEmptyView(R.layout.null_data, rvChoiceStore);
+                    choiceStoreAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            if (isClickUtil.isFastClick()) {
+                                SPUtil.put(ChoiceStoreActivity.this, STORE_NAME, choiceStoreBeanList.get(position).getStoreName() + "");
+                                SPUtil.put(ChoiceStoreActivity.this, STORE_PATH, choiceStoreBeanList.get(position).getDescAddress() + "");
+
+                                setResult(RESULT_OK, new Intent()
+                                        .putExtra("store_id", choiceStoreBeanList.get(position).getStoreId() + "")
+                                        .putExtra("store_name", choiceStoreBeanList.get(position).getStoreName()));
+                                finish();
+                            }
+                        }
+                    });
+
+                    choiceStoreAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        @Override
+                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            if (isClickUtil.isFastClick()) {
+                                switch (view.getId()) {
+                                    case R.id.tv_go_store:
+                                        setMapDialog(position);
+                                        break;
+                                    case R.id.tv_store_distance:
+                                        setMapDialog(position);
+                                        break;
+                                    case R.id.ll_go_store_details:
+                                        startActivity(new Intent(ChoiceStoreActivity.this, StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList.get(position)).putExtra("store_type", 0));
+                                        break;
+                                }
+                            }
+                        }
+                    });
+
+                    //上拉加载
+                    choiceStoreAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                        @Override
+                        public void onLoadMoreRequested() {
+                            rvChoiceStore.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initData();
+                                }
+                            }, 1000);
+                        }
+                    }, rvChoiceStore);
+
+                    if (choiceStoreBeanList.size() > 10) {
+                        pageNum += 1;
+                    } else {
+                        choiceStoreAdapter.loadMoreEnd();
+                    }
+                } else {
+                    if ((choiceStoreBeanList.size() - pageNum * 10) > 0) {
+                        pageNum += 1;
+                        choiceStoreAdapter.addData(choiceStoreBeanList);
+                        choiceStoreAdapter.loadMoreComplete(); //完成本次
+                    } else {
+                        choiceStoreAdapter.addData(choiceStoreBeanList);
+                        choiceStoreAdapter.loadMoreEnd(); //完成所有加载
+                    }
+                }
+            } else {
+                choiceStoreBeanList.clear();
+                choiceStoreAdapter = new ChoiceStoreAdapter(choiceStoreBeanList);
+                rvChoiceStore.setAdapter(choiceStoreAdapter);
+                choiceStoreAdapter.loadMoreEnd(); //完成所有加载
+                choiceStoreAdapter.setEmptyView(R.layout.null_data, rvChoiceStore);
+            }
+        } else
+            ToastUtil.showLongToast(data.getMsg());
     }
 
     @Override
@@ -289,10 +336,12 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
     @OnClick(R.id.iv_search)
     public void onViewClicked() {
         if (isClickUtil.isFastClick()) {
+            pageNum = 0;
             TreeMap<String, String> choiceStoreMap = new TreeMap<>();
             choiceStoreMap.put("longitude", longtitude);
             choiceStoreMap.put("latitude", latitude);
             choiceStoreMap.put("storeName", etSearch.getText().toString().trim());
+            choiceStoreMap.put("page", pageNum + "");
             getPresenter().getChoiceStore(choiceStoreMap, true, false);
         }
     }
