@@ -160,18 +160,18 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
                         }
                     }, rvRepair);
 
-                    if (repairListBean.size() > 10) {
+                    if (repairListBean.size() >= 10) {
                         pageNum += 1;
                     } else {
                         repairAdapter.loadMoreEnd();
                     }
                 } else {
-                    if ((repairListBean.size() - pageNum * 10) > 0) {
+                    if ((data.getData().getStoreList().size() - pageNum * 10) >= 0) {
                         pageNum += 1;
-                        repairAdapter.addData(repairListBean);
+                        repairAdapter.addData(data.getData().getStoreList());
                         repairAdapter.loadMoreComplete(); //完成本次
                     } else {
-                        repairAdapter.addData(repairListBean);
+                        repairAdapter.addData(data.getData().getStoreList());
                         repairAdapter.loadMoreEnd(); //完成所有加载
                     }
                 }

@@ -302,18 +302,18 @@ public class ChoiceStoreActivity extends BaseActivity<ChoiceStoreContract.View, 
                         }
                     }, rvChoiceStore);
 
-                    if (choiceStoreBeanList.size() > 10) {
+                    if (choiceStoreBeanList.size() >= 10) {
                         pageNum += 1;
                     } else {
                         choiceStoreAdapter.loadMoreEnd();
                     }
                 } else {
-                    if ((choiceStoreBeanList.size() - pageNum * 10) > 0) {
+                    if ((data.getData().getStoreList().size() - pageNum * 10) >= 0) {
                         pageNum += 1;
-                        choiceStoreAdapter.addData(choiceStoreBeanList);
+                        choiceStoreAdapter.addData(data.getData().getStoreList());
                         choiceStoreAdapter.loadMoreComplete(); //完成本次
                     } else {
-                        choiceStoreAdapter.addData(choiceStoreBeanList);
+                        choiceStoreAdapter.addData(data.getData().getStoreList());
                         choiceStoreAdapter.loadMoreEnd(); //完成所有加载
                     }
                 }
