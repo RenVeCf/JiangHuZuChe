@@ -31,8 +31,8 @@ android {
         applicationId "com.ipd.jianghuzuche"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.1.1"
+        versionCode 4
+        versionName "1.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         //必须要保证所有的flavor 都属于同一个维度

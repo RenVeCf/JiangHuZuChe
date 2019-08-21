@@ -142,6 +142,8 @@ public class RepairFragment extends BaseFragment<RepairListContract.View, Repair
                                 choiceStoreBeanList.setDistance(repairListBean.get(position).getDistance());
                                 choiceStoreBeanList.setContactsPhone(repairListBean.get(position).getContactsPhone());
                                 choiceStoreBeanList.setPicPath(repairListBean.get(position).getPicPath());
+                                choiceStoreBeanList.setLongitude(repairListBean.get(position).getLongitude());
+                                choiceStoreBeanList.setLatitude(repairListBean.get(position).getLatitude());
                                 startActivity(new Intent(getActivity(), StoreDetailsActivity.class).putExtra("store_details", choiceStoreBeanList).putExtra("store_type", 1));
                             }
                         }
