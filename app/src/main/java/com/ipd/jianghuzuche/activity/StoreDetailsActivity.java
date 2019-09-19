@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
@@ -41,10 +42,10 @@ import com.ipd.jianghuzuche.contract.StoreDetailsContract;
 import com.ipd.jianghuzuche.fragment.RepairProjectVerticalFragment;
 import com.ipd.jianghuzuche.presenter.StoreDetailsPresenter;
 import com.ipd.jianghuzuche.utils.ApplicationUtil;
+import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.NumberUtils;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
-import com.ipd.jianghuzuche.utils.isClickUtil;
 import com.ryane.banner.AdPageInfo;
 import com.ryane.banner.AdPlayBanner;
 
@@ -58,10 +59,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static android.Manifest.permission.CALL_PHONE;
 import static com.ipd.jianghuzuche.common.config.IConstants.IS_LOGIN;
+import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
+import static com.ipd.jianghuzuche.utils.isClickUtil.isFastClick;
 import static com.ryane.banner.AdPlayBanner.ImageLoaderType.GLIDE;
 
 /**
@@ -251,6 +255,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                callPhone();
                 mCameraDialog.dismiss();
             }
         });
@@ -275,6 +280,24 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         mCameraDialog.show();
     }
 
+    //打电话
+    private void callPhone() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + SERVICE_PHONE);//TODO  客服电话
+        intent.setData(data);
+        if (ActivityCompat.checkSelfPermission(this, CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
+    }
+
     private void setDocumentsReceivedDialog() {
         final TextView tv;
         final Dialog mCameraDialog = new Dialog(this, R.style.BottomDialog);
@@ -288,14 +311,18 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         root.findViewById(R.id.bt_dialog_toast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isClickUtil.isFastClick()) {
+                if (isFastClick()) {
                     if (chargeType != 0 || !fm.getLoadStringTwo().equals("")) {
                         TreeMap<String, String> loginMap = new TreeMap<>();
                         loginMap.put("userId", SPUtil.get(StoreDetailsActivity.this, USER_ID, "") + "");
-                        if (chargeType != 0)
+                        if (chargeType != 0) {
+                            LogUtils.i("rmy", "0000 = " + getLoadString());
                             loginMap.put("charges", getLoadString());
-                        if (!fm.getLoadStringTwo().equals(""))
+                        }
+                        if (!fm.getLoadStringTwo().equals("")) {
+                            LogUtils.i("rmy", "1111 = " + getLoadString());
                             loginMap.put("repairs", fm.getLoadStringTwo());
+                        }
                         loginMap.put("storeId", storeListBean.getStoreId() + "");
                         getPresenter().getRepairConfirm(loginMap, false, false);
                     } else
@@ -323,8 +350,25 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         List<Map<String, String>> listMap = new ArrayList<>();
         Map<String, String> map = new HashMap<>();
         map.put("chargeId", chargeListBean.get(chargeType - 1).getChargeId() + "");
-        map.put("title", chargeListBean.get(chargeType - 1).getTitle());
-        map.put("cost", chargeListBean.get(chargeType - 1).getCost() + "");
+        switch (chargeType){
+            case 1:
+                map.put("title", tvChargeFrist.getText().toString().trim());
+                map.put("cost", tvChargeFristFee.getText().toString().trim().replaceAll("费用","").replaceAll("元", ""));
+                break;
+            case 2:
+                map.put("title", tvChargeSecond.getText().toString().trim());
+                map.put("cost", tvChargeSecondFee.getText().toString().trim().replaceAll("费用","").replaceAll("元", ""));
+                break;
+            case 3:
+                map.put("title", tvChargeThree.getText().toString().trim());
+                map.put("cost", tvChargeThreeFee.getText().toString().trim().replaceAll("费用","").replaceAll("元", ""));
+                break;
+        }
+//        map.put("title", chargeListBean.get(chargeType - 1).getTitle());
+//        for (int i = 0; i < chargeListBean.size(); i++) {
+            LogUtils.i("rmy", "chargeType = " + chargeType);
+//        }
+//        map.put("cost", chargeListBean.get(chargeType - 1).getCost() + "");
         if (!tvChargeFristNum.getText().toString().equals("0"))
             map.put("chargeNum", tvChargeFristNum.getText().toString());
         else if (!tvChargeSecondNum.getText().toString().equals("0"))
@@ -434,7 +478,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
                 setMapDialog();
                 break;
             case R.id.bt_store_details:
-                if (isClickUtil.isFastClick()) {
+                if (isFastClick()) {
                     if ((Boolean) (SPUtil.get(this, IConstants.IS_LOGIN, false)) == false)
                         setCenterLoginDialog();
                     else if ((Boolean) (SPUtil.get(this, IConstants.IS_SUPPLEMENT_INFO, false)) == false)
@@ -700,7 +744,8 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
 
     @Override
     public void resultRepairConfirm(RepairConfirmBean data) {
-        startActivity(new Intent(StoreDetailsActivity.this, OrderOnlineActivity.class).putExtra("order_online", data.getData().getOrder()).putParcelableArrayListExtra("order_online_list", (ArrayList<? extends Parcelable>) data.getData().getCostList()).putExtra("longitude", storeListBean.getLongitude()).putExtra("latitude", storeListBean.getLatitude()));
+        if (data.getCode() == 200)
+            startActivity(new Intent(StoreDetailsActivity.this, OrderOnlineActivity.class).putExtra("order_online", data.getData().getOrder()).putParcelableArrayListExtra("order_online_list", (ArrayList<? extends Parcelable>) data.getData().getCostList()).putExtra("longitude", storeListBean.getLongitude()).putExtra("latitude", storeListBean.getLatitude()));
     }
 
     @Override

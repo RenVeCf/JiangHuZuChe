@@ -56,6 +56,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static android.Manifest.permission.CALL_PHONE;
 import static com.ipd.jianghuzuche.common.config.IConstants.FIRST_APP;
 import static com.ipd.jianghuzuche.common.config.IConstants.IS_LOGIN;
 import static com.ipd.jianghuzuche.common.config.IConstants.LATIUDE;
@@ -535,6 +536,7 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                callPhone();
                 mCameraDialog.dismiss();
             }
         });
@@ -557,6 +559,24 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
+    }
+
+    //打电话
+    private void callPhone() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + SERVICE_PHONE);//TODO  客服电话
+        intent.setData(data);
+        if (ActivityCompat.checkSelfPermission(this, CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
     }
 
     private void setCenterModifyVersionDialog() {

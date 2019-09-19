@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ import okhttp3.RequestBody;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.REVIEW;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.jianghuzuche.utils.StringUtils.isEmpty;
 
 /**
  * Description ：完善信息
@@ -59,6 +61,12 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
     ImageView ivIdCardHand;
     @BindView(R.id.bt_supplement_info)
     Button btSupplementInfo;
+    @BindView(R.id.et_name)
+    EditText etName;
+    @BindView(R.id.et_spare_name)
+    EditText etSpareName;
+    @BindView(R.id.et_phone)
+    EditText etPhone;
 
     private String idImgPath = "";
     private String idPositive = "";
@@ -164,11 +172,14 @@ public class SupplementInfoActivity extends BaseActivity<SupplementInfoContract.
                 break;
             case R.id.bt_supplement_info:
                 if (isClickUtil.isFastClick()) {
-                    if (!idPositive.equals("") && !idOpposite.equals("") && !idHold.equals("")) {
+                    if (!idPositive.equals("") && !idOpposite.equals("") && !idHold.equals("") && !isEmpty(etName.getText().toString().trim()) && !isEmpty(etSpareName.getText().toString().trim()) && !isEmpty(etPhone.getText().toString().trim())) {
                         TreeMap<String, String> loginMap = new TreeMap<>();
                         loginMap.put("idPositive", idPositive);
                         loginMap.put("idOpposite", idOpposite);
                         loginMap.put("idHold", idHold);
+                        loginMap.put("userCall", etName.getText().toString().trim());
+                        loginMap.put("spareName", etSpareName.getText().toString().trim());
+                        loginMap.put("sparePhone", etPhone.getText().toString().trim());
                         loginMap.put("userId", (String) SPUtil.get(this, IConstants.USER_ID, ""));
                         loginMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(loginMap.toString().replaceAll(" ", "") + "f9a75bb045d75998e1509b75ed3a5225")));
                         getPresenter().getSupplementInfo(loginMap, true, false);
