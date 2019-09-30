@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -47,6 +48,7 @@ import com.ipd.jianghuzuche.utils.LogUtils;
 import com.ipd.jianghuzuche.utils.NavigationBarUtil;
 import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xupdate.XUpdate;
 
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.functions.Consumer;
 
 import static android.Manifest.permission.CALL_PHONE;
 import static com.ipd.jianghuzuche.common.config.IConstants.FIRST_APP;
@@ -536,7 +539,7 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callPhone();
+                rxPermissionCall();
                 mCameraDialog.dismiss();
             }
         });
@@ -561,10 +564,25 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
         mCameraDialog.show();
     }
 
+    private void rxPermissionCall() {
+        RxPermissions rxPermissions = new RxPermissions((FragmentActivity) this);
+        rxPermissions.request(CALL_PHONE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
+                if (granted) {
+                    callPhone();
+                } else {
+                    // 权限被拒绝
+                    ToastUtil.showLongToast("权限被拒绝");
+                }
+            }
+        });
+    }
+
     //打电话
     private void callPhone() {
         Intent intent = new Intent(Intent.ACTION_CALL);
-        Uri data = Uri.parse("tel:" + SERVICE_PHONE);//TODO  客服电话
+        Uri data = Uri.parse("tel:" + SPUtil.get(this, SERVICE_PHONE, ""));//TODO  客服电话
         intent.setData(data);
         if (ActivityCompat.checkSelfPermission(this, CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

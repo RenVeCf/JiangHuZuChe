@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.Gravity;
@@ -48,6 +49,7 @@ import com.ipd.jianghuzuche.utils.SPUtil;
 import com.ipd.jianghuzuche.utils.ToastUtil;
 import com.ryane.banner.AdPageInfo;
 import com.ryane.banner.AdPlayBanner;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,10 +60,10 @@ import java.util.TreeMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.functions.Consumer;
 
 import static android.Manifest.permission.CALL_PHONE;
 import static com.ipd.jianghuzuche.common.config.IConstants.IS_LOGIN;
-import static com.ipd.jianghuzuche.common.config.IConstants.SERVICE_PHONE;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
@@ -255,7 +257,7 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         root.findViewById(R.id.dialog_center_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callPhone();
+                rxPermissionCall();
                 mCameraDialog.dismiss();
             }
         });
@@ -280,10 +282,25 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         mCameraDialog.show();
     }
 
+    private void rxPermissionCall() {
+        RxPermissions rxPermissions = new RxPermissions((FragmentActivity) this);
+        rxPermissions.request(CALL_PHONE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
+                if (granted) {
+                    callPhone();
+                } else {
+                    // 权限被拒绝
+                    ToastUtil.showLongToast("权限被拒绝");
+                }
+            }
+        });
+    }
+
     //打电话
     private void callPhone() {
         Intent intent = new Intent(Intent.ACTION_CALL);
-        Uri data = Uri.parse("tel:" + SERVICE_PHONE);//TODO  客服电话
+        Uri data = Uri.parse("tel:" + storeListBean.getContactsPhone());
         intent.setData(data);
         if (ActivityCompat.checkSelfPermission(this, CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -350,23 +367,23 @@ public class StoreDetailsActivity extends BaseActivity<StoreDetailsContract.View
         List<Map<String, String>> listMap = new ArrayList<>();
         Map<String, String> map = new HashMap<>();
         map.put("chargeId", chargeListBean.get(chargeType - 1).getChargeId() + "");
-        switch (chargeType){
+        switch (chargeType) {
             case 1:
                 map.put("title", tvChargeFrist.getText().toString().trim());
-                map.put("cost", tvChargeFristFee.getText().toString().trim().replaceAll("费用","").replaceAll("元", ""));
+                map.put("cost", tvChargeFristFee.getText().toString().trim().replaceAll("费用", "").replaceAll("元", ""));
                 break;
             case 2:
                 map.put("title", tvChargeSecond.getText().toString().trim());
-                map.put("cost", tvChargeSecondFee.getText().toString().trim().replaceAll("费用","").replaceAll("元", ""));
+                map.put("cost", tvChargeSecondFee.getText().toString().trim().replaceAll("费用", "").replaceAll("元", ""));
                 break;
             case 3:
                 map.put("title", tvChargeThree.getText().toString().trim());
-                map.put("cost", tvChargeThreeFee.getText().toString().trim().replaceAll("费用","").replaceAll("元", ""));
+                map.put("cost", tvChargeThreeFee.getText().toString().trim().replaceAll("费用", "").replaceAll("元", ""));
                 break;
         }
 //        map.put("title", chargeListBean.get(chargeType - 1).getTitle());
 //        for (int i = 0; i < chargeListBean.size(); i++) {
-            LogUtils.i("rmy", "chargeType = " + chargeType);
+        LogUtils.i("rmy", "chargeType = " + chargeType);
 //        }
 //        map.put("cost", chargeListBean.get(chargeType - 1).getCost() + "");
         if (!tvChargeFristNum.getText().toString().equals("0"))

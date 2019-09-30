@@ -232,4 +232,7 @@ dependencies {
     implementation 'com.zhy:okhttputils:2.6.2'
     //版本更新
     implementation 'com.github.xuexiangjys:XUpdate:1.0.9'
+
+    //权限
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 }
