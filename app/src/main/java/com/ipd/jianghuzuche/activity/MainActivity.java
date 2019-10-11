@@ -38,6 +38,7 @@ import com.ipd.jianghuzuche.common.config.IConstants;
 import com.ipd.jianghuzuche.common.view.CircleImageView;
 import com.ipd.jianghuzuche.common.view.CustomUpdateParser;
 import com.ipd.jianghuzuche.common.view.TopView;
+import com.ipd.jianghuzuche.common.view.UpdateVersionDialog;
 import com.ipd.jianghuzuche.contract.ModifyVersionContract;
 import com.ipd.jianghuzuche.fragment.PlaceOrderFragment;
 import com.ipd.jianghuzuche.fragment.RepairFragment;
@@ -53,6 +54,7 @@ import com.xuexiang.xupdate.XUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -418,12 +420,10 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
 
     @Override
     public void initData() {
-//        new UpdateVersionDialog(this) {
-//            @Override
-//            public void updateVersion() {
-//
-//            }
-//        }.show();
+        TreeMap<String, String> modifyVersionMap = new TreeMap<>();
+        modifyVersionMap.put("platform", "1");
+        modifyVersionMap.put("type", "1");
+        getPresenter().getModifyVersion(modifyVersionMap, false, false);
 
         //版本更新
         XUpdate.newBuild(MainActivity.this)
@@ -431,11 +431,6 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
                 .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
                 .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
                 .update();
-
-//        TreeMap<String, String> modifyVersionMap = new TreeMap<>();
-//        modifyVersionMap.put("platform", "1");
-//        modifyVersionMap.put("type", "1");
-//        getPresenter().getModifyVersion(modifyVersionMap, false, false);
     }
 
     /**
@@ -1089,18 +1084,21 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
     @Override
     public void resultModifyVersion(ModifyVersionBean data) {
         if (data.getCode() == 200) {
-            if (!getAppVersionName(this, PACKAGE_NAME).equals(data.getData().getVersionYes().getVersionNo())) {
-                if (!isInstalled("com.baidu.appsearch")) {
-                    ToastUtil.showShortToast("请先安装百度手机助手客户端");
-                    return;
-                }
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                Uri uri = Uri.parse("market://details?id=" + PACKAGE_NAME);//app包名
-                intent.setData(uri);
-                intent.setPackage("com.baidu.appsearch");//百度手机助手包名
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
+//            if (!getAppVersionName(this, PACKAGE_NAME).equals(data.getData().getVersionYes().getVersionNo())) {
+//                if (!isInstalled("com.baidu.appsearch")) {
+//                    ToastUtil.showShortToast("请先安装百度手机助手客户端");
+//                    return;
+//                }
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                Uri uri = Uri.parse("market://details?id=" + PACKAGE_NAME);//app包名
+//                intent.setData(uri);
+//                intent.setPackage("com.baidu.appsearch");//百度手机助手包名
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//            }
+            if (!getAppVersionName(ApplicationUtil.getContext(), PACKAGE_NAME).equals(data.getData().getVersionYes().getVersionNo()))
+                new UpdateVersionDialog(this) {
+                }.show();
         } else
             ToastUtil.showLongToast(data.getMsg());
     }

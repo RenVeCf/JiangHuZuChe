@@ -21,9 +21,9 @@ import static com.ipd.jianghuzuche.utils.isClickUtil.isFastClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/24.
  */
-public abstract class UpdateVersionDialog extends Dialog implements View.OnClickListener {
+public abstract class UpdateVersionDialog extends Dialog {
     private Activity activity;
-    private Button btConfirm;
+//    private Button btConfirm;
 
     public UpdateVersionDialog(Activity activity) {
         super(activity, R.style.MyDialogTheme);
@@ -35,9 +35,9 @@ public abstract class UpdateVersionDialog extends Dialog implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_update_version);
 
-        btConfirm = (Button) findViewById(R.id.bt_confirm);
+//        btConfirm = (Button) findViewById(R.id.bt_confirm);
 
-        btConfirm.setOnClickListener(this);
+//        btConfirm.setOnClickListener(this);
 
         setViewLocation();
         setCanceledOnTouchOutside(true);//外部点击取消
@@ -59,13 +59,13 @@ public abstract class UpdateVersionDialog extends Dialog implements View.OnClick
         onWindowAttributesChanged(lp);
     }
 
-    @Override
-    public void onClick(View v) {
-        if (isFastClick()) {
-            updateVersion();
-            this.cancel();
-        }
-    }
-
-    public abstract void updateVersion();
+//    @Override
+//    public void onClick(View v) {
+//        if (isFastClick()) {
+//            updateVersion();
+//            this.cancel();
+//        }
+//    }
+//
+//    public abstract void updateVersion();
 }

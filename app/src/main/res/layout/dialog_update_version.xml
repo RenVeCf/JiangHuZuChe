@@ -8,18 +8,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="发现新版本，准备更新..."
+        android:text="发现新版本，正在更新..."
         android:textColor="@color/black"
         android:textSize="22sp" />
 
-    <Button
-        android:id="@+id/bt_confirm"
-        android:layout_width="@dimen/x180"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="@dimen/y100"
-        android:layout_marginBottom="@dimen/y50"
-        android:background="@drawable/bg_confirm_bt"
-        android:text="确定"
-        android:textColor="@color/white" />
+<!--    <Button-->
+<!--        android:id="@+id/bt_confirm"-->
+<!--        android:layout_width="@dimen/x180"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom|center_horizontal"-->
+<!--        android:layout_marginTop="@dimen/y100"-->
+<!--        android:layout_marginBottom="@dimen/y50"-->
+<!--        android:background="@drawable/bg_confirm_bt"-->
+<!--        android:text="确定"-->
+<!--        android:textColor="@color/white" />-->
 </LinearLayout>
