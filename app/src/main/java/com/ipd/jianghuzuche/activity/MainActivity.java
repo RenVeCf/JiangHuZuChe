@@ -418,12 +418,20 @@ public class MainActivity extends BaseActivity<ModifyVersionContract.View, Modif
 
     @Override
     public void initData() {
+//        new UpdateVersionDialog(this) {
+//            @Override
+//            public void updateVersion() {
+//
+//            }
+//        }.show();
+
         //版本更新
-        XUpdate.newBuild(this)
+        XUpdate.newBuild(MainActivity.this)
                 .updateUrl(BASE_URL + MODIFY_VERSION)
                 .isAutoMode(true) //如果需要完全无人干预，自动更新，需要root权限【静默安装需要】
                 .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
                 .update();
+
 //        TreeMap<String, String> modifyVersionMap = new TreeMap<>();
 //        modifyVersionMap.put("platform", "1");
 //        modifyVersionMap.put("type", "1");

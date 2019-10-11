@@ -54,6 +54,7 @@ import io.reactivex.ObservableTransformer;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
+import static com.ipd.jianghuzuche.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：订单详情
@@ -470,7 +471,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                                     setReturnCarDialog();
                                     break;
                                 case 2:
-                                    startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 3));
+                                    if (isFastClick())
+                                        startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 3));
 
                                     //                                TreeMap<String, String> carReturnConfirmMap = new TreeMap<>();
                                     //                                carReturnConfirmMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
@@ -482,11 +484,14 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsContract.View
                         case 4:
                             switch (takeStatus) {
                                 case 1:
-                                    startActivity(new Intent(this, ReturnCarActivity.class).putExtra("return_car_title", "申请退车").putExtra("store_name", orderDetailsBean.getOrder().getStoreName()).putExtra("order_id", orderId));
-                                    finish();
+                                    if (isFastClick()) {
+                                        startActivity(new Intent(this, ReturnCarActivity.class).putExtra("return_car_title", "申请退车").putExtra("store_name", orderDetailsBean.getOrder().getStoreName()).putExtra("order_id", orderId));
+                                        finish();
+                                    }
                                     break;
                                 case 2:
-                                    startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 4));
+                                    if (isFastClick())
+                                        startActivity(new Intent(this, SelectReturnCarActivity.class).putExtra("order_id", orderId).putExtra("take_status", takeStatus).putExtra("type", 4));
                                     break;
                             }
                             break;

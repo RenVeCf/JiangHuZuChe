@@ -44,6 +44,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.REQUEST_CODE_92;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
+import static com.ipd.jianghuzuche.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：订单查看
@@ -167,29 +168,37 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
                         case R.id.bt_order_type_end:
                             switch (selectOrderTypeBean.get(position).getStatus()) {
                                 case 3:
-                                    startActivity(new Intent(getActivity(), SelectPayTypeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
+                                    if (isFastClick())
+                                        startActivity(new Intent(getActivity(), SelectPayTypeActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()));
                                     break;
                                 case 4:
-                                    startActivityForResult(new Intent(getActivity(), SelectCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
+                                    if (isFastClick())
+                                        startActivityForResult(new Intent(getActivity(), SelectCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()), REQUEST_CODE_92);
                                     break;
                                 case 5:
                                     switch (selectOrderTypeBean.get(position).getTakeStatus()) {
                                         case 1:
                                             //提前还车
-                                            setDocumentsReceivedDialog(2, selectOrderTypeBean.get(position).getOrderId(), position);
+                                            if (isFastClick())
+                                                setDocumentsReceivedDialog(2, selectOrderTypeBean.get(position).getOrderId(), position);
                                             break;
                                         case 2:
-                                            startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3), REQUEST_CODE_92);
+                                            if (isFastClick())
+                                                startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 3), REQUEST_CODE_92);
+                                            break;
                                     }
                                     break;
                                 case 7:
                                     switch (selectOrderTypeBean.get(position).getTakeStatus()) {
                                         case 1:
                                             //申请退车
-                                            setDocumentsReceivedDialog(3, selectOrderTypeBean.get(position).getOrderId(), position);
+                                            if (isFastClick())
+                                                setDocumentsReceivedDialog(3, selectOrderTypeBean.get(position).getOrderId(), position);
                                             break;
                                         case 2:
-                                            startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4), REQUEST_CODE_92);
+                                            if (isFastClick())
+                                                startActivityForResult(new Intent(getActivity(), SelectReturnCarActivity.class).putExtra("order_id", selectOrderTypeBean.get(position).getOrderId()).putExtra("take_status", selectOrderTypeBean.get(position).getTakeStatus()).putExtra("type", 4), REQUEST_CODE_92);
+                                            break;
                                     }
                                     break;
                             }
@@ -255,7 +264,8 @@ public class AllOrderTypeFragment extends BaseFragment<SelectOrderTypeContract.V
         }
     }
 
-    private void setDocumentsReceivedDialog(final int type, final int orderId, final int position) {
+    private void setDocumentsReceivedDialog(final int type, final int orderId,
+                                            final int position) {
         final TextView tv;
         final Dialog mCameraDialog = new Dialog(getContext(), R.style.BottomDialog);
         //Dialog布局

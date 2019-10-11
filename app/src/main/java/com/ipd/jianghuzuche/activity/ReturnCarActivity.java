@@ -34,6 +34,7 @@ import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
+import static com.ipd.jianghuzuche.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：提前/申请 还车
@@ -163,7 +164,7 @@ public class ReturnCarActivity extends BaseActivity<ConfirmVehicleContract.View,
                 selectTime();
                 break;
             case R.id.bt_return_car:
-                if (isClickUtil.isFastClick()) {
+                if (isFastClick()) {
                     if (cbReturnCar.isChecked()) {
                         TreeMap<String, String> confirmVehicleMap = new TreeMap<>();
                         confirmVehicleMap.put("userId", SPUtil.get(this, USER_ID, "") + "");

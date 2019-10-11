@@ -53,6 +53,7 @@ import io.reactivex.ObservableTransformer;
 import static com.ipd.jianghuzuche.common.config.IConstants.USER_ID;
 import static com.ipd.jianghuzuche.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.jianghuzuche.utils.ExchangeMapUtil.BD2GCJ;
+import static com.ipd.jianghuzuche.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：查看退车单
@@ -252,22 +253,28 @@ public class SelectReturnCarActivity extends BaseActivity<OrderDetailsContract.V
                 if (isClickUtil.isFastClick()) {
                     switch (type) {
                         case 0:
-                            TreeMap<String, String> unpaidCancelOrderMap = new TreeMap<>();
-                            unpaidCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
-                            unpaidCancelOrderMap.put("orderId", orderId + "");
-                            getPresenter().getUnpaidCancelOrder(unpaidCancelOrderMap, false, false);
+                            if (isFastClick()) {
+                                TreeMap<String, String> unpaidCancelOrderMap = new TreeMap<>();
+                                unpaidCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
+                                unpaidCancelOrderMap.put("orderId", orderId + "");
+                                getPresenter().getUnpaidCancelOrder(unpaidCancelOrderMap, false, false);
+                            }
                             break;
                         case 1:
-                            TreeMap<String, String> getCarCancelOrderMap = new TreeMap<>();
-                            getCarCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
-                            getCarCancelOrderMap.put("orderId", orderId + "");
-                            getPresenter().getGetCarCancelOrder(getCarCancelOrderMap, false, false);
+                            if (isFastClick()) {
+                                TreeMap<String, String> getCarCancelOrderMap = new TreeMap<>();
+                                getCarCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
+                                getCarCancelOrderMap.put("orderId", orderId + "");
+                                getPresenter().getGetCarCancelOrder(getCarCancelOrderMap, false, false);
+                            }
                             break;
                         case 2:
-                            TreeMap<String, String> carReturnCancelOrderMap = new TreeMap<>();
-                            carReturnCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
-                            carReturnCancelOrderMap.put("orderId", orderId + "");
-                            getPresenter().getCarReturnCancelOrder(carReturnCancelOrderMap, false, false);
+                            if (isFastClick()) {
+                                TreeMap<String, String> carReturnCancelOrderMap = new TreeMap<>();
+                                carReturnCancelOrderMap.put("userId", SPUtil.get(SelectReturnCarActivity.this, USER_ID, "") + "");
+                                carReturnCancelOrderMap.put("orderId", orderId + "");
+                                getPresenter().getCarReturnCancelOrder(carReturnCancelOrderMap, false, false);
+                            }
                             break;
                     }
                     mCameraDialog.dismiss();
